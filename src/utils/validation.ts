@@ -7,10 +7,10 @@ export const signIn = yup
     feedback: yup.string().min(8).max(200).required(),
   }).required();
 
-  export const signUp = yup
+  export const registerValidation = yup
     .object({
-      userName: yup.string().max(20).required(),
+      name: yup.string().max(20).required(),
       email: yup.string().required(),
-      feedback: yup.string().min(8).max(200).required(),
+      password: yup.string().min(7).max(30).required(),
     })
     .required();

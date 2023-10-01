@@ -6,9 +6,12 @@ import { Colors } from "../../styles";
 
 import { useNavigate } from "react-router-dom";
 
-
 import { useEffect } from "react";
-
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import operations from "../../redux/user/userOperations";
+import { registerValidation } from "../../utils/validation";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import { getLogin } from "../../redux/user/userSelectors";
 
 type FormValues = {
   name: string;
@@ -31,15 +34,20 @@ const textFieldStyles = {
 };
 
 const SignUp = () => {
-
-
+  const dispatch = useAppDispatch();
+  const isLoggedIn = useAppSelector(getLogin);
+  const navigate = useNavigate();
   const initialValues = {
     name: "",
     email: "",
     password: "",
   };
-
   
+    useEffect(() => {
+      if (isLoggedIn) {
+        navigate("/");
+      }
+    }, [isLoggedIn, navigate]);
 
   const FieldErrorMessage = ({ fieldName }: { fieldName: string }) => {
     return (
@@ -63,7 +71,12 @@ const SignUp = () => {
     values: FormValues,
     { setSubmitting, resetForm }: FormikHelpers<FormValues>
   ) => {
-
+    const formValues = {
+      ...values,
+      avatar:
+        "https://i.pinimg.com/originals/ea/76/c3/ea76c343f9bbd6917e9a094b9317ab9e.jpg",
+    };
+    dispatch(operations.register(formValues));
     resetForm();
     setSubmitting(false);
   };
@@ -71,7 +84,7 @@ const SignUp = () => {
     <Box
       component="section"
       sx={{
-        padding: "30px 0 100px",
+        padding: "60px 0 100px",
       }}
     >
       <Container>
@@ -89,7 +102,7 @@ const SignUp = () => {
         <Formik
           initialValues={initialValues}
           onSubmit={onSubmit}
-          // validate={validate}
+          validationSchema={registerValidation}
         >
           {({ isSubmitting }) => (
             <Form
@@ -142,7 +155,13 @@ const SignUp = () => {
                 variant="contained"
                 color="primary"
                 disabled={isSubmitting}
-                sx={{ marginTop: "16px", background: Colors.white }}
+                sx={{
+                  marginTop: "16px",
+                  background: Colors.secondaryColor,
+                  "&:hover": {
+                    background: Colors.hoverColor, 
+                  },
+                }}
               >
                 {isSubmitting ? "submitting" : "submit"}
               </Button>
@@ -152,5 +171,5 @@ const SignUp = () => {
       </Container>
     </Box>
   );
-}
+};
 export default SignUp;

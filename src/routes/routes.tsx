@@ -8,12 +8,19 @@ import ProfilePage from "../pages/ProfilePage";
 import SignIn from "../components/signIn";
 import SignUp from "../components/signUp";
 import ProductPage from "../pages/ProductPage";
+import CategoriesList from "../components/categoriesList";
+import ScrollToTop from "../utils/scrollToTop";
 
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
+    element: (
+      <>
+        <ScrollToTop /> {/* Include ScrollToTop component here */}
+        <Root />
+      </>
+    ),
     errorElement: <NotFoundPage />,
     children: [
       {
@@ -35,6 +42,10 @@ export const router = createBrowserRouter([
       {
         path: "signIn",
         element: <SignIn />,
+      },
+      {
+        path: "products",
+        element: <CategoriesList />,
       },
       {
         path: "signUp",

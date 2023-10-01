@@ -17,6 +17,7 @@ import { useAppDispatch } from "../../hooks/useAppDispatch";
 
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { getCartProductItems } from "../../redux/cart/cartSelectors";
+import { Colors } from "../../styles";
 
 const CartTotals = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -36,7 +37,7 @@ const CartTotals = () => {
         variant="h4"
         align="center"
         gutterBottom
-        sx={{ fontSize: { xs: "25px", md: "35px" } }}
+        sx={{ fontSize: { xs: "25px", md: "30px" } }}
       >
         YOUR ORDER
       </Typography>
@@ -87,7 +88,13 @@ const CartTotals = () => {
         <Button
           variant="contained"
           color="primary"
-          sx={{ fontSize: { xs: "13px", md: "15px" } }}
+          sx={{
+            background: Colors.secondaryColor,
+            "&:hover": {
+              background: Colors.hoverColor,
+            },
+            fontSize: { xs: "13px", md: "15px" },
+          }}
           onClick={() => {
             setOpenModal((prev) => !prev);
           }}

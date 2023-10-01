@@ -56,15 +56,31 @@ const logOut = createAsyncThunk("/auth/logout", async () => {
 const fetchCurrentUser = createAsyncThunk(
   "auth/current",
   async (_, thunkAPI) => {
-    const { token: persistToken } = (thunkAPI.getState() as { auth: any }).auth;
+    const { token: authToken } = (thunkAPI.getState() as { userSlice: any }).userSlice;
 
-    if (persistToken === null) {
+
+    if (token === null) {
       return thunkAPI.rejectWithValue("Token not found");
     }
 
-    token.set(persistToken);
+    token.set(authToken);
     try {
-      const { data } = await axios.get("/api/auth/current");
+      const { data } = await axios.get("/auth/profile");
+      return data;
+    } catch (e) {
+      const error = e as AxiosError;
+      toast.error(error.message);
+    }
+  }
+);
+
+const uptadeUser = createAsyncThunk(
+  "auth/uptadeUSer",
+  async (infoUSer :any, thunkAPI) => {
+    const { user } = (thunkAPI.getState() as { userSlice: any })
+      .userSlice;
+    try {
+      const { data } = await axios.put(`/users/${user.id}`, infoUSer);
       return data;
     } catch (e) {
       const error = e as AxiosError;
@@ -78,5 +94,6 @@ const operations = {
   logOut,
   logIn,
   fetchCurrentUser,
+  uptadeUser,
 };
 export default operations;

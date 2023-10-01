@@ -8,7 +8,7 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
+import FitbitOutlinedIcon from "@mui/icons-material/FitbitOutlined";
 import { Colors } from "../../styles";
 import AuthList from "../authList";
 import { Link, useNavigate } from "react-router-dom";
@@ -18,9 +18,6 @@ import { getLogin } from "../../redux/user/userSelectors";
 import { Avatar, Button, Tooltip } from "@mui/material";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { logOut } from "../../redux/user/userSlice";
-
-const pages = ["Products", "Cart"];
-const settings = ["Profile", "Logout"];
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -49,10 +46,16 @@ const Header = () => {
   const handleClickToButton = (settings: string) => {
     if (settings === "Logout") {
       dispatch(logOut());
+      navigate("/");
+    } else {
+      navigate("/profile");
     }
-    navigate("/profile");
   };
-
+  const pages = ["Products", "Cart",];
+  if (isLoggedIn) {
+    pages.push("Profile");
+  }
+  const settings = ["Profile", "Logout"];
   return (
     <AppBar
       position="fixed"
@@ -64,24 +67,17 @@ const Header = () => {
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography>
+          <Link to="/">
+            <FitbitOutlinedIcon
+              sx={{
+                display: { xs: "none", md: "flex" },
+                mr: 1,
+                marginRight: "20px",
+                fontSize: "30px",
+                color: Colors.secondaryColor,
+              }}
+            />
+          </Link>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -112,32 +108,35 @@ const Header = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
+              {pages.map((page, index) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Link
+                    key={page}
+                    to={`/${page.toLocaleLowerCase()}`}
+                    style={{
+                      textDecoration: "none",
+                      marginRight: index !== pages.length - 1 ? "25px" : "0",
+                      color: Colors.black,
+                    }}
+                  >
+                    {page}
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography>
+          <Link to="/">
+            <FitbitOutlinedIcon
+              sx={{
+                display: { xs: "flex", md: "none" },
+                flexGrow: 1,
+                marginRight: "20px",
+                fontSize: "30px",
+                color: Colors.secondaryColor,
+              }}
+            />
+          </Link>
+
           <Box
             sx={{
               flexGrow: 1,
@@ -146,11 +145,12 @@ const Header = () => {
           >
             {pages.map((page, index) => (
               <Link
-                key = {page}
-                to={`/${page}`}
+                key={page}
+                to={`/${page.toLocaleLowerCase()}`}
                 style={{
                   textDecoration: "none",
                   marginRight: index !== pages.length - 1 ? "25px" : "0",
+                  color: Colors.black,
                 }}
               >
                 {page}

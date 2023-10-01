@@ -1,6 +1,7 @@
+import ProfileCard from "../components/profileCard";
 
 
 const ProfilePage = () => {
-  return <div style ={{color: "red"}}>ProfilePage</div>;
+  return <ProfileCard />;
 };
 export default ProfilePage;

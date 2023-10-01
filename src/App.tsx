@@ -1,11 +1,10 @@
-import { StyledEngineProvider } from '@mui/material';
-import { RouterProvider } from 'react-router-dom';
-  import React from "react";
-import { router } from './routes/routes';
-  import { ToastContainer} from "react-toastify";
-  import "react-toastify/dist/ReactToastify.css";
-import { Provider } from 'react-redux';
-import store from './redux/store';
+import { StyledEngineProvider } from "@mui/material";
+import { RouterProvider } from "react-router-dom";
+import { router } from "./routes/routes";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 const App = () => {
   return (
@@ -18,6 +17,6 @@ const App = () => {
       </StyledEngineProvider>
     </>
   );
-}
+};
 
-export default App
+export default App;

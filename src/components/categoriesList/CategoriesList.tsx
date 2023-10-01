@@ -4,7 +4,7 @@ import ImageListItemBar from "@mui/material/ImageListItemBar";
 import {
   Box,
   Button,
-  ButtonGroup,
+
   List,
   ListItem,
   Pagination,
@@ -13,7 +13,8 @@ import {
 import Container from "../container";
 import { Product } from "../../types/Product";
 import { useNavigate } from "react-router-dom";
-import FilterButton from "../filterButton";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import SortList from "../sortList";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useEffect, useState } from "react";
@@ -22,6 +23,7 @@ import { getProducts } from "../../redux/product/productSelectors";
 import { fetchAllProductAsync } from "../../redux/product/productOperations";
 import getFilteredProducts from "../../utils/getFilteredProducts";
 import { addItemToCart } from "../../redux/cart/cartSlice";
+import { Colors } from "../../styles";
 
 const CategoriesList = () => {
   const products = useAppSelector(getProducts);
@@ -57,27 +59,26 @@ const CategoriesList = () => {
     <Box component="section" pt={10}>
       <Container>
         <Typography
-          component="h3"
-          variant="h3"
-          sx={{ textAlign: "center", fontSize: "25px" }}
+          component="h4"
+          variant="h4"
+          sx={{ textAlign: "center", marginBottom: "30px" }}
         >
           Check out what's new products of the trends we have to offer
         </Typography>
-        <Box
+        <SortList
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          onCategorySelect={handleCategorySelect}
+          selectedCategory={selectedCategory}
+        />
+        <ImageList
           sx={{
             display: "flex",
+            flexWrap: "wrap",
             justifyContent: "center",
             alignItems: "center",
           }}
         >
-          <FilterButton
-            onCategorySelect={handleCategorySelect}
-            selectedCategory={selectedCategory}
-          />
-          <SortList searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        </Box>
-
-        <ImageList sx={{ display: "flex", flexWrap: "wrap" }}>
           {displayedProducts &&
             displayedProducts.map(
               ({
@@ -98,32 +99,39 @@ const CategoriesList = () => {
                       .join(", ")}
                     alt={title}
                     loading="lazy"
+                    style={{ borderRadius: "2%" }}
                   />
                   <ImageListItemBar
-                    sx={{ textAlign: "center" }}
+                    sx={{ textAlign: "center", }}
                     title={title}
                     subtitle={
-                      <List>
-                        <ListItem>Title: {title}</ListItem>
-                        <ListItem>Price: {price}</ListItem>
-                        <ListItem>{description}</ListItem>
+                      <List sx={{ padding: "0" }}>
+                        <ListItem
+                          sx={{
+                            color: Colors.secondaryColor,
+                            fontSize: "15px",
+                          }}
+                        >
+                          Price: {price} $
+                        </ListItem>
+                        <ListItem
+                          sx={{
+                            fontSize: "15px",
+                            color: "inherit",
+                          }}
+                        >
+                          Category: {category.name}
+                        </ListItem>
                       </List>
                     }
                     position="below"
                   />
-                  <ButtonGroup
-                    variant="contained"
-                    aria-label="outlined primary button group"
-                    size="small"
+                  <Box
                     sx={{
                       display: "flex",
-                      justifyContent: "space-around",
-                      boxShadow: "none",
+                      justifyContent: "space-evenly"
                     }}
                   >
-                    <Button onClick={() => navigate(`/product/${id}`)}>
-                      Read more
-                    </Button>
                     <Button
                       onClick={() => {
                         const newItem = {
@@ -136,10 +144,29 @@ const CategoriesList = () => {
                         };
                         dispatch(addItemToCart(newItem));
                       }}
+                      sx={{
+                        color: "inherit",
+                        fontSize: { xs: 10, sm: 13 },
+                        display: "flex",
+                        alignItems: "baseline",
+                      }}
                     >
+                      <ShoppingBasketIcon
+                        sx={{ fontSize: { xs: 10, sm: 15 }, mr: 0.3 }}
+                      />
                       Add to cart
                     </Button>
-                  </ButtonGroup>
+                    <Button
+                      onClick={() => navigate(`/product/${id}`)}
+                      sx={{
+                        background: "none",
+                        color: Colors.secondaryColor,
+                        fontSize: "20px",
+                      }}
+                    >
+                      <ChevronRightIcon />
+                    </Button>
+                  </Box>
                 </ImageListItem>
               )
             )}
@@ -159,7 +186,7 @@ const CategoriesList = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              marginTop: "15px",
+              marginTop: "30px",
             }}
             count={Math.ceil(filteredProducts.length / itemsPerPage)}
             page={currentPage}

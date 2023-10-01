@@ -5,11 +5,13 @@ export const Colors = {
   borderButton: "#eaeaea",
   black: "#45423E",
   logoColor: "#e3893f",
-  googleBack: "#7697f9",
+  blue: "#7697f9",
   danger: "#d86f18",
+  secondaryColor: "#CB8D44",
+  hoverColor: "#a77032",
+  bgFooter: "#72716f",
+  orange: "#D3A863",
 };
-
-
 
 export const override = {
   display: "block",

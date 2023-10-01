@@ -15,16 +15,17 @@ const style = {
   p: 4,
 };
 interface ModalTextProps {
-  text: string;
+  text?: string;
   openModal: boolean;
   handleCloseModal: () => void;
+  children?: React.ReactNode;
 }
 
 const ModalText: React.FC<ModalTextProps> = (props) => {
-  const { text, openModal, handleCloseModal } = props;
+  const { text, openModal, handleCloseModal, children } = props;
 
   return (
-    <div>
+    <>
       <Modal
         open={openModal}
         onClose={handleCloseModal}
@@ -35,9 +36,10 @@ const ModalText: React.FC<ModalTextProps> = (props) => {
           <Typography id="modal-modal-title" variant="h6" component="h2">
             {text}
           </Typography>
+          {children}
         </Box>
       </Modal>
-    </div>
+    </>
   );
 };
 export default ModalText;

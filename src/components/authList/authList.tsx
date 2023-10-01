@@ -35,7 +35,7 @@ export default function AuthList({
           onClick={onCloseMenu}
         >
           <ListItemText
-            primary={"Sign In" + (flexDirection ? "" : " /")}
+            primary={"Log In" + (flexDirection ? "" : " /")}
             primaryTypographyProps={{ style: { fontSize: "17px" } }}
           />
         </ListItemButton>

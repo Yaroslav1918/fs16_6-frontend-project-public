@@ -34,15 +34,15 @@ const initialValues = {
 };
 
 const SignIn = () => {
-    const isLoggedIn = useAppSelector(getLogin);
+  const isLoggedIn = useAppSelector(getLogin);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-    useEffect(() => {
-      if (isLoggedIn ) {
-        navigate("/profile");
-      }
-    }, [isLoggedIn, navigate]);
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/");
+    }
+  }, [isLoggedIn, navigate]);
 
   const FieldErrorMessage = ({ fieldName }: { fieldName: string }) => {
     return (
@@ -61,15 +61,15 @@ const SignIn = () => {
       </ErrorMessage>
     );
   };
-  const onSubmit = (
+  const onSubmit = async (
     values: FormValues,
     { setSubmitting, resetForm }: FormikHelpers<FormValues>
   ) => {
     // dispatch(cartActions.resetToInitialState());
-    dispatch(operations.logIn(values));
+    await dispatch(operations.logIn(values));
+    await dispatch(operations.fetchCurrentUser());
     resetForm();
     setSubmitting(false);
-
   };
   return (
     <Box
@@ -134,7 +134,13 @@ const SignIn = () => {
                 variant="contained"
                 color="primary"
                 disabled={isSubmitting}
-                sx={{ marginTop: "16px", background: Colors.black }}
+                sx={{
+                  marginTop: "16px",
+                  background: Colors.secondaryColor,
+                  "&:hover": {
+                    background: Colors.hoverColor, // Define the background color for hover
+                  },
+                }}
               >
                 {isSubmitting ? "Submitting..." : "Submit"}
               </Button>

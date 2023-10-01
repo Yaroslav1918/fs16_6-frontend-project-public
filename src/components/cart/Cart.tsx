@@ -22,11 +22,11 @@ const Cart = () => {
       <Container>
         <Box
           sx={{
-            backgroundImage: "url(/images/singleProduct.jpg)",
+            backgroundImage: "url(/img/cart.jpg)",
             backgroundSize: "cover",
             borderRadius: "2%",
-            backgroundPosition: "right 50% top 45%;",
-            height: "40vh",
+            backgroundPosition: "right 50% top 10%;",
+            height: "70vh",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
@@ -41,10 +41,10 @@ const Cart = () => {
               color: Colors.white,
               fontSize: { md: 70, xs: 50, sm: 60 },
               position: "absolute",
-              bottom: "10%",
+              bottom: "20%",
             }}
           >
-            Cart
+            Shop Cart
           </Typography>
         </Box>
         {totalQuantity === 0 ? (
@@ -54,18 +54,17 @@ const Cart = () => {
             component="h6"
             sx={{
               fontSize: { xs: "20px", md: "24px" },
-              fontWeight: 700,
               textAlign: "center",
             }}
           >
-            Cart is empty
+            Your shopping cart is currently empty. Start shopping now!
           </Typography>
         ) : (
           <>
             <List>
-              <CartItem  />
+              <CartItem />
             </List>
-           <CartTotal/>
+            <CartTotal />
           </>
         )}
       </Container>

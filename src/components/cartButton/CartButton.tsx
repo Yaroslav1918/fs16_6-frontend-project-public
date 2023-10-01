@@ -34,7 +34,15 @@ const CartButton = () => {
       onMouseEnter={handlePopoverOpen}
       onMouseLeave={handlePopoverClose}
     >
-      <Badge showZero badgeContent={totalQuantity} color="error">
+      <Badge
+        showZero
+        badgeContent={totalQuantity}
+        sx={{
+          "& .MuiBadge-badge": {
+            backgroundColor: Colors.secondaryColor, // Change the background color of the badge circle
+          },
+        }}
+      >
         <ShoppingBasket />
       </Badge>
       {isDesktopScreen && (
@@ -59,7 +67,7 @@ const CartButton = () => {
           {items.length === 0 ? (
             <Typography sx={{ p: 1 }}>Shop Cart</Typography>
           ) : (
-            <CartItem  hideContent />
+            <CartItem hideContent />
           )}
         </Popover>
       )}

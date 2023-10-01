@@ -11,14 +11,15 @@ import {
   CardMedia,
   useMediaQuery,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
+import RemoveIcon from "@mui/icons-material/Remove";
+import AddIcon from "@mui/icons-material/Add";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { Colors } from "../../styles";
 import { CartState } from "../../types/Cart";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { getCartProductItems } from "../../redux/cart/cartSelectors";
 import { Product } from "../../types/Product";
-import { removeItemFromCart } from "../../redux/cart/cartSlice";
+import { addItemToCart, removeItemFromCart } from "../../redux/cart/cartSlice";
 
 
 
@@ -39,13 +40,6 @@ const CartItem = ({  hideContent, style }: Props) => {
       component={Paper}
       sx={{ background: Colors.white, ...style }}
     >
-      <Typography
-        variant="h4"
-        align="center"
-        sx={{ my: 2, fontSize: { md: "30px", xs: "20px" } }}
-      >
-        Shop Cart
-      </Typography>
       <Table sx={{ flex: 1 }}>
         <TableHead>
           <TableRow>
@@ -65,7 +59,16 @@ const CartItem = ({  hideContent, style }: Props) => {
         </TableHead>
         <TableBody>
           {cartProductItems.map(
-            ({ title, images, id, totalPrice, quantity, price }: Product) => (
+            ({
+              title,
+              images,
+              id,
+              totalPrice,
+              quantity,
+              price,
+              description,
+              category,
+            }: Product) => (
               <TableRow key={id}>
                 <TableCell
                   sx={{ display: "grid", placeItems: "center", ...cellStyle }}
@@ -87,23 +90,35 @@ const CartItem = ({  hideContent, style }: Props) => {
                   {title}
                 </TableCell>
                 <TableCell align="center" sx={cellStyle}>
-                  {price}
+                  {price} $
                 </TableCell>
                 <TableCell align="center" sx={cellStyle}>
                   {quantity}
                 </TableCell>
                 <TableCell align="center" sx={cellStyle}>
-                  {totalPrice}
+                  {totalPrice} $
                 </TableCell>
                 {!hideContent && !isMobileScreen && (
                   <TableCell>
                     <IconButton
-                      onClick={
-                        () => 
-                          dispatch(removeItemFromCart(id))
-                      }
+                      onClick={() => dispatch(removeItemFromCart(id))}
                     >
-                      <DeleteIcon />
+                      <RemoveIcon />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => {
+                        const newItem = {
+                          id,
+                          title,
+                          price,
+                          description,
+                          category,
+                          images,
+                        };
+                        dispatch(addItemToCart(newItem));
+                      }}
+                    >
+                      <AddIcon />
                     </IconButton>
                   </TableCell>
                 )}

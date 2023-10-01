@@ -3,10 +3,11 @@ export interface SignIn {
   password: string;
 }
 export interface User {
-  id: number;
-  email: string | null;
+  id?: string;
+  email: string;
   password: string;
   name: string;
-  role: "customer" | "admin";
   avatar: string;
+  role?: "customer" | "admin";
 }
+// role: "customer" | "admin";

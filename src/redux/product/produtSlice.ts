@@ -64,7 +64,7 @@ const productsSlice = createSlice({
         };
       }
     });
-    builder.addCase(fetchAllProductAsync.pending, (state, action) => {
+    builder.addCase(fetchAllProductAsync.pending, (state) => {
       return {
         ...state,
         loading: true,

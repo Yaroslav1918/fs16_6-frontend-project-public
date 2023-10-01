@@ -1,14 +1,15 @@
 
 import CategoriesList from "../components/categoriesList";
-import SubscribeToUs from "../components/subscribeToUs";
+import HeroSection from "../components/heroSection";
+
 
 
 const Home = () => {
   
   return (
     <>
+      <HeroSection/>
       <CategoriesList/>
-      <SubscribeToUs />
     </>
   );
 };
