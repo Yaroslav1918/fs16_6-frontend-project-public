@@ -1,6 +1,7 @@
 import { Box, Typography, Button } from "@mui/material";
-import { Colors } from "../../styles";
 import { useNavigate } from "react-router-dom";
+
+import { Colors } from "../../styles";
 
 const HeroSection = () => {
   const navigate = useNavigate()

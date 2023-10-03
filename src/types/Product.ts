@@ -9,12 +9,6 @@ export interface Product {
     image: string;
   };
   images: string[];
-  quantity: number,
-  totalPrice: number,
-}
-
-export interface Categories {
-  id: number;
-  name: string;
-  image: string;
+  quantity: number ;
+  totalPrice: number ;
 }

@@ -1,6 +1,11 @@
-import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import {
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  useTheme,
+} from "@mui/material";
 import { Link } from "react-router-dom";
-import { Colors } from "../../styles";
 
 type AuthListProps = {
   onCloseMenu?: () => void;
@@ -11,6 +16,8 @@ export default function AuthList({
   onCloseMenu,
   flexDirection,
 }: AuthListProps) {
+  const theme = useTheme();
+  
   return (
     <List
       sx={{
@@ -26,7 +33,7 @@ export default function AuthList({
           component={Link}
           to="/signIn"
           sx={{
-            color: Colors.black,
+            color: theme.palette.text.primary,
             textDecoration: "none",
             marginRight: "5px",
             padding: 0,
@@ -45,7 +52,7 @@ export default function AuthList({
           component={Link}
           to="signUp"
           sx={{
-            color: Colors.black,
+            color: theme.palette.text.primary,
             textDecoration: "none",
             marginRight: "5px",
             padding: 0,

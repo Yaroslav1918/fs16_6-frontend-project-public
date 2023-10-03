@@ -9,16 +9,15 @@ import {
   Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+
 import { Colors } from "../../styles";
 import styled from "@emotion/styled";
 import SocialList from "../socialList";
 import HiveIcon from "@mui/icons-material/Hive";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { getCategories } from "../../redux/product/productSelectors";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 import { getLogin } from "../../redux/user/userSelectors";
-
 
 const BlackBorderTextField = styled(TextField)`
   & label.Mui-focused {
@@ -37,8 +36,10 @@ const StyledLink = styled(Link)({
   textDecoration: "none",
   cursor: "pointer",
 });
+
 export default function Footer() {
-  const isLoggedIn = useAppSelector(getLogin)
+  const isLoggedIn = useAppSelector(getLogin);
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -53,6 +54,7 @@ export default function Footer() {
       resetForm();
     },
   });
+
   return (
     <Box
       component="footer"
@@ -61,7 +63,7 @@ export default function Footer() {
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
-        bgcolor: Colors.bgFooter,
+        bgcolor: "background.footer",
         pt: 8,
         mt: 15,
         position: "relative",

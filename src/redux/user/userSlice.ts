@@ -1,9 +1,9 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import operations from "./userOperations";
-import { SignIn, User } from "../../types/User";
+import { User } from "../../types/User";
 
 interface AuthState {
-  user: User | null;
+  user: User | null ;
   token: string | null;
   isLoggedIn: boolean;
   error: string | null;

@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { CartState } from "../../types/Cart";
+import { Cart} from "../../types/Cart";
 import { Product } from "../../types/Product";
 
-const initialState: CartState = {
+const initialState: Cart = {
   cartProductItems: [],
   totalQuantity: 0,
 };
+
 const cartSlice = createSlice({
   name: "cartSlice",
   initialState,
@@ -28,7 +29,7 @@ const cartSlice = createSlice({
         category,
         quantity,
         price,
-        totalPrice: totalPrice+ price,
+        totalPrice: totalPrice + price,
         description,
         title,
       };
@@ -63,48 +64,6 @@ const cartSlice = createSlice({
       state.totalQuantity = 0;
     },
   },
-  //   extraReducers: (builder) => {
-  //     builder.addCase(addProducts.fulfilled, (state, { payload }) => {
-  //       state.items = payload.items;
-  //       state.totalQuantity = payload.totalQuantity;
-  //     });
-  //     builder.addCase(removeItem.fulfilled, (state, { payload }) => {
-  //       state.items = payload.cart.items;
-  //       state.totalQuantity = payload.cart.totalQuantity;
-  //     });
-  //     builder.addCase(getAllSoldProducts.fulfilled, (state, { payload }) => {
-  //       state.items = payload.user.items;
-  //       state.totalQuantity = payload.user.totalQuantity;
-  //       state.boughtProducts = payload.user.boughtProducts;
-  //       state.wishTotalQuantity = payload.user.wishTotalQuantity;
-  //       state.wishlist = payload.user.wishItems;
-  //     });
-
-  //     builder.addCase(getProducts.fulfilled, (state, { payload }) => {
-  //       state.boughtProducts = payload[0].boughtProducts;
-  //       state.items = payload[0].items;
-  //       state.totalQuantity = payload[0].totalQuantity;
-  //       state.wishTotalQuantity = payload[0].wishTotalQuantity;
-  //       state.wishlist = payload[0].wishItems;
-  //     });
-
-  //     builder.addCase(getAllWishProducts.fulfilled, (state, { payload }) => {
-  //       state.wishlist = payload[0].wishlist;
-  //       state.wishTotalQuantity = payload[0].wishTotalQuantity;
-  //     });
-  //     builder.addCase(addToWishlistAsync.fulfilled, (state, { payload }) => {
-  //       state.wishlist = payload.wishItems;
-  //       state.wishTotalQuantity = payload.wishTotalQuantity;
-  //     });
-
-  //     builder.addCase(
-  //       removeProductFromWishlist.fulfilled,
-  //       (state, { payload }) => {
-  //         state.wishlist = payload.cart.wishItems;
-  //         state.wishTotalQuantity = payload.cart.wishTotalQuantity;
-  //       }
-  //     );
-  //   },
 });
 
 export const { addItemToCart, resetToInitialState, removeItemFromCart } =

@@ -1,13 +1,13 @@
 import { Box } from "@mui/material";
 import { useState } from "react";
 import { ClipLoader } from "react-spinners";
+
 import { override } from "../../styles";
-
-
 
 const Spinner = () => {
   let [loading, setLoading] = useState(true);
   let [color, setColor] = useState("black");
+  
   return (
     <Box
       component="div"

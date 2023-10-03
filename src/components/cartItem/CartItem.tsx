@@ -6,39 +6,38 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Typography,
   IconButton,
   CardMedia,
   useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
+
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { Colors } from "../../styles";
-import { CartState } from "../../types/Cart";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { getCartProductItems } from "../../redux/cart/cartSelectors";
 import { Product } from "../../types/Product";
 import { addItemToCart, removeItemFromCart } from "../../redux/cart/cartSlice";
-
-
 
 interface Props {
   hideContent?: Boolean;
   style?: React.CSSProperties;
 }
 
-const CartItem = ({  hideContent, style }: Props) => {
+const CartItem = ({ hideContent, style }: Props) => {
   const dispatch = useAppDispatch();
+  const theme = useTheme();
   const cartProductItems = useAppSelector(getCartProductItems);
   const isMobileScreen = useMediaQuery("(max-width:539px)");
   const cellStyle = {
     fontSize: isMobileScreen ? "12px" : "16px",
   };
+  
   return (
     <TableContainer
       component={Paper}
-      sx={{ background: Colors.white, ...style }}
+      sx={{ backgroundColor: theme.palette.background.default, ...style }}
     >
       <Table sx={{ flex: 1 }}>
         <TableHead>
@@ -129,5 +128,5 @@ const CartItem = ({  hideContent, style }: Props) => {
       </Table>
     </TableContainer>
   );
-}
+};
 export default CartItem;

@@ -2,15 +2,15 @@ import * as React from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
+import { useEffect, useState } from "react";
+import { Box, TextField, useTheme } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { sortByPrice } from "../../redux/product/produtSlice";
-import { useEffect, useState } from "react";
-import { Box, TextField } from "@mui/material";
 import { fetchCategoriesAsync } from "../../redux/product/productOperations";
 import { getCategories } from "../../redux/product/productSelectors";
 import { useAppSelector } from "../../hooks/useAppSelector";
-
 
 interface SortListProps {
   searchQuery: string;
@@ -28,19 +28,21 @@ const SortList = ({
   const [value, setValue] = useState<string>("");
   const dispatch = useAppDispatch();
   const categories = useAppSelector(getCategories);
+    const theme = useTheme();
+
   const handleChange = (event: SelectChangeEvent) => {
     setValue(event.target.value);
   };
+
   const handleCategoryClick = (event: SelectChangeEvent) => {
     onCategorySelect(event.target.value);
   };
+
   const handleSearchInputChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setSearchQuery(event.target.value);
   };
-  
-
 
   useEffect(() => {
     dispatch(fetchCategoriesAsync());
@@ -59,7 +61,14 @@ const SortList = ({
         marginBottom: "20px",
       }}
     >
-      <FormControl sx={{ minWidth: 150, marginRight: "10px" }} size="small">
+      <FormControl
+        sx={{
+          minWidth: 150,
+          marginRight: "10px",
+          backgroundColor: theme.palette.background.default,
+        }}
+        size="small"
+      >
         <InputLabel id="demo-select-small-label">Categories</InputLabel>
         <Select
           labelId="demo-select-small-label"
@@ -69,7 +78,11 @@ const SortList = ({
           onChange={handleCategoryClick}
         >
           {categories.map(({ id, name }) => (
-            <MenuItem key={id} value={name}>
+            <MenuItem
+              key={id}
+              value={name}
+
+            >
               {name}
             </MenuItem>
           ))}

@@ -4,17 +4,17 @@ import ImageListItemBar from "@mui/material/ImageListItemBar";
 import {
   Box,
   Button,
-
   List,
   ListItem,
   Pagination,
   Typography,
 } from "@mui/material";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
+
 import Container from "../container";
 import { Product } from "../../types/Product";
 import { useNavigate } from "react-router-dom";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import SortList from "../sortList";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useEffect, useState } from "react";
@@ -36,25 +36,30 @@ const CategoriesList = () => {
   useEffect(() => {
     dispatch(fetchAllProductAsync());
   }, [dispatch, currentPage]);
-
+  
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setCurrentPage(value);
   };
+
   const handleCategorySelect = (categoryName: string) => {
     setSelectedCategory(categoryName);
   };
+
   const filteredProductsByCategory = getFilteredProducts(
     products,
     selectedCategory
   );
+
   const filteredProducts = filteredProductsByCategory.filter(
     (product: Product) =>
       product.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const displayedProducts = filteredProducts.slice(startIndex, endIndex);
   const navigate = useNavigate();
+  
   return (
     <Box component="section" pt={10}>
       <Container>
@@ -102,7 +107,7 @@ const CategoriesList = () => {
                     style={{ borderRadius: "2%" }}
                   />
                   <ImageListItemBar
-                    sx={{ textAlign: "center", }}
+                    sx={{ textAlign: "center" }}
                     title={title}
                     subtitle={
                       <List sx={{ padding: "0" }}>
@@ -129,7 +134,7 @@ const CategoriesList = () => {
                   <Box
                     sx={{
                       display: "flex",
-                      justifyContent: "space-evenly"
+                      justifyContent: "space-evenly",
                     }}
                   >
                     <Button

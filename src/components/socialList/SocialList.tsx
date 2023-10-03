@@ -1,9 +1,8 @@
 import { Box, Link } from "@mui/material";
 import { Facebook, Instagram, Twitter } from "@mui/icons-material";
 import styled from "@emotion/styled";
+
 import { Colors } from "../../styles";
-import { SxProps } from "@mui/system";
-import { Theme } from "@mui/material/styles";
 
 const SocialLink = styled(Link)({
   display: "flex",
@@ -23,13 +22,9 @@ const SocialLink = styled(Link)({
   },
 });
 
-type SocialListProps = {
-  sx?: SxProps<Theme>;
-};
-
-export default function SocialList({ sx }: SocialListProps) {
+export default function SocialList() {
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", mt: 2, ...sx }}>
+    <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
       <SocialLink href="https://www.facebook.com" target="_blank">
         <Facebook style={{ fontSize: 25, color: "white" }} />
       </SocialLink>

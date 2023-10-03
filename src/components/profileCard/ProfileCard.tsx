@@ -6,30 +6,38 @@ import {
   CardContent,
   CardMedia,
   Typography,
+  useTheme,
 } from "@mui/material";
-import { useAppSelector } from "../../hooks/useAppSelector";
-import { getUserData } from "../../redux/user/userSelectors";
-import ModalText from "../modalText/ModalText";
 import { useState } from "react";
+
+import ModalText from "../modalText/ModalText";
 import UptadeProfileInfo from "../uptadeProfileInfo";
 import { Colors } from "../../styles";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import { getUserData } from "../../redux/user/userSelectors";
 
 const ProfileCard = () => {
   const [openModal, setOpenModal] = useState(false);
+  const theme = useTheme();
+
   const onCloseModal = () => {
     setOpenModal(false);
   };
+
   const user = useAppSelector(getUserData);
-  const { name, email, avatar, password } = user ?? {
-    name: "",
-    email: "",
-    avatar: "",
-    password: "",
-  };
-  const maskedPassword = "*".repeat(password.length);
+  const { name, email, avatar, password } = user || {};
+  const maskedPassword = password ? "*".repeat(password.length) : "";
+
   return (
     <>
-      <Card sx={{ maxWidth: 300, margin: "0 auto" }}>
+      <Card
+        sx={{
+          maxWidth: 300,
+          margin: "90px auto 0",
+          textAlign: "center",
+          backgroundColor: theme.palette.background.default,
+        }}
+      >
         <CardActionArea>
           <CardMedia component="img" width="140" image={avatar} alt={name} />
           <CardContent>
@@ -60,7 +68,7 @@ const ProfileCard = () => {
         </CardActions>
       </Card>
       <ModalText
-        text="Choose the info you want to update"
+        text="Choose the info"
         openModal={openModal}
         handleCloseModal={onCloseModal}
       >

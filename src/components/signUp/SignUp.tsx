@@ -1,12 +1,11 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { Formik, Field, Form, FormikHelpers, ErrorMessage } from "formik";
 import "react-app-polyfill/ie11";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+
 import Container from "../container/Container";
 import { Colors } from "../../styles";
-
-import { useNavigate } from "react-router-dom";
-
-import { useEffect } from "react";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import operations from "../../redux/user/userOperations";
 import { registerValidation } from "../../utils/validation";
@@ -37,6 +36,7 @@ const SignUp = () => {
   const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector(getLogin);
   const navigate = useNavigate();
+
   const initialValues = {
     name: "",
     email: "",
@@ -80,6 +80,7 @@ const SignUp = () => {
     resetForm();
     setSubmitting(false);
   };
+
   return (
     <Box
       component="section"

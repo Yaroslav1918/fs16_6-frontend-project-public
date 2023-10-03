@@ -1,11 +1,11 @@
 import { Button, TextField } from "@mui/material";
+import React, { useState } from "react";
 
 import { Colors } from "../../styles";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { getUserData } from "../../redux/user/userSelectors";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import operations from "../../redux/user/userOperations";
-import React, { useState } from "react";
 
 type FormValues = {
   name: string;

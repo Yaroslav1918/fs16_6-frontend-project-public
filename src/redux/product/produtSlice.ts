@@ -1,34 +1,26 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { Categories, Product } from "../../types/Product";
+
+import { Product } from "../../types/Product";
 import {
+  createProductAsync,
+  deleteProductAsync,
   fetchAllProductAsync,
   fetchCategoriesAsync,
   fetchSingleAsync,
+  updateProductAsync,
 } from "./productOperations";
+import { Category } from "../../types/Category";
 
-const initialState: {
+export const initialState: {
   products: Product[];
-  singleProduct: Product;
+  singleProduct: Product | null | undefined;
   error?: string;
   loading: boolean;
-  categories: Categories[];
+  categories: Category[];
 } = {
   products: [],
   loading: false,
-  singleProduct: {
-    id: 0,
-    title: "",
-    price: 0,
-    description: "",
-    category: {
-      id: 0,
-      name: "",
-      image: "",
-    },
-    images: [],
-    quantity: 0,
-    totalPrice: 0
-  },
+  singleProduct: null,
   categories: [],
 };
 
@@ -88,7 +80,7 @@ const productsSlice = createSlice({
         };
       }
     });
-    builder.addCase(fetchSingleAsync.pending, (state, action) => {
+    builder.addCase(fetchSingleAsync.pending, (state) => {
       return {
         ...state,
         loading: true,
@@ -126,6 +118,27 @@ const productsSlice = createSlice({
           error: action.payload.message,
         };
       }
+      builder.addCase(deleteProductAsync.fulfilled, (state, action) => {
+        if (typeof action.payload === "number") {
+          state.products = state.products.filter(
+            (p) => p.id !== action.payload
+          );
+        }
+      });
+      builder.addCase(createProductAsync.fulfilled, (state, action) => {
+        state.products.push(action.payload);
+      });
+      builder.addCase(createProductAsync.rejected, (state, action) => {
+        state.error = action.payload as string;
+      });
+      builder.addCase(updateProductAsync.fulfilled, (state, action) => {
+        const foundIndex = state.products.findIndex(
+          (p) => p.id === action.payload.id
+        );
+        if (foundIndex >= 0) {
+          state.products[foundIndex] = action.payload;
+        }
+      });
     });
   },
 });

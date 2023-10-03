@@ -1,24 +1,17 @@
-import { Box, List, Typography } from "@mui/material";
-import Container from "../container";
-import { Colors } from "../../styles";
+import { Box, List, Typography, useTheme } from "@mui/material";
 import { useSelector } from "react-redux";
 
-
-
-
-import { useAppSelector } from "../../hooks/useAppSelector";
-import { getCartProductItems, getTotalQuantity } from "../../redux/cart/cartSelectors";
+import { getTotalQuantity } from "../../redux/cart/cartSelectors";
 import CartItem from "../cartItem";
+import Container from "../container";
+import { Colors } from "../../styles";
 import CartTotal from "../cartTotal";
 
 const Cart = () => {
   const totalQuantity = useSelector(getTotalQuantity);
-
+  
   return (
-    <Box
-      component="section"
-      sx={{ background: Colors.backColor, padding: "50px 0 100px" }}
-    >
+    <Box component="section" sx={{ padding: "50px 0 100px" }}>
       <Container>
         <Box
           sx={{
@@ -70,5 +63,5 @@ const Cart = () => {
       </Container>
     </Box>
   );
-}
+};
 export default Cart;

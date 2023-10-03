@@ -11,13 +11,12 @@ import ProductPage from "../pages/ProductPage";
 import CategoriesList from "../components/categoriesList";
 import ScrollToTop from "../utils/scrollToTop";
 
-
 export const router = createBrowserRouter([
   {
     path: "/",
     element: (
       <>
-        <ScrollToTop /> {/* Include ScrollToTop component here */}
+        <ScrollToTop />
         <Root />
       </>
     ),

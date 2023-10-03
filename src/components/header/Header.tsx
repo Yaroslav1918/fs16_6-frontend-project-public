@@ -3,21 +3,22 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import MenuItem from "@mui/material/MenuItem";
 import FitbitOutlinedIcon from "@mui/icons-material/FitbitOutlined";
+
 import { Colors } from "../../styles";
 import AuthList from "../authList";
 import { Link, useNavigate } from "react-router-dom";
 import CartButton from "../cartButton";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { getLogin } from "../../redux/user/userSelectors";
-import { Avatar, Button, Tooltip } from "@mui/material";
+import { Avatar, Button, Tooltip, useTheme } from "@mui/material";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { logOut } from "../../redux/user/userSlice";
+import NightModeToggle from "../nightModeToggle";
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -29,9 +30,12 @@ const Header = () => {
   const isLoggedIn = useAppSelector(getLogin);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const theme = useTheme();
+
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -43,6 +47,7 @@ const Header = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
   const handleClickToButton = (settings: string) => {
     if (settings === "Logout") {
       dispatch(logOut());
@@ -51,16 +56,18 @@ const Header = () => {
       navigate("/profile");
     }
   };
-  const pages = ["Products", "Cart",];
+
+  const pages = ["Products", "Cart"];
   if (isLoggedIn) {
     pages.push("Profile");
   }
   const settings = ["Profile", "Logout"];
+
   return (
     <AppBar
       position="fixed"
       sx={{
-        backgroundColor: Colors.backColor,
+        backgroundColor: theme.palette.background.default,
         boxShadow: "none",
         color: Colors.black,
       }}
@@ -78,7 +85,6 @@ const Header = () => {
               }}
             />
           </Link>
-
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -116,7 +122,7 @@ const Header = () => {
                     style={{
                       textDecoration: "none",
                       marginRight: index !== pages.length - 1 ? "25px" : "0",
-                      color: Colors.black,
+                      color: theme.palette.text.primary,
                     }}
                   >
                     {page}
@@ -136,7 +142,6 @@ const Header = () => {
               }}
             />
           </Link>
-
           <Box
             sx={{
               flexGrow: 1,
@@ -150,23 +155,24 @@ const Header = () => {
                 style={{
                   textDecoration: "none",
                   marginRight: index !== pages.length - 1 ? "25px" : "0",
-                  color: Colors.black,
+                  color: theme.palette.text.primary,
                 }}
               >
                 {page}
               </Link>
             ))}
           </Box>
+          <NightModeToggle />
           <CartButton />
           {isLoggedIn ? (
-            <Box sx={{ flexGrow: 0, marginLeft: "30px" }}>
+            <Box sx={{ flexGrow: 0, marginLeft: "30px", }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                 </IconButton>
               </Tooltip>
               <Menu
-                sx={{ mt: "45px" }}
+                sx={{ mt: "45px", }}
                 id="menu-appbar"
                 anchorEl={anchorElUser}
                 anchorOrigin={{
@@ -182,8 +188,14 @@ const Header = () => {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Button onClick={() => handleClickToButton(setting)}>
+                  <MenuItem
+                    key={setting}
+                    onClick={handleCloseUserMenu}
+                  >
+                    <Button
+                      sx={{ color: theme.palette.text.primary }}
+                      onClick={() => handleClickToButton(setting)}
+                    >
                       {setting}
                     </Button>
                   </MenuItem>

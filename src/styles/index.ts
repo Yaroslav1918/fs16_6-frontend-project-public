@@ -11,6 +11,7 @@ export const Colors = {
   hoverColor: "#a77032",
   bgFooter: "#72716f",
   orange: "#D3A863",
+  blackMode: "#141A1F",
 };
 
 export const override = {

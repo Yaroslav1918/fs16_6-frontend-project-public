@@ -1,11 +1,12 @@
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import ButtonGroup from "@mui/material/ButtonGroup";
+import { useEffect } from "react";
+
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { getCategories } from "../../redux/product/productSelectors";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { fetchCategoriesAsync } from "../../redux/product/productOperations";
-import { useEffect } from "react";
 
 interface FilterButtonProps {
   onCategorySelect: (category: string) => void;
@@ -25,6 +26,7 @@ const FilterButton = ({
 
   const handleCategoryClick = (category: string) => {
     onCategorySelect(category);
+    
   };
   return (
     <Box
@@ -37,11 +39,7 @@ const FilterButton = ({
         },
       }}
     >
-      <ButtonGroup
-        color="secondary"
-        aria-label="medium secondary button group"
-       
-      >
+      <ButtonGroup color="secondary" aria-label="medium secondary button group">
         {categories &&
           categories.map(({ name, id }) => (
             <Button

@@ -10,11 +10,11 @@ import {
   Box,
   Button,
 } from "@mui/material";
+
 import { useState } from "react";
 import ModalText from "../modalText";
 import { resetToInitialState } from "../../redux/cart/cartSlice";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { getCartProductItems } from "../../redux/cart/cartSelectors";
 import { Colors } from "../../styles";
@@ -24,13 +24,18 @@ const CartTotals = () => {
   const cartItems = useAppSelector(getCartProductItems);
   const dispatch = useAppDispatch();
 
-
   const onCloseModal = () => {
     setOpenModal(false);
     dispatch(resetToInitialState());
   };
-  const total = cartItems.reduce((acc, item) => acc + item.totalPrice, 0);
 
+  const total = cartItems.reduce((acc, item) => {
+    if (item.totalPrice) {
+      return acc + item.totalPrice;
+    }
+    return acc;
+  }, 0);
+  
   return (
     <Box width="100%" mx="auto" mt={4}>
       <Typography
@@ -41,7 +46,11 @@ const CartTotals = () => {
       >
         YOUR ORDER
       </Typography>
-      <TableContainer component={Paper} elevation={16}>
+      <TableContainer
+        component={Paper}
+        elevation={16}
+        sx={{ bgcolor: "background.default" }}
+      >
         <Table>
           <TableHead>
             <TableRow>

@@ -1,11 +1,11 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { Formik, Field, Form, FormikHelpers, ErrorMessage } from "formik";
 import "react-app-polyfill/ie11";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+
 import Container from "../container/Container";
 import { Colors } from "../../styles";
-
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 import operations from "../../redux/user/userOperations";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
@@ -15,6 +15,7 @@ type FormValues = {
   email: string;
   password: string;
 };
+
 const textFieldStyles = {
   padding: "10px",
   marginBottom: "5px",
@@ -28,6 +29,7 @@ const textFieldStyles = {
     },
   },
 };
+
 const initialValues = {
   email: "",
   password: "",
@@ -61,11 +63,11 @@ const SignIn = () => {
       </ErrorMessage>
     );
   };
+
   const onSubmit = async (
     values: FormValues,
     { setSubmitting, resetForm }: FormikHelpers<FormValues>
   ) => {
-    // dispatch(cartActions.resetToInitialState());
     await dispatch(operations.logIn(values));
     await dispatch(operations.fetchCurrentUser());
     resetForm();
@@ -90,11 +92,7 @@ const SignIn = () => {
         >
           Sign in
         </Typography>
-        <Formik
-          initialValues={initialValues}
-          onSubmit={onSubmit}
-          //   validate={validate}
-        >
+        <Formik initialValues={initialValues} onSubmit={onSubmit}>
           {({ isSubmitting, resetForm }) => (
             <Form
               style={{
@@ -138,7 +136,7 @@ const SignIn = () => {
                   marginTop: "16px",
                   background: Colors.secondaryColor,
                   "&:hover": {
-                    background: Colors.hoverColor, // Define the background color for hover
+                    background: Colors.hoverColor,
                   },
                 }}
               >

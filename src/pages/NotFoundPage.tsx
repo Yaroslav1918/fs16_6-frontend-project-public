@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { Button, Typography } from "@mui/material";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 
-
 import { Colors } from "../styles";
 import Container from "../components/container";
 
