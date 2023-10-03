@@ -31,7 +31,7 @@ export default function SocialList() {
       <SocialLink href="https://www.twitter.com" target="_blank">
         <Twitter style={{ fontSize: 25, color: "white" }} />
       </SocialLink>
-      <SocialLink href="'https://www.instagram.com" target="_blank">
+      <SocialLink href="https://www.instagram.com" target="_blank">
         <Instagram style={{ fontSize: 25, color: "white" }} />
       </SocialLink>
     </Box>
