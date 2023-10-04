@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 import NotFoundPage from "../pages/NotFoundPage";
 import Root from "../components/root/Root";
-import Home from "../pages/Home";
+import Home from "../pages/HomePage";
 import CartPage from "../pages/CartPage";
 import ProfilePage from "../pages/ProfilePage";
 import SignIn from "../components/signIn";
@@ -10,6 +10,7 @@ import SignUp from "../components/signUp";
 import ProductPage from "../pages/ProductPage";
 import CategoriesList from "../components/categoriesList";
 import ScrollToTop from "../utils/scrollToTop";
+import DashBoardPage from "../pages/DashBoardPage";
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ export const router = createBrowserRouter([
       {
         path: "signUp",
         element: <SignUp />,
+      },
+      {
+        path: "dashboard",
+        element: <DashBoardPage />,
       },
     ],
   },

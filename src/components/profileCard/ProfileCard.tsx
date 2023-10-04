@@ -1,4 +1,5 @@
 import {
+  Button,
   Card,
   CardActionArea,
   CardActions,
@@ -7,15 +8,25 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import { useState } from "react";
 
+import ModalText from "../modalText/ModalText";
+import UptadeProfileInfo from "../uptadeProfileInfo";
+import { Colors } from "../../styles";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { getUserData } from "../../redux/user/userSelectors";
+import { getRole, getUserData } from "../../redux/user/userSelectors";
 
 const ProfileCard = () => {
+  const [openModal, setOpenModal] = useState(false);
   const theme = useTheme();
+  const role = useAppSelector(getRole);
   const user = useAppSelector(getUserData);
   const { name, email, avatar, password } = user || {};
   const maskedPassword = password ? "*".repeat(password.length) : "";
+
+  const onCloseModal = () => {
+    setOpenModal(false);
+  };
 
   return (
     <>
@@ -42,8 +53,30 @@ const ProfileCard = () => {
           </CardContent>
         </CardActionArea>
         <CardActions>
+          {role === "admin" && (
+            <Button
+              size="small"
+              color="primary"
+              sx={{
+                color: Colors.secondaryColor,
+                margin: "0 auto"
+              }}
+              onClick={() => {
+                setOpenModal((prev) => !prev);
+              }}
+            >
+              Uptade info
+            </Button>
+          )}
         </CardActions>
       </Card>
+      <ModalText
+        text="Choose the info"
+        openModal={openModal}
+        handleCloseModal={onCloseModal}
+      >
+        <UptadeProfileInfo handleCloseModal={onCloseModal} />
+      </ModalText>
     </>
   );
 };

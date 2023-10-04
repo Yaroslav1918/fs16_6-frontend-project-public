@@ -2,7 +2,6 @@ import { rest } from "msw";
 import { setupServer } from "msw/node";
 
 import { productsData } from "../data/productsData";
-import { Product } from "../../types/Product";
 import { CreateProductInput } from "../../types/CreateProductInput";
 import { categoriesData } from "../data/categoriesData";
 
@@ -113,5 +112,5 @@ export const handlers = [
   ),
 ];
 
-const server = setupServer(...handlers);
-export default server;
+const productServer = setupServer(...handlers);
+export default productServer;

@@ -1,5 +1,22 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
-import { Formik, Field, Form, FormikHelpers, ErrorMessage } from "formik";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+  Typography,
+} from "@mui/material";
+import {
+  Formik,
+  Field,
+  Form,
+  FormikHelpers,
+  ErrorMessage,
+  FieldProps,
+} from "formik";
 import "react-app-polyfill/ie11";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -11,12 +28,7 @@ import operations from "../../redux/user/userOperations";
 import { registerValidation } from "../../utils/validation";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { getLogin } from "../../redux/user/userSelectors";
-
-type FormValues = {
-  name: string;
-  email: string;
-  password: string;
-};
+import { SignUpInput } from "../../types/SignUpInput";
 
 const textFieldStyles = {
   padding: "10px",
@@ -37,17 +49,19 @@ const SignUp = () => {
   const isLoggedIn = useAppSelector(getLogin);
   const navigate = useNavigate();
 
-  const initialValues = {
+  const initialValues: SignUpInput = {
     name: "",
     email: "",
     password: "",
+    role: "customer",
+    avatar: "",
   };
-  
-    useEffect(() => {
-      if (isLoggedIn) {
-        navigate("/");
-      }
-    }, [isLoggedIn, navigate]);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/");
+    }
+  }, [isLoggedIn, navigate]);
 
   const FieldErrorMessage = ({ fieldName }: { fieldName: string }) => {
     return (
@@ -68,8 +82,8 @@ const SignUp = () => {
   };
 
   const onSubmit = (
-    values: FormValues,
-    { setSubmitting, resetForm }: FormikHelpers<FormValues>
+    values: SignUpInput,
+    { setSubmitting, resetForm }: FormikHelpers<SignUpInput>
   ) => {
     const formValues = {
       ...values,
@@ -151,6 +165,27 @@ const SignUp = () => {
                 sx={textFieldStyles}
               />
               <FieldErrorMessage fieldName="password" />
+              <FormControl
+                component="fieldset"
+                sx={{ margin: "16px 0 0 10px" }}
+              >
+                <Field name="role">
+                  {({ field }: FieldProps<string>) => (
+                    <RadioGroup {...field} row>
+                      <FormControlLabel
+                        value="admin"
+                        control={<Radio />}
+                        label="Admin"
+                      />
+                      <FormControlLabel
+                        value="customer"
+                        control={<Radio />}
+                        label="Customer"
+                      />
+                    </RadioGroup>
+                  )}
+                </Field>
+              </FormControl>
               <Button
                 type="submit"
                 variant="contained"
@@ -160,7 +195,7 @@ const SignUp = () => {
                   marginTop: "16px",
                   background: Colors.secondaryColor,
                   "&:hover": {
-                    background: Colors.hoverColor, 
+                    background: Colors.hoverColor,
                   },
                 }}
               >

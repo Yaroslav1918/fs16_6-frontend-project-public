@@ -14,7 +14,7 @@ import AuthList from "../authList";
 import { Link, useNavigate } from "react-router-dom";
 import CartButton from "../cartButton";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { getLogin } from "../../redux/user/userSelectors";
+import { getLogin, getRole } from "../../redux/user/userSelectors";
 import { Avatar, Button, Tooltip, useTheme } from "@mui/material";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { logOut } from "../../redux/user/userSlice";
@@ -28,6 +28,7 @@ const Header = () => {
     null
   );
   const isLoggedIn = useAppSelector(getLogin);
+  const role = useAppSelector(getRole);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -58,7 +59,9 @@ const Header = () => {
   };
 
   const pages = ["Products", "Cart"];
-  if (isLoggedIn) {
+  if (isLoggedIn && role === "admin") {
+    pages.push("Dashboard", "Profile");
+  } else if (isLoggedIn && role !== "admin") {
     pages.push("Profile");
   }
   const settings = ["Profile", "Logout"];
@@ -165,14 +168,14 @@ const Header = () => {
           <NightModeToggle />
           <CartButton />
           {isLoggedIn ? (
-            <Box sx={{ flexGrow: 0, marginLeft: "30px", }}>
+            <Box sx={{ flexGrow: 0, marginLeft: "30px" }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                 </IconButton>
               </Tooltip>
               <Menu
-                sx={{ mt: "45px", }}
+                sx={{ mt: "45px" }}
                 id="menu-appbar"
                 anchorEl={anchorElUser}
                 anchorOrigin={{
@@ -188,10 +191,7 @@ const Header = () => {
                 onClose={handleCloseUserMenu}
               >
                 {settings.map((setting) => (
-                  <MenuItem
-                    key={setting}
-                    onClick={handleCloseUserMenu}
-                  >
+                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
                     <Button
                       sx={{ color: theme.palette.text.primary }}
                       onClick={() => handleClickToButton(setting)}

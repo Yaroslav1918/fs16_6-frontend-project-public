@@ -1,4 +1,3 @@
-import server from "../shared/server";
 import { productsData } from "../data/productsData";
 import { CreateProductInput } from "../../types/CreateProductInput";
 import { UpdateProductInput } from "../../types/UpdateProductInput";
@@ -15,18 +14,20 @@ import productReducer, {
   initialState,
   sortByPrice,
 } from "../../redux/product/produtSlice";
+import productServer from "../shared/productServer";
 
 let store = createStore();
 beforeEach(() => {
   store = createStore();
 });
 // Enable API mocking before tests.
-beforeAll(() => server.listen());
+beforeAll(() => productServer.listen());
 // Reset any runtime request handlers we may add during the tests.
-afterEach(() => server.resetHandlers());
+afterEach(() => productServer.resetHandlers());
 // Disable API mocking after the tests are done.
-afterAll(() => server.close());
+afterAll(() => productServer.close());
 describe("Test normal actions in productsReducer", () => {
+  
   test("Should sort products by price desc", () => {
     const state = {
       ...initialState,

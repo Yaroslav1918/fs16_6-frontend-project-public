@@ -1,7 +1,6 @@
+import { User } from "./User";
+
 export interface UptadeUserInput {
-  name?: string;
-  email?: string;
-  password?: string;
-  avatar?: string;
-  role?: string;
+  update: Partial<User>;
+  id: number;
 }

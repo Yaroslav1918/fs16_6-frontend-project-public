@@ -1,6 +1,7 @@
+import { Product } from './../../types/Product';
 import { categoriesData } from "./categoriesData";
 
-export const productsData = [
+export const productsData: Product[] = [
   {
     id: 1,
     title: "nuevo title",

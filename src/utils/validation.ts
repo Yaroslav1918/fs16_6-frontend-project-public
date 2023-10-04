@@ -13,5 +13,9 @@ export const registerValidation = yup
     name: yup.string().max(20).required(),
     email: yup.string().required(),
     password: yup.string().min(7).max(30).required(),
+    role: yup
+      .string()
+      .oneOf(["customer", "admin"])
+      .required("Role is required"),
   })
   .required();

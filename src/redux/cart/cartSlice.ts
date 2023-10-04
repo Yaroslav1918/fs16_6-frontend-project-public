@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { Cart} from "../../types/Cart";
+import { Cart } from "../../types/Cart";
 import { Product } from "../../types/Product";
 
-const initialState: Cart = {
+export const initialState: Cart = {
   cartProductItems: [],
   totalQuantity: 0,
 };

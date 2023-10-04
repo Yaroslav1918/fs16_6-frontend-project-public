@@ -1,7 +1,7 @@
 import CategoriesList from "../components/categoriesList";
 import HeroSection from "../components/heroSection";
 
-const Home = () => {
+const HomePage = () => {
   return (
     <>
       <HeroSection />
@@ -10,4 +10,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;
