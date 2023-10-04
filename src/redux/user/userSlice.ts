@@ -30,50 +30,55 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(operations.register.fulfilled, (state, action) => {
+      .addCase(operations.fetchUsersAsync.fulfilled, (state, action) => {
         state.user = action.payload;
         state.isLoggedIn = true;
         state.error = null;
         state.loading = false;
       })
-      .addCase(operations.register.pending, (state) => {
+      .addCase(operations.fetchUsersAsync.pending, (state) => {
         return {
           ...state,
           loading: true,
         };
       })
-      .addCase(operations.register.rejected, (state, action) => {
+      .addCase(operations.fetchUsersAsync.rejected, (state, action) => {
         state.error = action.error.message as string | null;
         state.loading = false;
       })
-      .addCase(operations.logIn.fulfilled, (state, action) => {
+      .addCase(operations.fetchRegisterAsync.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.isLoggedIn = true;
+        state.error = null;
+        state.loading = false;
+      })
+      .addCase(operations.fetchRegisterAsync.pending, (state) => {
+        return {
+          ...state,
+          loading: true,
+        };
+      })
+      .addCase(operations.fetchRegisterAsync.rejected, (state, action) => {
+        state.error = action.error.message as string | null;
+        state.loading = false;
+      })
+      .addCase(operations.fetchlogInAsync.fulfilled, (state, action) => {
         state.token = action.payload.access_token;
         state.isLoggedIn = true;
         state.error = null;
         state.loading = false;
       })
-      .addCase(operations.logIn.pending, (state) => {
+      .addCase(operations.fetchlogInAsync.pending, (state) => {
         return {
           ...state,
           loading: true,
         };
       })
-      .addCase(operations.logIn.rejected, (state, action) => {
+      .addCase(operations.fetchlogInAsync.rejected, (state, action) => {
         state.error = action.error.message as string | null;
         state.loading = false;
       })
-      .addCase(operations.logOut.fulfilled, (state) => {
-        state.token = null;
-        state.isLoggedIn = false;
-        state.error = null;
-        state.loading = false;
-      })
-      .addCase(operations.logOut.pending, (state) => {
-        return {
-          ...state,
-          loading: true,
-        };
-      })
+
       .addCase(operations.fetchCurrentUser.fulfilled, (state, action) => {
         state.user = action.payload;
         state.isLoggedIn = true;
@@ -90,20 +95,20 @@ const userSlice = createSlice({
         state.error = action.error.message as string | null;
         state.loading = false;
       })
-      .addCase(operations.uptadeUser.fulfilled, (state, action) => {
+      .addCase(operations.fetchUptadeUserAsync.fulfilled, (state, action) => {
         state.user = action.payload;
         state.isLoggedIn = true;
         state.error = null;
         state.loading = false;
       })
-      .addCase(operations.uptadeUser.rejected, (state, action) => {
+      .addCase(operations.fetchUptadeUserAsync.rejected, (state, action) => {
         return {
           ...state,
           error: action.error.message as string | null,
           loading: false,
         };
       })
-      .addCase(operations.uptadeUser.pending, (state) => {
+      .addCase(operations.fetchUptadeUserAsync.pending, (state) => {
         return {
           ...state,
           loading: true,

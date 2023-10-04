@@ -76,7 +76,7 @@ const SignUp = () => {
       avatar:
         "https://i.pinimg.com/originals/ea/76/c3/ea76c343f9bbd6917e9a094b9317ab9e.jpg",
     };
-    dispatch(operations.register(formValues));
+    dispatch(operations.fetchRegisterAsync(formValues));
     resetForm();
     setSubmitting(false);
   };

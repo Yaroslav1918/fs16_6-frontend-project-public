@@ -18,7 +18,7 @@ const token = {
   },
 };
 
-const register = createAsyncThunk("/api/auth", async (credentials: User) => {
+const fetchRegisterAsync = createAsyncThunk("/api/auth", async (credentials: User) => {
   try {
     const { data } = await axios.post("/users/", credentials);
     token.set(data.token);
@@ -29,26 +29,34 @@ const register = createAsyncThunk("/api/auth", async (credentials: User) => {
   }
 });
 
-const logIn = createAsyncThunk("/auth/login", async (credentials: SignIn) => {
-  try {
-    const { data } = await axios.post("/auth/login", credentials);
-    token.set(data.token);
-    return data;
-  } catch (e) {
-    const error = e as AxiosError;
-    toast.error(error.message);
+const fetchlogInAsync = createAsyncThunk(
+  "/auth/login",
+  async (credentials: SignIn) => {
+    try {
+      const { data } = await axios.post("/auth/login", credentials);
+      token.set(data.token);
+      return data;
+    } catch (e) {
+      const error = e as AxiosError;
+      toast.error(error.message);
+    }
   }
-});
+);
 
-const logOut = createAsyncThunk("/auth/logout", async () => {
-  try {
-    await axios.get("/api/auth/logout");
-    token.unset();
-  } catch (e) {
-    const error = e as AxiosError;
-    toast.error(error.message);
-  }
-});
+export const fetchUsersAsync = createAsyncThunk(
+    'fetchUsersAsync',
+    async (_, { rejectWithValue }) => {
+        try {
+            const {data} = await axios.get('users')
+            return data
+        } catch (e) {
+          const error = e as Error
+          toast.error(error.message);
+          return rejectWithValue(error.message)
+          
+        }
+    }
+)
 
 const fetchCurrentUser = createAsyncThunk(
   "auth/current",
@@ -69,7 +77,7 @@ const fetchCurrentUser = createAsyncThunk(
   }
 );
 
-const uptadeUser = createAsyncThunk(
+const fetchUptadeUserAsync = createAsyncThunk(
   "auth/uptadeUSer",
   async (infoUSer: UptadeUserInput, thunkAPI) => {
     const state = thunkAPI.getState() as AppState;
@@ -85,10 +93,10 @@ const uptadeUser = createAsyncThunk(
 );
 
 const operations = {
-  register,
-  logOut,
-  logIn,
+  fetchRegisterAsync,
+  fetchlogInAsync,
   fetchCurrentUser,
-  uptadeUser,
+  fetchUptadeUserAsync,
+  fetchUsersAsync,
 };
 export default operations;

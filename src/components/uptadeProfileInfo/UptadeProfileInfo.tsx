@@ -50,7 +50,7 @@ const UptadeProfileInfo = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(operations.uptadeUser(formValues));
+    dispatch(operations.fetchUptadeUserAsync(formValues));
     handleCloseModal();
   };
 

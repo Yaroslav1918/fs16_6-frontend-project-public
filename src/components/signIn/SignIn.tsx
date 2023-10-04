@@ -68,7 +68,7 @@ const SignIn = () => {
     values: FormValues,
     { setSubmitting, resetForm }: FormikHelpers<FormValues>
   ) => {
-    await dispatch(operations.logIn(values));
+    await dispatch(operations.fetchlogInAsync(values));
     await dispatch(operations.fetchCurrentUser());
     resetForm();
     setSubmitting(false);
