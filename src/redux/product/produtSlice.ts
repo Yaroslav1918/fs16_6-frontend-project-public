@@ -127,6 +127,21 @@ const productsSlice = createSlice({
         state.products = state.products.filter((p) => p.id !== action.payload);
       }
     });
+    builder.addCase(deleteProductAsync.rejected, (state, action) => {
+      if (action.payload instanceof Error) {
+        return {
+          ...state,
+          loading: false,
+          error: action.payload.message,
+        };
+      }
+    });
+    builder.addCase(deleteProductAsync.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    });
     builder.addCase(fetchDeleteCategoryAsync.fulfilled, (state, action) => {
       if (typeof action.payload === "number") {
         state.categories = state.categories.filter(
@@ -137,6 +152,12 @@ const productsSlice = createSlice({
     builder.addCase(fetchDeleteCategoryAsync.rejected, (state, action) => {
       state.error = action.payload as string;
     });
+    builder.addCase(fetchDeleteCategoryAsync.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    });
 
     builder.addCase(fetchCreateCategoryAsync.fulfilled, (state, action) => {
       state.categories.push(action.payload);
@@ -144,12 +165,24 @@ const productsSlice = createSlice({
     builder.addCase(fetchCreateCategoryAsync.rejected, (state, action) => {
       state.error = action.payload as string;
     });
+    builder.addCase(fetchCreateCategoryAsync.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    });
     builder.addCase(createProductAsync.fulfilled, (state, action) => {
       state.products.push(action.payload);
     });
     builder.addCase(createProductAsync.rejected, (state, action) => {
       console.log(action.payload);
       state.error = action.payload as string;
+    });
+    builder.addCase(createProductAsync.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
     });
     builder.addCase(updateProductAsync.fulfilled, (state, action) => {
       const foundIndex = state.products.findIndex(
@@ -162,21 +195,29 @@ const productsSlice = createSlice({
     builder.addCase(updateProductAsync.rejected, (state, action) => {
       state.error = action.payload as string;
     });
+    builder.addCase(updateProductAsync.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    });
     builder.addCase(fetchUptadeCategoryAsync.fulfilled, (state, action) => {
       const foundIndex = state.categories.findIndex(
         (p) => p.id === action.payload.id
       );
 
       if (foundIndex >= 0) {
-        console.log(
-          "🚀 ~ file: produtSlice.ts:170 ~ builder.addCase ~ foundIndex:",
-          foundIndex
-        );
         state.categories[foundIndex] = action.payload;
       }
     });
     builder.addCase(fetchUptadeCategoryAsync.rejected, (state, action) => {
       state.error = action.payload as string;
+    });
+    builder.addCase(fetchUptadeCategoryAsync.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
     });
   },
 });

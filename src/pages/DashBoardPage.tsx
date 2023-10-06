@@ -25,13 +25,15 @@ import {
   fetchDeleteCategoryAsync,
 } from "../redux/product/productOperations";
 import { useAppSelector } from "../hooks/useAppSelector";
-import { getCategories, getProducts } from "../redux/product/productSelectors";
+import { getCategories, getLoading, getProducts } from "../redux/product/productSelectors";
 import ModalText from "../components/modalText";
 import AdminForm from "../components/adminForm";
 import { fetchUsersAsync } from "../redux/user/userOperations";
 import { getUsersData } from "../redux/user/userSelectors";
 import { Colors } from "../styles";
 import { dataFields } from "../utils/dataFields";
+import spinner from "../components/spinner";
+import Spinner from "../components/spinner";
 
 const DashboardPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("categories");
@@ -42,6 +44,7 @@ const DashboardPage = () => {
   const categories = useAppSelector(getCategories);
   const products = useAppSelector(getProducts);
   const users = useAppSelector(getUsersData);
+  const isLoading = useAppSelector(getLoading);
 
   const onCloseModal = () => {
     setOpenModal(false);
@@ -115,92 +118,38 @@ const DashboardPage = () => {
             ))}
           </List>
         </Box>
-        <Box flexBasis="80%" flexGrow={1} padding="16px">
-          <Paper>
-            <TableContainer>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Name</TableCell>
-                    {selectedCategory === "products" && (
-                      <TableCell>Description</TableCell>
-                    )}
-                    {selectedCategory === "users" && (
-                      <TableCell>Email</TableCell>
-                    )}
-                    {selectedCategory === "products" && (
-                      <TableCell>Price</TableCell>
-                    )}
-                    <TableCell>Photo</TableCell>
-                    <TableCell>Action</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {(() => {
-                    switch (selectedCategory) {
-                      case "categories":
-                        return (
-                          <>
-                            {categories.map(({ id, name, image }) => (
-                              <TableRow key={id}>
-                                <TableCell>{name}</TableCell>
-                                <TableCell>
-                                  <Box
-                                    component="img"
-                                    sx={{
-                                      height: 50,
-                                      width: 50,
-                                      borderRadius: "5px",
-                                    }}
-                                    alt={name}
-                                    src={
-                                      image ||
-                                      "https://via.placeholder.com/50x50"
-                                    } // Default image URL
-                                    onError={(e) => {
-                                      const target =
-                                        e.target as HTMLImageElement; // Type assertion
-                                      target.src =
-                                        "https://demofree.sirv.com/nope-not-here.jpg";
-                                    }}
-                                  />
-                                </TableCell>
-                                <TableCell>
-                                  <Box>
-                                    <IconButton
-                                      aria-label="Edit"
-                                      onClick={() => {
-                                        setAction("update category");
-                                        setValueId(id);
-                                        setOpenModal(true);
-                                      }}
-                                    >
-                                      <EditIcon />{" "}
-                                      {/* Edit icon for changing category */}
-                                    </IconButton>
-                                    <IconButton
-                                      aria-label="Delete"
-                                      onClick={() => {
-                                        dispatch(fetchDeleteCategoryAsync(id));
-                                      }}
-                                    >
-                                      <DeleteIcon />{" "}
-                                    </IconButton>
-                                  </Box>
-                                </TableCell>
-                              </TableRow>
-                            ))}
-                          </>
-                        );
-                      case "products":
-                        return (
-                          <>
-                            {products.map(
-                              ({ id, title, category, price, description }) => (
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <Box flexBasis="80%" flexGrow={1} padding="16px">
+            <Paper>
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Name</TableCell>
+                      {selectedCategory === "products" && (
+                        <TableCell>Description</TableCell>
+                      )}
+                      {selectedCategory === "users" && (
+                        <TableCell>Email</TableCell>
+                      )}
+                      {selectedCategory === "products" && (
+                        <TableCell>Price</TableCell>
+                      )}
+                      <TableCell>Photo</TableCell>
+                      <TableCell>Action</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {(() => {
+                      switch (selectedCategory) {
+                        case "categories":
+                          return (
+                            <>
+                              {categories.map(({ id, name, image }) => (
                                 <TableRow key={id}>
-                                  <TableCell>{title}</TableCell>
-                                  <TableCell>{description}</TableCell>
-                                  <TableCell>{price} $</TableCell>
+                                  <TableCell>{name}</TableCell>
                                   <TableCell>
                                     <Box
                                       component="img"
@@ -209,9 +158,9 @@ const DashboardPage = () => {
                                         width: 50,
                                         borderRadius: "5px",
                                       }}
-                                      alt={category && category.name}
+                                      alt={name}
                                       src={
-                                        (category && category.image) ||
+                                        image ||
                                         "https://via.placeholder.com/50x50"
                                       } // Default image URL
                                       onError={(e) => {
@@ -227,7 +176,7 @@ const DashboardPage = () => {
                                       <IconButton
                                         aria-label="Edit"
                                         onClick={() => {
-                                          setAction("update product");
+                                          setAction("update category");
                                           setValueId(id);
                                           setOpenModal(true);
                                         }}
@@ -238,7 +187,9 @@ const DashboardPage = () => {
                                       <IconButton
                                         aria-label="Delete"
                                         onClick={() => {
-                                          dispatch(deleteProductAsync(id));
+                                          dispatch(
+                                            fetchDeleteCategoryAsync(id)
+                                          );
                                         }}
                                       >
                                         <DeleteIcon />{" "}
@@ -246,65 +197,129 @@ const DashboardPage = () => {
                                     </Box>
                                   </TableCell>
                                 </TableRow>
-                              )
-                            )}
-                          </>
-                        );
-                      case "users":
-                        return (
-                          <>
-                            {users.map(({ id, name, email, avatar }) => (
-                              <TableRow key={id}>
-                                <TableCell>{name}</TableCell>
-                                <TableCell>{email}</TableCell>
-                                <TableCell>
-                                  <Box
-                                    component="img"
-                                    sx={{
-                                      height: 50,
-                                      width: 50,
-                                      borderRadius: "5px",
-                                    }}
-                                    alt={name}
-                                    src={
-                                      avatar ||
-                                      "https://via.placeholder.com/50x50"
-                                    } // Default image URL
-                                    onError={(e) => {
-                                      const target =
-                                        e.target as HTMLImageElement; // Type assertion
-                                      target.src =
-                                        "https://demofree.sirv.com/nope-not-here.jpg";
-                                    }}
-                                  />
-                                </TableCell>
-                                <TableCell>
-                                  <Box>
-                                    <IconButton
-                                      aria-label="Edit"
-                                      onClick={() => {
-                                        setAction("update user");
-                                        setValueId(id);
-                                        setOpenModal(true);
+                              ))}
+                            </>
+                          );
+                        case "products":
+                          return (
+                            <>
+                              {products.map(
+                                ({
+                                  id,
+                                  title,
+                                  category,
+                                  price,
+                                  description,
+                                }) => (
+                                  <TableRow key={id}>
+                                    <TableCell>{title}</TableCell>
+                                    <TableCell>{description}</TableCell>
+                                    <TableCell>{price} $</TableCell>
+                                    <TableCell>
+                                      <Box
+                                        component="img"
+                                        sx={{
+                                          height: 50,
+                                          width: 50,
+                                          borderRadius: "5px",
+                                        }}
+                                        alt={category && category.name}
+                                        src={
+                                          (category && category.image) ||
+                                          "https://via.placeholder.com/50x50"
+                                        } // Default image URL
+                                        onError={(e) => {
+                                          const target =
+                                            e.target as HTMLImageElement; // Type assertion
+                                          target.src =
+                                            "https://demofree.sirv.com/nope-not-here.jpg";
+                                        }}
+                                      />
+                                    </TableCell>
+                                    <TableCell>
+                                      <Box>
+                                        <IconButton
+                                          aria-label="Edit"
+                                          onClick={() => {
+                                            setAction("update product");
+                                            setValueId(id);
+                                            setOpenModal(true);
+                                          }}
+                                        >
+                                          <EditIcon />{" "}
+                                          {/* Edit icon for changing category */}
+                                        </IconButton>
+                                        <IconButton
+                                          aria-label="Delete"
+                                          onClick={() => {
+                                            dispatch(deleteProductAsync(id));
+                                          }}
+                                        >
+                                          <DeleteIcon />{" "}
+                                        </IconButton>
+                                      </Box>
+                                    </TableCell>
+                                  </TableRow>
+                                )
+                              )}
+                            </>
+                          );
+                        case "users":
+                          return (
+                            <>
+                              {users.map(({ id, name, email, avatar }) => (
+                                <TableRow key={id}>
+                                  <TableCell>{name}</TableCell>
+                                  <TableCell>{email}</TableCell>
+                                  <TableCell>
+                                    <Box
+                                      component="img"
+                                      sx={{
+                                        height: 50,
+                                        width: 50,
+                                        borderRadius: "5px",
                                       }}
-                                    >
-                                      <EditIcon />{" "}
-                                    </IconButton>
-                                  </Box>
-                                </TableCell>
-                              </TableRow>
-                            ))}
-                          </>
-                        );
-                      default:
-                        break;
-                    }
-                  })()}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Paper>
-        </Box>
+                                      alt={name}
+                                      src={
+                                        avatar ||
+                                        "https://via.placeholder.com/50x50"
+                                      } // Default image URL
+                                      onError={(e) => {
+                                        const target =
+                                          e.target as HTMLImageElement; // Type assertion
+                                        target.src =
+                                          "https://demofree.sirv.com/nope-not-here.jpg";
+                                      }}
+                                    />
+                                  </TableCell>
+                                  <TableCell>
+                                    <Box>
+                                      <IconButton
+                                        aria-label="Edit"
+                                        onClick={() => {
+                                          setAction("update user");
+                                          setValueId(id);
+                                          setOpenModal(true);
+                                        }}
+                                      >
+                                        <EditIcon />{" "}
+                                      </IconButton>
+                                    </Box>
+                                  </TableCell>
+                                </TableRow>
+                              ))}
+                            </>
+                          );
+                        default:
+                          break;
+                      }
+                    })()}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Paper>
+          </Box>
+        )}
       </Box>
       <ModalText
         text="Choose the info"
