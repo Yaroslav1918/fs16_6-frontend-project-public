@@ -125,6 +125,7 @@ const productsSlice = createSlice({
     builder.addCase(deleteProductAsync.fulfilled, (state, action) => {
       if (typeof action.payload === "number") {
         state.products = state.products.filter((p) => p.id !== action.payload);
+        state.loading = false;
       }
     });
     builder.addCase(deleteProductAsync.rejected, (state, action) => {
@@ -147,6 +148,7 @@ const productsSlice = createSlice({
         state.categories = state.categories.filter(
           (p) => p.id !== action.payload
         );
+        state.loading = false;
       }
     });
     builder.addCase(fetchDeleteCategoryAsync.rejected, (state, action) => {
@@ -161,9 +163,11 @@ const productsSlice = createSlice({
 
     builder.addCase(fetchCreateCategoryAsync.fulfilled, (state, action) => {
       state.categories.push(action.payload);
+      state.loading = false;
     });
     builder.addCase(fetchCreateCategoryAsync.rejected, (state, action) => {
       state.error = action.payload as string;
+      state.loading = false;
     });
     builder.addCase(fetchCreateCategoryAsync.pending, (state, action) => {
       return {
@@ -173,6 +177,7 @@ const productsSlice = createSlice({
     });
     builder.addCase(createProductAsync.fulfilled, (state, action) => {
       state.products.push(action.payload);
+      state.loading = false;
     });
     builder.addCase(createProductAsync.rejected, (state, action) => {
       console.log(action.payload);
@@ -191,9 +196,11 @@ const productsSlice = createSlice({
       if (foundIndex >= 0) {
         state.products[foundIndex] = action.payload;
       }
+      state.loading = false;
     });
     builder.addCase(updateProductAsync.rejected, (state, action) => {
       state.error = action.payload as string;
+      state.loading = false;
     });
     builder.addCase(updateProductAsync.pending, (state, action) => {
       return {
@@ -209,9 +216,11 @@ const productsSlice = createSlice({
       if (foundIndex >= 0) {
         state.categories[foundIndex] = action.payload;
       }
+      state.loading = false;
     });
     builder.addCase(fetchUptadeCategoryAsync.rejected, (state, action) => {
       state.error = action.payload as string;
+      state.loading = false;
     });
     builder.addCase(fetchUptadeCategoryAsync.pending, (state, action) => {
       return {
