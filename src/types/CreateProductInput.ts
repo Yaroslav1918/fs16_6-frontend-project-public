@@ -1,7 +1,4 @@
-export interface CreateProductInput {
-  title: string;
-  price: number;
-  description: string;
-  categoryId: number;
-  images: string[];
+import { Product } from './Product';
+export interface CreateProductInput extends Partial<Product> {
+  categoryId?: number;
 }

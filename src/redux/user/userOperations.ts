@@ -1,13 +1,11 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { toast } from "react-toastify";
 
-import { User } from "../../types/User";
 import { UptadeUserInput } from "../../types/UptadeUserInput";
-import { AppState } from "../store";
 import { SignIn } from "../../types/SignInInput";
 import { SignUpInput } from "../../types/SignUpInput";
-
+import extractErrorMessages from "../../utils/extractErrorMessages";
+import { DynamicInput } from "../../types/DynamicInput";
 
 axios.defaults.baseURL = "https://api.escuelajs.co/api/v1";
 
@@ -22,73 +20,69 @@ const token = {
 
 const fetchRegisterAsync = createAsyncThunk(
   "/api/auth",
-  async (credentials: SignUpInput) => {
+  async (credentials: SignUpInput | DynamicInput, { rejectWithValue }) => {
     try {
       const { data } = await axios.post("/users/", credentials);
       return data;
     } catch (e) {
-      const error = e as AxiosError;
-      toast.error(error.message);
-      return error;
+      const errorMessage = extractErrorMessages(e);
+      return rejectWithValue(errorMessage);
     }
   }
 );
 
 const fetchlogInAsync = createAsyncThunk(
   "/auth/login",
-  async (credentials: SignIn) => {
+  async (credentials: SignIn, { rejectWithValue }) => {
     try {
       const { data } = await axios.post("/auth/login", credentials);
       token.set(data.token);
       return data;
     } catch (e) {
-      const error = e as AxiosError;
-      toast.error(error.message);
-      return error;
+      const errorMessage = extractErrorMessages(e);
+      return rejectWithValue(errorMessage);
     }
   }
 );
 
-export const fetchUsersAsync = createAsyncThunk("fetchUsersAsync", async () => {
-  try {
-    const { data } = await axios.get("/users");
-    return data;
-  } catch (e) {
-    const error = e as Error;
-    toast.error(error.message);
-    return error;
+export const fetchUsersAsync = createAsyncThunk(
+  "fetchUsersAsync",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.get("/users");
+      return data;
+    } catch (e) {
+      const errorMessage = extractErrorMessages(e);
+      return rejectWithValue(errorMessage);
+    }
   }
-});
+);
 
 const fetchCurrentUser = createAsyncThunk(
   "auth/current",
   async (_, thunkAPI) => {
     const { token: authToken } = (thunkAPI.getState() as { userSlice: any })
       .userSlice;
-    if (token === null) {
-      return thunkAPI.rejectWithValue("Token not found");
-    }
     token.set(authToken);
     try {
       const { data } = await axios.get("/auth/profile");
       return data;
     } catch (e) {
-      const error = e as AxiosError;
-      toast.error(error.message);
-      return error;
+      const errorMessage = extractErrorMessages(e);
+      return thunkAPI.rejectWithValue(errorMessage);
     }
   }
 );
 
 const fetchUptadeUserAsync = createAsyncThunk(
   "auth/uptadeUSer",
-  async ({ id, update }: UptadeUserInput) => {
+  async ({ id, update }: UptadeUserInput, { rejectWithValue }) => {
     try {
       const { data } = await axios.put(`/users/${id}`, update);
       return data;
     } catch (e) {
-      const error = e as AxiosError;
-      toast.error(error.message);
+      const errorMessage = extractErrorMessages(e);
+      return rejectWithValue(errorMessage);
     }
   }
 );

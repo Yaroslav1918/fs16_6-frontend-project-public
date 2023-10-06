@@ -6,7 +6,10 @@ import {
   deleteProductAsync,
   fetchAllProductAsync,
   fetchCategoriesAsync,
+  fetchCreateCategoryAsync,
+  fetchDeleteCategoryAsync,
   fetchSingleAsync,
+  fetchUptadeCategoryAsync,
   updateProductAsync,
 } from "./productOperations";
 import { Category } from "../../types/Category";
@@ -118,27 +121,62 @@ const productsSlice = createSlice({
           error: action.payload.message,
         };
       }
-      builder.addCase(deleteProductAsync.fulfilled, (state, action) => {
-        if (typeof action.payload === "number") {
-          state.products = state.products.filter(
-            (p) => p.id !== action.payload
-          );
-        }
-      });
-      builder.addCase(createProductAsync.fulfilled, (state, action) => {
-        state.products.push(action.payload);
-      });
-      builder.addCase(createProductAsync.rejected, (state, action) => {
-        state.error = action.payload as string;
-      });
-      builder.addCase(updateProductAsync.fulfilled, (state, action) => {
-        const foundIndex = state.products.findIndex(
-          (p) => p.id === action.payload.id
+    });
+    builder.addCase(deleteProductAsync.fulfilled, (state, action) => {
+      if (typeof action.payload === "number") {
+        state.products = state.products.filter((p) => p.id !== action.payload);
+      }
+    });
+    builder.addCase(fetchDeleteCategoryAsync.fulfilled, (state, action) => {
+      if (typeof action.payload === "number") {
+        state.categories = state.categories.filter(
+          (p) => p.id !== action.payload
         );
-        if (foundIndex >= 0) {
-          state.products[foundIndex] = action.payload;
-        }
-      });
+      }
+    });
+    builder.addCase(fetchDeleteCategoryAsync.rejected, (state, action) => {
+      state.error = action.payload as string;
+    });
+
+    builder.addCase(fetchCreateCategoryAsync.fulfilled, (state, action) => {
+      state.categories.push(action.payload);
+    });
+    builder.addCase(fetchCreateCategoryAsync.rejected, (state, action) => {
+      state.error = action.payload as string;
+    });
+    builder.addCase(createProductAsync.fulfilled, (state, action) => {
+      state.products.push(action.payload);
+    });
+    builder.addCase(createProductAsync.rejected, (state, action) => {
+      console.log(action.payload);
+      state.error = action.payload as string;
+    });
+    builder.addCase(updateProductAsync.fulfilled, (state, action) => {
+      const foundIndex = state.products.findIndex(
+        (p) => p.id === action.payload.id
+      );
+      if (foundIndex >= 0) {
+        state.products[foundIndex] = action.payload;
+      }
+    });
+    builder.addCase(updateProductAsync.rejected, (state, action) => {
+      state.error = action.payload as string;
+    });
+    builder.addCase(fetchUptadeCategoryAsync.fulfilled, (state, action) => {
+      const foundIndex = state.categories.findIndex(
+        (p) => p.id === action.payload.id
+      );
+
+      if (foundIndex >= 0) {
+        console.log(
+          "🚀 ~ file: produtSlice.ts:170 ~ builder.addCase ~ foundIndex:",
+          foundIndex
+        );
+        state.categories[foundIndex] = action.payload;
+      }
+    });
+    builder.addCase(fetchUptadeCategoryAsync.rejected, (state, action) => {
+      state.error = action.payload as string;
     });
   },
 });

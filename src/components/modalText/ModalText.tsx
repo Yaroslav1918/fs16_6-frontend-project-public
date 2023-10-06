@@ -40,7 +40,7 @@ const ModalText: React.FC<ModalTextProps> = (props) => {
             id="modal-modal-title"
             variant="h6"
             component="h2"
-            sx={{ textAlign: "center" }}
+            sx={{ textAlign: "center", marginBottom: "10px" }}
           >
             {text}
           </Typography>

@@ -12,6 +12,7 @@ export const Colors = {
   bgFooter: "#72716f",
   orange: "#D3A863",
   blackMode: "#141A1F",
+  borderRight: "#100b0b"
 };
 
 export const override = {

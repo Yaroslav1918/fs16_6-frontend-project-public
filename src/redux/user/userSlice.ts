@@ -3,7 +3,8 @@ import operations from "./userOperations";
 import { User } from "../../types/User";
 
 interface AuthState {
-  user: User | null ;
+  user: User | null;
+  users: User[];
   token: string | null;
   isLoggedIn: boolean;
   error: string | null;
@@ -12,6 +13,7 @@ interface AuthState {
 
 const initialState: AuthState = {
   user: null,
+  users: [],
   token: null,
   isLoggedIn: false,
   error: null,
@@ -31,7 +33,7 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(operations.fetchUsersAsync.fulfilled, (state, action) => {
-        state.user = action.payload;
+        state.users = action.payload;
         state.isLoggedIn = true;
         state.error = null;
         state.loading = false;
@@ -96,10 +98,13 @@ const userSlice = createSlice({
         state.loading = false;
       })
       .addCase(operations.fetchUptadeUserAsync.fulfilled, (state, action) => {
+        const foundIndex = state.users.findIndex(
+          (p) => p.id === action.payload.id
+        );
+        if (foundIndex >= 0) {
+          state.users[foundIndex] = action.payload;
+        }
         state.user = action.payload;
-        state.isLoggedIn = true;
-        state.error = null;
-        state.loading = false;
       })
       .addCase(operations.fetchUptadeUserAsync.rejected, (state, action) => {
         return {

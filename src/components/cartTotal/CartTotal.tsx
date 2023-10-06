@@ -12,12 +12,13 @@ import {
 } from "@mui/material";
 
 import { useState } from "react";
-import ModalText from "../modalText";
+
 import { resetToInitialState } from "../../redux/cart/cartSlice";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { getCartProductItems } from "../../redux/cart/cartSelectors";
 import { Colors } from "../../styles";
+import ModalText from "../modalText/ModalText";
 
 const CartTotals = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -35,7 +36,7 @@ const CartTotals = () => {
     }
     return acc;
   }, 0);
-  
+
   return (
     <Box width="100%" mx="auto" mt={4}>
       <Typography

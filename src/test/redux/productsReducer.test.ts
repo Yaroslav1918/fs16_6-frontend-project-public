@@ -27,7 +27,6 @@ afterEach(() => productServer.resetHandlers());
 // Disable API mocking after the tests are done.
 afterAll(() => productServer.close());
 describe("Test normal actions in productsReducer", () => {
-  
   test("Should sort products by price desc", () => {
     const state = {
       ...initialState,

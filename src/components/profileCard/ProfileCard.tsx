@@ -59,7 +59,7 @@ const ProfileCard = () => {
               color="primary"
               sx={{
                 color: Colors.secondaryColor,
-                margin: "0 auto"
+                margin: "0 auto",
               }}
               onClick={() => {
                 setOpenModal((prev) => !prev);
@@ -75,7 +75,7 @@ const ProfileCard = () => {
         openModal={openModal}
         handleCloseModal={onCloseModal}
       >
-        <UptadeProfileInfo handleCloseModal={onCloseModal} />
+        <UptadeProfileInfo handleCloseModal={onCloseModal}  />
       </ModalText>
     </>
   );
