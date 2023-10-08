@@ -21,45 +21,45 @@ import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { getProducts } from "../../redux/product/productSelectors";
 import { fetchAllProductAsync } from "../../redux/product/productOperations";
-import getFilteredProducts from "../../utils/getFilteredProducts";
+
 import { addItemToCart } from "../../redux/cart/cartSlice";
 import { Colors } from "../../styles";
+import { useDebounce } from "../../hooks/useDebounce";
 
 const CategoriesList = () => {
   const products = useAppSelector(getProducts);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("Clothes");
   const [searchQuery, setSearchQuery] = useState("");
-  const itemsPerPage = 9;
+  const debouncedSearchQuery = useDebounce(searchQuery);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const itemsPerPage = 9;
 
   useEffect(() => {
     dispatch(fetchAllProductAsync());
   }, [dispatch, currentPage]);
-  
-  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    setCurrentPage(value);
+
+  const getFilteredCategories = (state: Product[], name?: string) => {
+    return state.filter((p) =>
+      p.category.name.toLowerCase().includes(name?.toLowerCase() || "")
+    );
   };
 
-  const handleCategorySelect = (categoryName: string) => {
-    setSelectedCategory(categoryName);
-  };
-
-  const filteredProductsByCategory = getFilteredProducts(
+  const filteredCategoriesList = getFilteredCategories(
     products,
     selectedCategory
   );
 
-  const filteredProducts = filteredProductsByCategory.filter(
+  const getFilteredProducts = filteredCategoriesList.filter(
     (product: Product) =>
-      product.title.toLowerCase().includes(searchQuery.toLowerCase())
+      product.title.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
   );
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const displayedProducts = filteredProducts.slice(startIndex, endIndex);
-  const navigate = useNavigate();
-  
+  const displayedProducts = getFilteredProducts.slice(startIndex, endIndex);
+
   return (
     <Box component="section" pt={10}>
       <Container>
@@ -71,9 +71,9 @@ const CategoriesList = () => {
           Check out what's new products of the trends we have to offer
         </Typography>
         <SortList
-          searchQuery={searchQuery}
+          searchQuery={debouncedSearchQuery}
           setSearchQuery={setSearchQuery}
-          onCategorySelect={handleCategorySelect}
+          onCategorySelect={setSelectedCategory}
           selectedCategory={selectedCategory}
         />
         <ImageList
@@ -103,6 +103,11 @@ const CategoriesList = () => {
                       .map((i) => `${i}?w=248&fit=crop&auto=format`)
                       .join(", ")}
                     alt={title}
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src =
+                        "https://demofree.sirv.com/nope-not-here.jpg";
+                    }}
                     loading="lazy"
                     style={{ borderRadius: "2%" }}
                   />
@@ -193,9 +198,11 @@ const CategoriesList = () => {
               alignItems: "center",
               marginTop: "30px",
             }}
-            count={Math.ceil(filteredProducts.length / itemsPerPage)}
+            count={Math.ceil(getFilteredProducts.length / itemsPerPage)}
             page={currentPage}
-            onChange={handleChange}
+            onChange={(event: React.ChangeEvent<unknown>, value: number) => {
+              setCurrentPage(value);
+            }}
           />
         )}
       </Container>

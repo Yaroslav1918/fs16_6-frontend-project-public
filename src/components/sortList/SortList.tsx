@@ -28,21 +28,7 @@ const SortList = ({
   const [value, setValue] = useState<string>("");
   const dispatch = useAppDispatch();
   const categories = useAppSelector(getCategories);
-    const theme = useTheme();
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setValue(event.target.value);
-  };
-
-  const handleCategoryClick = (event: SelectChangeEvent) => {
-    onCategorySelect(event.target.value);
-  };
-
-  const handleSearchInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setSearchQuery(event.target.value);
-  };
+  const theme = useTheme();
 
   useEffect(() => {
     dispatch(fetchCategoriesAsync());
@@ -75,14 +61,10 @@ const SortList = ({
           id="demo-select-small"
           value={selectedCategory}
           label="Categories"
-          onChange={handleCategoryClick}
+          onChange={(event) => onCategorySelect(event.target.value)}
         >
           {categories.map(({ id, name }) => (
-            <MenuItem
-              key={id}
-              value={name}
-
-            >
+            <MenuItem key={id} value={name}>
               {name}
             </MenuItem>
           ))}
@@ -95,7 +77,7 @@ const SortList = ({
           id="demo-select-small"
           value={value}
           label="Sort by"
-          onChange={handleChange}
+          onChange={(event) => setValue(event.target.value)}
         >
           <MenuItem value={"desc"}>Sort by Highest Price</MenuItem>
           <MenuItem value={"asc"}>Sort by Lowest Price</MenuItem>
@@ -105,7 +87,9 @@ const SortList = ({
         label="Search by Title"
         variant="outlined"
         value={searchQuery}
-        onChange={handleSearchInputChange}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          setSearchQuery(event.target.value);
+        }}
         size="small"
         sx={{ width: 140 }}
       />

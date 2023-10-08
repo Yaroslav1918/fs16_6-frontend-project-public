@@ -8,9 +8,9 @@ import { product } from "../data/Product";
 
 describe("Test normal actions in cartReducer", () => {
   test("Should add product to cart", () => {
-    const nextState = cartSlice(initialState, addItemToCart(product));
-    expect(nextState.totalQuantity).toBe(1);
-    expect(nextState.cartProductItems[0]).toEqual({
+    const state = cartSlice(initialState, addItemToCart(product));
+    expect(state.totalQuantity).toBe(1);
+    expect(state.cartProductItems[0]).toEqual({
       ...product,
       totalPrice: product.price * product.quantity,
     });
@@ -21,8 +21,8 @@ describe("Test normal actions in cartReducer", () => {
       cartProductItems: [product],
       totalQuantity: 1,
     };
-    const nextState = cartSlice(state, removeItemFromCart(product.id));
-    expect(nextState.totalQuantity).toBe(0);
-    expect(nextState.cartProductItems).toHaveLength(0);
+    const resultState = cartSlice(state, removeItemFromCart(product.id));
+    expect(resultState.totalQuantity).toBe(0);
+    expect(resultState.cartProductItems).toHaveLength(0);
   });
 });

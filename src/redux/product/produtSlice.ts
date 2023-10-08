@@ -153,6 +153,7 @@ const productsSlice = createSlice({
     });
     builder.addCase(fetchDeleteCategoryAsync.rejected, (state, action) => {
       state.error = action.payload as string;
+       state.loading = false;
     });
     builder.addCase(fetchDeleteCategoryAsync.pending, (state, action) => {
       return {

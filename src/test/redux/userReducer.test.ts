@@ -18,8 +18,9 @@ afterAll(() => server.close());
 describe("Test usersReducer async actions", () => {
   test("Should fetch all users", async () => {
     await store.dispatch(operations.fetchUsersAsync());
-    expect(store.getState().userSlice.user.length).toBe(3);
+    expect(store.getState().userSlice.users.length).toBe(3);
   });
+
   test("Should login user with right credential", async () => {
     await store.dispatch(
       operations.fetchlogInAsync({
@@ -29,6 +30,7 @@ describe("Test usersReducer async actions", () => {
     );
     expect(store.getState().userSlice.token).toBe("my-access-token_1");
   });
+
   test("Should authenticate witg right token", async () => {
     await store.dispatch(
       operations.fetchlogInAsync({
@@ -39,6 +41,7 @@ describe("Test usersReducer async actions", () => {
     await store.dispatch(operations.fetchCurrentUser());
     expect(store.getState().userSlice.user).toMatchObject(usersData[0]);
   });
+
   test("Should uptade a user", async () => {
     const input: UptadeUserInput = {
       update: {
@@ -51,6 +54,7 @@ describe("Test usersReducer async actions", () => {
     expect(action.payload.name).toBe("Petro");
     expect(action.payload.email).toBe("petro@mail.com");
   });
+
   test("Should register a user", async () => {
     const input: SignUpInput = {
       name: "Petro",
@@ -60,9 +64,12 @@ describe("Test usersReducer async actions", () => {
       role: "customer",
     };
     await store.dispatch(operations.fetchRegisterAsync(input));
-     await store.dispatch(operations.fetchRegisterAsync(input));
-     expect(Object.keys(store.getState().userSlice.user).length).toBeGreaterThan(0);
+    await store.dispatch(operations.fetchRegisterAsync(input));
+    expect(Object.keys(store.getState().userSlice.user).length).toBeGreaterThan(
+      0
+    );
   });
+  
   test("Should not register a user with exist email", async () => {
     const input: SignUpInput = {
       name: "Petro",
@@ -72,6 +79,6 @@ describe("Test usersReducer async actions", () => {
       role: "customer",
     };
     const action = await store.dispatch(operations.fetchRegisterAsync(input));
-    expect(action.payload.response.status).toBe(400);
+    expect(action.meta.requestStatus).toBe("rejected");
   });
 });

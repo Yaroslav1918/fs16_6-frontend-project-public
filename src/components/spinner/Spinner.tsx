@@ -1,12 +1,12 @@
 import { Box } from "@mui/material";
 import { useState } from "react";
-import { ClipLoader } from "react-spinners";
+import { BeatLoader } from "react-spinners";
 
-import { override } from "../../styles";
+import { Colors, override } from "../../styles";
 
 const Spinner = () => {
   let [loading, setLoading] = useState(true);
-  let [color, setColor] = useState("black");
+  let [color, setColor] = useState(Colors.bgFooter);
   
   return (
     <Box
@@ -18,11 +18,11 @@ const Spinner = () => {
         transform: "translate(-50%, -50%)",
       }}
     >
-      <ClipLoader
+      <BeatLoader
         color={color}
         loading={loading}
         cssOverride={override}
-        size={150}
+        size={15}
         aria-label="Loading Spinner"
         data-testid="loader"
       />

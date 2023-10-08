@@ -6,6 +6,7 @@ import { SignIn } from "../../types/SignInInput";
 import { SignUpInput } from "../../types/SignUpInput";
 import extractErrorMessages from "../../utils/extractErrorMessages";
 import { DynamicInput } from "../../types/DynamicInput";
+import { toast } from "react-toastify";
 
 axios.defaults.baseURL = "https://api.escuelajs.co/api/v1";
 
@@ -79,6 +80,7 @@ const fetchUptadeUserAsync = createAsyncThunk(
   async ({ id, update }: UptadeUserInput, { rejectWithValue }) => {
     try {
       const { data } = await axios.put(`/users/${id}`, update);
+      toast.success("User successfully updated");
       return data;
     } catch (e) {
       const errorMessage = extractErrorMessages(e);

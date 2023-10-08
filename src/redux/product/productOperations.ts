@@ -7,6 +7,8 @@ import { UpdateProductInput } from "../../types/UpdateProductInput";
 import { DynamicInput } from "../../types/DynamicInput";
 import { UpdateCategoryInput } from "../../types/UpdateCategoryInput";
 import extractErrorMessages from "../../utils/extractErrorMessages";
+import { CategoryInput } from "../../types/CategoryInput";
+import { toast } from "react-toastify";
 
 axios.defaults.baseURL = "https://api.escuelajs.co/api/v1";
 
@@ -45,6 +47,7 @@ export const deleteProductAsync = createAsyncThunk(
       if (!data) {
         throw new Error("Cannot delete");
       }
+      toast.success("Product successfully deleted");
       return id;
     } catch (e) {
       const errorMessage = extractErrorMessages(e);
@@ -61,6 +64,7 @@ export const createProductAsync = createAsyncThunk(
   ) => {
     try {
       const { data } = await axios.post("products/", newProduct);
+      toast.success("Product successfully created");
       return data;
     } catch (e) {
       const errorMessage = extractErrorMessages(e);
@@ -73,6 +77,7 @@ export const updateProductAsync = createAsyncThunk(
   async ({ id, update }: UpdateProductInput, { rejectWithValue }) => {
     try {
       const { data } = await axios.put<Product>(`products/${id}`, update);
+      toast.success("Product successfully updated");
       return data;
     } catch (e) {
       const errorMessage = extractErrorMessages(e);
@@ -95,12 +100,13 @@ export const fetchCategoriesAsync = createAsyncThunk(
 );
 export const fetchDeleteCategoryAsync = createAsyncThunk(
   "fetchDeleteCategoryAsync",
-  async (id: number, {rejectWithValue}) => {
+  async (id: number, { rejectWithValue }) => {
     try {
       const { data } = await axios.delete<boolean>(`categories/${id}`);
       if (!data) {
         throw new Error("Cannot delete");
       }
+      toast.success("Category successfully deleted");
       return id;
     } catch (e) {
       const errorMessage = extractErrorMessages(e);
@@ -110,9 +116,10 @@ export const fetchDeleteCategoryAsync = createAsyncThunk(
 );
 export const fetchCreateCategoryAsync = createAsyncThunk(
   "fetchCreateCategoryAsync",
-  async (newCategory: DynamicInput, { rejectWithValue }) => {
+  async (newCategory: CategoryInput | DynamicInput, { rejectWithValue }) => {
     try {
       const { data } = await axios.post("/categories/", newCategory);
+      toast.success("Category successfully created");
       return data;
     } catch (e) {
       const errorMessage = extractErrorMessages(e);
@@ -126,10 +133,11 @@ export const fetchUptadeCategoryAsync = createAsyncThunk(
   async ({ id, update }: UpdateCategoryInput, { rejectWithValue }) => {
     try {
       const { data } = await axios.put(`categories/${id}`, update);
+      toast.success("Category successfully updated");
       return data;
     } catch (e) {
-     const errorMessage = extractErrorMessages(e);
-     return rejectWithValue(errorMessage);
+      const errorMessage = extractErrorMessages(e);
+      return rejectWithValue(errorMessage);
     }
   }
 );

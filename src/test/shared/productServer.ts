@@ -9,7 +9,6 @@ export const handlers = [
   rest.delete(
     "https://api.escuelajs.co/api/v1/products/:id",
     async (req, res, ctx) => {
-      console.log("catch the request");
       const { id } = req.params;
       if (productsData.find((p) => p.id === Number(id))) {
         return res(ctx.json(true));
@@ -107,6 +106,46 @@ export const handlers = [
         }
       } catch (e) {
         console.log("error happen in put");
+      }
+    }
+  ),
+  rest.put(
+    "https://api.escuelajs.co/api/v1/categories/:id",
+    async (req, res, ctx) => {
+      const update = await req.json();
+      const { id } = req.params;
+      const index = categoriesData.findIndex((p) => p.id === Number(id));
+      try {
+        if (index > -1) {
+          return res(
+            ctx.json({
+              ...categoriesData[index],
+              ...update,
+            })
+          );
+        } else {
+          ctx.status(400);
+          return res(
+            ctx.json({
+              message: ["image must be a URL address"],
+              error: "Bad Request",
+              statusCode: 400,
+            })
+          );
+        }
+      } catch (e) {
+        console.log("error happen in put");
+      }
+    }
+  ),
+  rest.delete(
+    "https://api.escuelajs.co/api/v1/categories/:id",
+    async (req, res, ctx) => {
+      const { id } = req.params;
+      if (categoriesData.find((p) => p.id === Number(id))) {
+        return res(ctx.json(true));
+      } else {
+        return res(ctx.json(false));
       }
     }
   ),
