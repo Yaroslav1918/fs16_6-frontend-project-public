@@ -7,20 +7,21 @@ import { useNavigate, useParams } from "react-router-dom";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Box, useTheme } from "@mui/material";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { fetchSingleAsync } from "../../redux/product/productOperations";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { getProduct } from "../../redux/product/productSelectors";
 import { Colors } from "../../styles";
 import { addItemToCart } from "../../redux/cart/cartSlice";
+import { AppState } from "../../redux/store";
 
 const SingleCard = () => {
   let { id } = useParams();
-  const product = useAppSelector(getProduct);
+  const numericId = Number(id);
+  const product = useAppSelector((state: AppState) => state.productSlice.singleProduct);
   const { title, description, price, category, images } = product || {};
   const theme = useTheme();
   const navigate = useNavigate();
@@ -31,10 +32,10 @@ const SingleCard = () => {
   };
 
   useEffect(() => {
-    if (id) {
-      dispatch(fetchSingleAsync(+id));
+    if (numericId) {
+      dispatch(fetchSingleAsync(numericId));
     }
-  }, [dispatch, id]);
+  }, [dispatch, numericId]);
 
   return (
     <Card
@@ -103,12 +104,13 @@ const SingleCard = () => {
         <Button
           onClick={() => {
             const newItem = {
-              id,
-              title,
-              price,
-              description,
-              category,
-              images,
+              id: numericId,
+              title: title || "",
+              price: price || 0,
+              description: description || "",
+              category: category || { id: 0, name: "", image: "" },
+              images: images || [],
+              quantity: 1,
             };
             dispatch(addItemToCart(newItem));
           }}

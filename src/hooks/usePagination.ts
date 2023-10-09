@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
 
 import { useAppSelector } from "./useAppSelector";
-import { getCategories, getProducts } from "../redux/product/productSelectors";
-import { getUsersData } from "../redux/user/userSelectors";
+import { AppState } from "../redux/store";
 
 const usePagination = (selectedCategory: string) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [displayedItems, setDisplayedItems] = useState<any[]>([]);
-  const categories = useAppSelector(getCategories);
-  const products = useAppSelector(getProducts);
-  const users = useAppSelector(getUsersData);
+  const categories = useAppSelector(
+    (state: AppState) => state.categorySlice.categories
+  );
+  const products = useAppSelector(
+    (state: AppState) => state.productSlice.products
+  );
+  const users = useAppSelector((state: AppState) => state.userSlice.users);
   const itemsPerPage = 9;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;

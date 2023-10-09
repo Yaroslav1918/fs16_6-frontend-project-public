@@ -19,15 +19,16 @@ import SortList from "../sortList";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { getProducts } from "../../redux/product/productSelectors";
-import { fetchAllProductAsync } from "../../redux/product/productOperations";
-
 import { addItemToCart } from "../../redux/cart/cartSlice";
 import { Colors } from "../../styles";
 import { useDebounce } from "../../hooks/useDebounce";
+import { AppState } from "../../redux/store";
+import { fetchAllProductAsync } from "../../redux/product/productOperations";
 
 const CategoriesList = () => {
-  const products = useAppSelector(getProducts);
+  const products = useAppSelector(
+    (state: AppState) => state.productSlice.products
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("Clothes");
   const [searchQuery, setSearchQuery] = useState("");
@@ -151,6 +152,7 @@ const CategoriesList = () => {
                           description,
                           category,
                           images,
+                          quantity: 1,
                         };
                         dispatch(addItemToCart(newItem));
                       }}

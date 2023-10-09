@@ -12,5 +12,4 @@ export const product: Product = {
   },
   images: ["img"],
   quantity: 1,
-  totalPrice: 0,
 };

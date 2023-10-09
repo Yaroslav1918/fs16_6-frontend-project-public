@@ -5,11 +5,10 @@ import { DynamicInput } from "../../types/DynamicInput";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import {
   createProductAsync,
-  fetchCreateCategoryAsync,
-  fetchUptadeCategoryAsync,
   updateProductAsync,
 } from "../../redux/product/productOperations";
 import operations from "../../redux/user/userOperations";
+import { fetchCreateCategoryAsync, fetchUptadeCategoryAsync } from "../../redux/category/categoryOperations";
 
 interface FormProps {
   formCategoriesFields: DynamicInput[];

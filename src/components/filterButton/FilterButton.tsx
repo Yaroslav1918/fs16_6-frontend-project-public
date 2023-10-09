@@ -4,9 +4,9 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import { useEffect } from "react";
 
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { getCategories } from "../../redux/product/productSelectors";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import { fetchCategoriesAsync } from "../../redux/product/productOperations";
+import { AppState } from "../../redux/store";
+import { fetchCategoriesAsync } from "../../redux/category/categoryOperations";
 
 interface FilterButtonProps {
   onCategorySelect: (category: string) => void;
@@ -17,7 +17,9 @@ const FilterButton = ({
   onCategorySelect,
   selectedCategory,
 }: FilterButtonProps) => {
-  const categories = useAppSelector(getCategories);
+  const categories = useAppSelector(
+    (state: AppState) => state.categorySlice.categories
+  );
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -26,7 +28,6 @@ const FilterButton = ({
 
   const handleCategoryClick = (category: string) => {
     onCategorySelect(category);
-    
   };
   return (
     <Box

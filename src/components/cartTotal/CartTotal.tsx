@@ -10,32 +10,31 @@ import {
   Box,
   Button,
 } from "@mui/material";
-
 import { useState } from "react";
 
 import { resetToInitialState } from "../../redux/cart/cartSlice";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { getCartProductItems } from "../../redux/cart/cartSelectors";
 import { Colors } from "../../styles";
 import ModalText from "../modalText/ModalText";
+import { AppState } from "../../redux/store";
 
 const CartTotals = () => {
   const [openModal, setOpenModal] = useState(false);
-  const cartItems = useAppSelector(getCartProductItems);
   const dispatch = useAppDispatch();
+  const productsItems = useAppSelector(
+    (state: AppState) => state.cartSlice.cartProductItems
+  );
 
   const onCloseModal = () => {
     setOpenModal(false);
     dispatch(resetToInitialState());
   };
 
-  const total = cartItems.reduce((acc, item) => {
-    if (item.totalPrice) {
-      return acc + item.totalPrice;
-    }
-    return acc;
-  }, 0);
+  const totalPrice = productsItems.reduce(
+    (acc, current) => acc + current.quantity * current.price,
+    0
+  );
 
   return (
     <Box width="100%" mx="auto" mt={4}>
@@ -67,16 +66,16 @@ const CartTotals = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {cartItems.map(({ id, title, quantity, totalPrice }) => (
+            {productsItems.map(({ id, title, quantity, price }) => (
               <TableRow key={id}>
                 <TableCell sx={{ fontSize: { xs: "13px", md: "20px" } }}>
-                  {title} × {quantity}{" "}
+                  {title} × {quantity}{" "} 
                 </TableCell>
                 <TableCell
                   align="right"
                   sx={{ fontSize: { xs: "13px", md: "20px" } }}
                 >
-                  {totalPrice} $
+                  {quantity * price} $
                 </TableCell>
               </TableRow>
             ))}
@@ -88,7 +87,7 @@ const CartTotals = () => {
                 align="right"
                 sx={{ fontSize: { xs: "13px", md: "20px" } }}
               >
-                {total} $
+                {totalPrice} $
               </TableCell>
             </TableRow>
           </TableBody>

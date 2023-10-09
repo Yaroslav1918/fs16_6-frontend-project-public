@@ -1,72 +1,71 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 import { Cart } from "../../types/Cart";
 import { Product } from "../../types/Product";
 
 export const initialState: Cart = {
   cartProductItems: [],
-  totalQuantity: 0,
 };
 
 const cartSlice = createSlice({
   name: "cartSlice",
   initialState,
   reducers: {
-    addItemToCart(state, action) {
-      const {
-        id,
-        title,
-        price,
-        description,
-        category,
-        images,
-        quantity = 1,
-        totalPrice = 0,
-      } = action.payload;
-      const newItem: Product = {
-        id,
-        images,
-        category,
-        quantity,
-        price,
-        totalPrice: totalPrice + price,
-        description,
-        title,
-      };
-      const isIncludeItem = state.cartProductItems.find(
-        (item) => item.id === id
+    addItemToCart: ({ cartProductItems }, action: PayloadAction<Product>) => {
+      const cartItem: Product = { ...action.payload, quantity: 1 };
+      const foundIndex = cartProductItems.findIndex(
+        (item) => item.id === action.payload.id
       );
-      state.totalQuantity += quantity;
-      if (!isIncludeItem) {
-        state.cartProductItems = [...state.cartProductItems, newItem];
+      if (foundIndex > -1) {
+        cartProductItems[foundIndex].quantity++;
       } else {
-        isIncludeItem.quantity++;
-        isIncludeItem.totalPrice += price;
+        cartProductItems.push(cartItem);
       }
     },
-    removeItemFromCart(state, action) {
-      const id = action.payload;
-      const isIncludeItem = state.cartProductItems.find(
-        (item) => item.id === id
+    removeItemFromCart: (
+      { cartProductItems },
+      action: PayloadAction<number>
+    ) => {
+      const foundIndex = cartProductItems.findIndex(
+        (item) => item.id === action.payload
       );
-      if (!isIncludeItem || isIncludeItem.quantity === 1) {
-        state.cartProductItems = state.cartProductItems.filter(
-          (item) => item.id !== id
-        );
-      } else {
-        isIncludeItem.quantity--;
-        isIncludeItem.totalPrice -= isIncludeItem.price;
+      if (foundIndex > -1) {
+        cartProductItems.splice(foundIndex, 1);
       }
-      state.totalQuantity--;
+    },
+
+    increaseQuantity: ({ cartProductItems }, action: PayloadAction<number>) => {
+      const foundIndex = cartProductItems.findIndex(
+        (item) => item.id === action.payload
+      );
+      if (foundIndex > -1) {
+        cartProductItems[foundIndex].quantity++;
+      }
+    },
+    decreaseQuantity: ({ cartProductItems }, action: PayloadAction<number>) => {
+      const foundIndex = cartProductItems.findIndex(
+        (item) => item.id === action.payload
+      );
+      if (foundIndex > -1) {
+        if (cartProductItems[foundIndex].quantity === 1) {
+          cartProductItems.splice(foundIndex, 1);
+        } else {
+          cartProductItems[foundIndex].quantity--;
+        }
+      }
     },
     resetToInitialState(state) {
       state.cartProductItems = [];
-      state.totalQuantity = 0;
     },
   },
 });
 
-export const { addItemToCart, resetToInitialState, removeItemFromCart } =
-  cartSlice.actions;
+export const {
+  addItemToCart,
+  resetToInitialState,
+  removeItemFromCart,
+  increaseQuantity,
+  decreaseQuantity,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

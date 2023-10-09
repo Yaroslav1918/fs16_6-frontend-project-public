@@ -12,19 +12,22 @@ import React from "react";
 
 import { Colors } from "../../styles";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import {
-  getTotalQuantity,
-  getCartProductItems,
-} from "../../redux/cart/cartSelectors";
 import CartItem from "../cartItem";
+import { AppState } from "../../redux/store";
 
 const CartButton = () => {
-  const totalQuantity = useAppSelector(getTotalQuantity);
-  const items = useAppSelector(getCartProductItems);
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
   const isDesktopScreen = useMediaQuery("(min-width: 1200px)");
   const theme = useTheme();
   const open = Boolean(anchorEl);
+  const productsItems = useAppSelector(
+    (state: AppState) => state.cartSlice.cartProductItems
+  );
+  
+  const totalQuantity = productsItems.reduce(
+    (acc, current) => acc + current.quantity,
+    0
+  );
 
   const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -72,7 +75,7 @@ const CartButton = () => {
           onClose={handlePopoverClose}
           disableRestoreFocus
         >
-          {items.length === 0 ? (
+          {productsItems.length === 0 ? (
             <Typography sx={{ p: 1 }}>Shop Cart</Typography>
           ) : (
             <CartItem hideContent />

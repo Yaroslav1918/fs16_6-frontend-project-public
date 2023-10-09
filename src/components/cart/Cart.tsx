@@ -1,14 +1,15 @@
 import { Box, List, Typography, useTheme } from "@mui/material";
-import { useSelector } from "react-redux";
 
-import { getTotalQuantity } from "../../redux/cart/cartSelectors";
 import CartItem from "../cartItem";
 import Container from "../container";
 import { Colors } from "../../styles";
 import CartTotal from "../cartTotal";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import { AppState } from "../../redux/store";
 
 const Cart = () => {
-  const totalQuantity = useSelector(getTotalQuantity);
+  const productItems = useAppSelector((state: AppState) => state.cartSlice.cartProductItems);
+
   
   return (
     <Box component="section" sx={{ padding: "50px 0 100px" }}>
@@ -40,7 +41,7 @@ const Cart = () => {
             Shop Cart
           </Typography>
         </Box>
-        {totalQuantity === 0 ? (
+        {productItems.length === 0 ? (
           <Typography
             gutterBottom
             variant="h6"

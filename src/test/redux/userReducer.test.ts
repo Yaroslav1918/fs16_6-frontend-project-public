@@ -3,7 +3,6 @@ import operations from "../../redux/user/userOperations";
 import { SignUpInput } from "../../types/SignUpInput";
 import { UptadeUserInput } from "../../types/UptadeUserInput";
 import { usersData } from "../data/usersData";
-
 import server from "../shared/userServer";
 let store = createStore();
 beforeEach(() => {
@@ -61,7 +60,6 @@ describe("Test usersReducer async actions", () => {
       email: "petro@mail.com",
       password: "1234567",
       avatar: "someUrl",
-      role: "customer",
     };
     await store.dispatch(operations.fetchRegisterAsync(input));
     await store.dispatch(operations.fetchRegisterAsync(input));
@@ -76,7 +74,6 @@ describe("Test usersReducer async actions", () => {
       email: "john@mail.com",
       password: "1234567",
       avatar: "someUrl",
-      role: "customer",
     };
     const action = await store.dispatch(operations.fetchRegisterAsync(input));
     expect(action.meta.requestStatus).toBe("rejected");

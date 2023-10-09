@@ -12,7 +12,9 @@ export const Colors = {
   bgFooter: "#72716f",
   orange: "#D3A863",
   blackMode: "#141A1F",
-  borderRight: "#100b0b"
+  borderRight: "#100b0b",
+  googleBack: "#7697f9",
+  googleHoverColor: "#5179f0",
 };
 
 export const override = {

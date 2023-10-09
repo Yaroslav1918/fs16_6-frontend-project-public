@@ -11,7 +11,6 @@ export const productsData: Product[] = [
     category: categoriesData[0],
     images: [],
     quantity: 1,
-    totalPrice: 0,
   },
 
   {
@@ -23,7 +22,6 @@ export const productsData: Product[] = [
     category: categoriesData[1],
     images: [],
     quantity: 1,
-    totalPrice: 0,
   },
 
   {
@@ -35,6 +33,5 @@ export const productsData: Product[] = [
     category: categoriesData[3],
     images: [],
     quantity: 1,
-    totalPrice: 0,
   },
 ];

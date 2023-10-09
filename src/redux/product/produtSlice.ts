@@ -5,42 +5,26 @@ import {
   createProductAsync,
   deleteProductAsync,
   fetchAllProductAsync,
-  fetchCategoriesAsync,
-  fetchCreateCategoryAsync,
-  fetchDeleteCategoryAsync,
   fetchSingleAsync,
-  fetchUptadeCategoryAsync,
   updateProductAsync,
 } from "./productOperations";
-import { Category } from "../../types/Category";
 
 export const initialState: {
   products: Product[];
   singleProduct: Product | null | undefined;
-  error?: string;
+  error: string | null;
   loading: boolean;
-  categories: Category[];
 } = {
   products: [],
   loading: false,
   singleProduct: null,
-  categories: [],
+  error: null,
 };
 
 const productsSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
-    addOne: (state, action: PayloadAction<Product>) => {
-      state.products.push(action.payload);
-    },
-    removeProduct: (state, action: PayloadAction<number>) => {
-      const foundIndex = state.products.findIndex(
-        (p) => p.id === action.payload
-      );
-      state.products.splice(foundIndex, 1);
-    },
-
     sortByPrice: (state, action: PayloadAction<string>) => {
       if (action.payload === "asc") {
         state.products.sort((a, b) => a.price - b.price);
@@ -98,30 +82,6 @@ const productsSlice = createSlice({
         };
       }
     });
-    builder.addCase(fetchCategoriesAsync.fulfilled, (state, action) => {
-      if (!(action.payload instanceof Error)) {
-        return {
-          ...state,
-          categories: action.payload,
-          loading: false,
-        };
-      }
-    });
-    builder.addCase(fetchCategoriesAsync.pending, (state, action) => {
-      return {
-        ...state,
-        loading: true,
-      };
-    });
-    builder.addCase(fetchCategoriesAsync.rejected, (state, action) => {
-      if (action.payload instanceof Error) {
-        return {
-          ...state,
-          loading: false,
-          error: action.payload.message,
-        };
-      }
-    });
     builder.addCase(deleteProductAsync.fulfilled, (state, action) => {
       if (typeof action.payload === "number") {
         state.products = state.products.filter((p) => p.id !== action.payload);
@@ -138,39 +98,6 @@ const productsSlice = createSlice({
       }
     });
     builder.addCase(deleteProductAsync.pending, (state, action) => {
-      return {
-        ...state,
-        loading: true,
-      };
-    });
-    builder.addCase(fetchDeleteCategoryAsync.fulfilled, (state, action) => {
-      if (typeof action.payload === "number") {
-        state.categories = state.categories.filter(
-          (p) => p.id !== action.payload
-        );
-        state.loading = false;
-      }
-    });
-    builder.addCase(fetchDeleteCategoryAsync.rejected, (state, action) => {
-      state.error = action.payload as string;
-       state.loading = false;
-    });
-    builder.addCase(fetchDeleteCategoryAsync.pending, (state, action) => {
-      return {
-        ...state,
-        loading: true,
-      };
-    });
-
-    builder.addCase(fetchCreateCategoryAsync.fulfilled, (state, action) => {
-      state.categories.push(action.payload);
-      state.loading = false;
-    });
-    builder.addCase(fetchCreateCategoryAsync.rejected, (state, action) => {
-      state.error = action.payload as string;
-      state.loading = false;
-    });
-    builder.addCase(fetchCreateCategoryAsync.pending, (state, action) => {
       return {
         ...state,
         loading: true,
@@ -209,28 +136,8 @@ const productsSlice = createSlice({
         loading: true,
       };
     });
-    builder.addCase(fetchUptadeCategoryAsync.fulfilled, (state, action) => {
-      const foundIndex = state.categories.findIndex(
-        (p) => p.id === action.payload.id
-      );
-
-      if (foundIndex >= 0) {
-        state.categories[foundIndex] = action.payload;
-      }
-      state.loading = false;
-    });
-    builder.addCase(fetchUptadeCategoryAsync.rejected, (state, action) => {
-      state.error = action.payload as string;
-      state.loading = false;
-    });
-    builder.addCase(fetchUptadeCategoryAsync.pending, (state, action) => {
-      return {
-        ...state,
-        loading: true,
-      };
-    });
   },
 });
-const productReducer = productsSlice.reducer;
-export const { addOne, removeProduct, sortByPrice } = productsSlice.actions;
-export default productReducer;
+const productSlice = productsSlice.reducer;
+export const { sortByPrice } = productsSlice.actions;
+export default productSlice;

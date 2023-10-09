@@ -16,9 +16,9 @@ import AddIcon from "@mui/icons-material/Add";
 
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { getCartProductItems } from "../../redux/cart/cartSelectors";
 import { Product } from "../../types/Product";
-import { addItemToCart, removeItemFromCart } from "../../redux/cart/cartSlice";
+import { decreaseQuantity, increaseQuantity } from "../../redux/cart/cartSlice";
+import { AppState } from "../../redux/store";
 
 interface Props {
   hideContent?: Boolean;
@@ -28,12 +28,14 @@ interface Props {
 const CartItem = ({ hideContent, style }: Props) => {
   const dispatch = useAppDispatch();
   const theme = useTheme();
-  const cartProductItems = useAppSelector(getCartProductItems);
+  const productsItems = useAppSelector(
+    (state: AppState) => state.cartSlice.cartProductItems
+  );
   const isMobileScreen = useMediaQuery("(max-width:539px)");
   const cellStyle = {
     fontSize: isMobileScreen ? "12px" : "16px",
   };
-  
+
   return (
     <TableContainer
       component={Paper}
@@ -57,16 +59,13 @@ const CartItem = ({ hideContent, style }: Props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {cartProductItems.map(
+          {productsItems.map(
             ({
               title,
               images,
               id,
-              totalPrice,
               quantity,
               price,
-              description,
-              category,
             }: Product) => (
               <TableRow key={id}>
                 <TableCell
@@ -95,26 +94,16 @@ const CartItem = ({ hideContent, style }: Props) => {
                   {quantity}
                 </TableCell>
                 <TableCell align="center" sx={cellStyle}>
-                  {totalPrice} $
+                  {price * quantity} $
                 </TableCell>
                 {!hideContent && !isMobileScreen && (
                   <TableCell>
-                    <IconButton
-                      onClick={() => dispatch(removeItemFromCart(id))}
-                    >
+                    <IconButton onClick={() => dispatch(decreaseQuantity(id))}>
                       <RemoveIcon />
                     </IconButton>
                     <IconButton
                       onClick={() => {
-                        const newItem = {
-                          id,
-                          title,
-                          price,
-                          description,
-                          category,
-                          images,
-                        };
-                        dispatch(addItemToCart(newItem));
+                        dispatch(increaseQuantity(id));
                       }}
                     >
                       <AddIcon />

@@ -4,13 +4,13 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import { useEffect, useState } from "react";
 import { Box, TextField, useTheme } from "@mui/material";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { sortByPrice } from "../../redux/product/produtSlice";
-import { fetchCategoriesAsync } from "../../redux/product/productOperations";
-import { getCategories } from "../../redux/product/productSelectors";
 import { useAppSelector } from "../../hooks/useAppSelector";
+import { fetchCategoriesAsync } from "../../redux/category/categoryOperations";
+import { AppState } from "../../redux/store";
 
 interface SortListProps {
   searchQuery: string;
@@ -27,7 +27,9 @@ const SortList = ({
 }: SortListProps) => {
   const [value, setValue] = useState<string>("");
   const dispatch = useAppDispatch();
-  const categories = useAppSelector(getCategories);
+  const categories = useAppSelector(
+    (state: AppState) => state.categorySlice.categories
+  );
   const theme = useTheme();
 
   useEffect(() => {

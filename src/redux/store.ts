@@ -3,9 +3,10 @@ import storage from "redux-persist/lib/storage";
 import { setupListeners } from "@reduxjs/toolkit/dist/query/react";
 import { persistReducer, persistStore } from "redux-persist";
 import { PersistConfig } from "redux-persist/lib/types";
-import productReducer from "./product/produtSlice";
+import productSlice from "./product/produtSlice";
 import cartSlice from "./cart/cartSlice";
 import userSlice from "./user/userSlice";
+import categorySlice from "./category/categorySlice";
 
 const persisConfig: PersistConfig<any> = {
   key: "root",
@@ -13,9 +14,10 @@ const persisConfig: PersistConfig<any> = {
 };
 
 const rootReducer = combineReducers({
-  productReducer,
+  productSlice,
   cartSlice,
   userSlice,
+  categorySlice,
 });
 
 const persistedReducer = persistReducer(persisConfig, rootReducer);
