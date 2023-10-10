@@ -10,7 +10,7 @@ export const handlers = [
     const isExiStEmail = usersData.some((i) => i.email === userData.email);
       if (!isExiStEmail) {
       const newUser = {
-        id: productsData.length + 1,
+        id: usersData.length + 1,
         name: userData.name,
         email: userData.email,
         avatar: userData.avatar,
@@ -39,12 +39,12 @@ export const handlers = [
     async (req, res, ctx) => {
       const update = await req.json();
       const { id } = req.params;
-      const index = productsData.findIndex((p) => p.id === Number(id));
+      const index =usersData.findIndex((p) => p.id === Number(id));
       try {
         if (index > -1) {
           return res(
             ctx.json({
-              ...productsData[index],
+              ...usersData[index],
               ...update,
             })
           );

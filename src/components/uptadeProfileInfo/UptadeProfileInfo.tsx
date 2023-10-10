@@ -3,8 +3,7 @@ import React, { useState } from "react";
 
 import { Colors } from "../../styles";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { getUserData } from "../../redux/user/userSelectors";
-import { useAppDispatch } from "../../hooks/useAppDispatch";
+import { AppState } from "../../redux/store";
 
 
 type FormValues = {
@@ -32,8 +31,7 @@ const UptadeProfileInfo = ({
 }: {
   handleCloseModal: () => void;
 }) => {
-  const user = useAppSelector(getUserData);
-  const dispatch = useAppDispatch();
+  const user = useAppSelector((state: AppState) => state.userSlice.currentUser);
   const [formValues, setFormValues] = useState<FormValues>({
     name: user?.name || "",
     email: user?.email || "",

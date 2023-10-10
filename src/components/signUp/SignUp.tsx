@@ -8,14 +8,15 @@ import { Colors } from "../../styles";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import operations from "../../redux/user/userOperations";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { getLogin } from "../../redux/user/userSelectors";
 import GoogleLoginButton from "../googleLoginButton";
 import { GoogleInfo } from "../../types/GoogleProfile";
-
+import { AppState } from "../../redux/store";
 
 const SignUp = () => {
   const dispatch = useAppDispatch();
-  const isLoggedIn = useAppSelector(getLogin);
+  const isLoggedIn = useAppSelector(
+    (state: AppState) => state.userSlice.isLoggedIn
+  );
   const navigate = useNavigate();
   const [googleInfo, setGoogleInfo] = useState<GoogleInfo>();
   const [formData, setFormData] = useState<{ [key: string]: string }>({});

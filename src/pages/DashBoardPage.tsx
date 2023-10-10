@@ -28,7 +28,6 @@ import AdminForm from "../components/adminForm";
 import { fetchUsersAsync } from "../redux/user/userOperations";
 import { Colors } from "../styles";
 import { dataFields } from "../utils/dataFields";
-import Spinner from "../components/spinner";
 import usePagination from "../hooks/usePagination";
 import {
   fetchCategoriesAsync,

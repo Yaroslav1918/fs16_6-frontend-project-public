@@ -7,6 +7,8 @@ import { SignUpInput } from "../../types/SignUpInput";
 import extractErrorMessages from "../../utils/extractErrorMessages";
 import { DynamicInput } from "../../types/DynamicInput";
 import { toast } from "react-toastify";
+import { User } from "../../types/User";
+import { LoginResponse } from "../../types/LoginResponse";
 
 axios.defaults.baseURL = "https://api.escuelajs.co/api/v1";
 
@@ -23,7 +25,7 @@ const fetchRegisterAsync = createAsyncThunk(
   "/api/auth",
   async (credentials: SignUpInput | DynamicInput, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post("/users/", credentials);
+      const { data } = await axios.post<User>("/users/", credentials);
       return data;
     } catch (e) {
       const errorMessage = extractErrorMessages(e);
@@ -36,8 +38,11 @@ const fetchlogInAsync = createAsyncThunk(
   "/auth/login",
   async (credentials: SignIn, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post("/auth/login", credentials);
-      token.set(data.token);
+      const { data } = await axios.post<LoginResponse>(
+        "/auth/login",
+        credentials
+      );
+      token.set(data.access_token);
       return data;
     } catch (e) {
       const errorMessage = extractErrorMessages(e);
@@ -50,7 +55,7 @@ export const fetchUsersAsync = createAsyncThunk(
   "fetchUsersAsync",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get("/users");
+      const { data } = await axios.get<User[]>("/users");
       return data;
     } catch (e) {
       const errorMessage = extractErrorMessages(e);
@@ -66,7 +71,7 @@ const fetchCurrentUser = createAsyncThunk(
       .userSlice;
     token.set(authToken);
     try {
-      const { data } = await axios.get("/auth/profile");
+      const { data } = await axios.get<User>("/auth/profile");
       return data;
     } catch (e) {
       const errorMessage = extractErrorMessages(e);
@@ -79,7 +84,7 @@ const fetchUptadeUserAsync = createAsyncThunk(
   "auth/uptadeUSer",
   async ({ id, update }: UptadeUserInput, { rejectWithValue }) => {
     try {
-      const { data } = await axios.put(`/users/${id}`, update);
+      const { data } = await axios.put<User>(`/users/${id}`, update);
       toast.success("User successfully updated");
       return data;
     } catch (e) {

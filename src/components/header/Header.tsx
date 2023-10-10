@@ -14,11 +14,11 @@ import AuthList from "../authList";
 import { Link, useNavigate } from "react-router-dom";
 import CartButton from "../cartButton";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { getLogin, getRole } from "../../redux/user/userSelectors";
 import { Avatar, Button, Tooltip, useTheme } from "@mui/material";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { logOut } from "../../redux/user/userSlice";
 import NightModeToggle from "../nightModeToggle";
+import { AppState } from "../../redux/store";
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -27,8 +27,12 @@ const Header = () => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
-  const isLoggedIn = useAppSelector(getLogin);
-  const role = useAppSelector(getRole);
+  const isLoggedIn = useAppSelector(
+    (state: AppState) => state.userSlice.isLoggedIn
+  );
+  const role = useAppSelector(
+    (state: AppState) => state.userSlice.currentUser?.role
+  );
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const theme = useTheme();

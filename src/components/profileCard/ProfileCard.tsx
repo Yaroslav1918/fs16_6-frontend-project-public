@@ -1,28 +1,31 @@
-import {
-  Button,
-  Card,
-  CardActionArea,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Typography,
-  useTheme,
-} from "@mui/material";
-import { useState } from "react";
-
-import ModalText from "../modalText/ModalText";
-import UptadeProfileInfo from "../uptadeProfileInfo";
-import { Colors } from "../../styles";
+import React, { useState } from "react";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardActionArea from "@mui/material/CardActionArea";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import CardActions from "@mui/material/CardActions";
+import Typography from "@mui/material/Typography";
+import { useTheme } from "@mui/material/styles";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { getRole, getUserData } from "../../redux/user/userSelectors";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 
-const ProfileCard = () => {
+import { Colors } from "../../styles";
+import ModalText from "../modalText";
+import { IconButton } from "@mui/material";
+
+function ProfileCard() {
   const [openModal, setOpenModal] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const theme = useTheme();
-  const role = useAppSelector(getRole);
-  const user = useAppSelector(getUserData);
+  const role = useAppSelector((state) => state.userSlice.currentUser?.role);
+  const user = useAppSelector((state) => state.userSlice.currentUser);
   const { name, email, avatar, password } = user || {};
   const maskedPassword = password ? "*".repeat(password.length) : "";
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const onCloseModal = () => {
     setOpenModal(false);
@@ -48,7 +51,15 @@ const ProfileCard = () => {
               Email: {email}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Password: {maskedPassword}
+              Password: {showPassword ? password : maskedPassword}
+              <IconButton
+                size="small"
+                color="primary"
+                onClick={togglePasswordVisibility}
+                sx={{ marginLeft: "10px" }}
+              >
+                <RemoveRedEyeIcon />
+              </IconButton>
             </Typography>
           </CardContent>
         </CardActionArea>
@@ -65,7 +76,7 @@ const ProfileCard = () => {
                 setOpenModal((prev) => !prev);
               }}
             >
-              Uptade info
+              Update info
             </Button>
           )}
         </CardActions>
@@ -74,10 +85,9 @@ const ProfileCard = () => {
         text="Choose the info"
         openModal={openModal}
         handleCloseModal={onCloseModal}
-      >
-        <UptadeProfileInfo handleCloseModal={onCloseModal}  />
-      </ModalText>
+      ></ModalText>
     </>
   );
-};
+}
+
 export default ProfileCard;

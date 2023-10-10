@@ -1,5 +1,6 @@
 import { createStore } from "../../redux/store";
 import operations from "../../redux/user/userOperations";
+import userSlice, { initialState, logOut } from "../../redux/user/userSlice";
 import { SignUpInput } from "../../types/SignUpInput";
 import { UptadeUserInput } from "../../types/UptadeUserInput";
 import { usersData } from "../data/usersData";
@@ -14,6 +15,14 @@ beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
 // Disable API mocking after the tests are done.
 afterAll(() => server.close());
+
+describe("Test userSlice normal action", () => {
+  test("Should logout", () => {
+    const resultAction = userSlice(initialState, logOut());
+    expect(resultAction).toMatchObject(initialState);
+  });
+});
+
 describe("Test usersReducer async actions", () => {
   test("Should fetch all users", async () => {
     await store.dispatch(operations.fetchUsersAsync());
@@ -50,8 +59,10 @@ describe("Test usersReducer async actions", () => {
       id: 1,
     };
     const action = await store.dispatch(operations.fetchUptadeUserAsync(input));
-    expect(action.payload.name).toBe("Petro");
-    expect(action.payload.email).toBe("petro@mail.com");
+    expect(action.payload).toMatchObject({
+      email: "petro@mail.com",
+      name: "Petro",
+    });
   });
 
   test("Should register a user", async () => {
@@ -67,7 +78,7 @@ describe("Test usersReducer async actions", () => {
       0
     );
   });
-  
+
   test("Should not register a user with exist email", async () => {
     const input: SignUpInput = {
       name: "Petro",

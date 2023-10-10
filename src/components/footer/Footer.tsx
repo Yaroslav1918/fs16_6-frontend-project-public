@@ -17,7 +17,7 @@ import styled from "@emotion/styled";
 import SocialList from "../socialList";
 import HiveIcon from "@mui/icons-material/Hive";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { getLogin } from "../../redux/user/userSelectors";
+import { AppState } from "../../redux/store";
 
 const BlackBorderTextField = styled(TextField)`
   & label.Mui-focused {
@@ -38,7 +38,9 @@ const StyledLink = styled(Link)({
 });
 
 export default function Footer() {
-  const isLoggedIn = useAppSelector(getLogin);
+  const isLoggedIn = useAppSelector(
+    (state: AppState) => state.userSlice.isLoggedIn
+  );
 
   const formik = useFormik({
     initialValues: {

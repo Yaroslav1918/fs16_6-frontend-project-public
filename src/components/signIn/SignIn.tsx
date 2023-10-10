@@ -9,7 +9,7 @@ import { Colors } from "../../styles";
 import operations from "../../redux/user/userOperations";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { getLogin } from "../../redux/user/userSelectors";
+import { AppState } from "../../redux/store";
 
 type FormValues = {
   email: string;
@@ -36,7 +36,9 @@ const initialValues = {
 };
 
 const SignIn = () => {
-  const isLoggedIn = useAppSelector(getLogin);
+  const isLoggedIn = useAppSelector(
+    (state: AppState) => state.userSlice.isLoggedIn
+  );
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
