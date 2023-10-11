@@ -28,8 +28,10 @@ const productsSlice = createSlice({
     sortByPrice: (state, action: PayloadAction<string>) => {
       if (action.payload === "asc") {
         state.products.sort((a, b) => a.price - b.price);
-      } else {
+      } else if (action.payload === "desc") {
         state.products.sort((a, b) => b.price - a.price);
+      } else {
+        state.products.sort((a, b) => a.id - b.id);
       }
     },
   },

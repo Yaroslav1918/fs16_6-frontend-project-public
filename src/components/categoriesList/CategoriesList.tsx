@@ -24,18 +24,26 @@ import { Colors } from "../../styles";
 import { useDebounce } from "../../hooks/useDebounce";
 import { AppState } from "../../redux/store";
 import { fetchAllProductAsync } from "../../redux/product/productOperations";
+import ImageModal from "../modals/imageModal";
 
 const CategoriesList = () => {
-  const products = useAppSelector(
-    (state: AppState) => state.productSlice.products
-  );
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("Clothes");
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearchQuery = useDebounce(searchQuery);
+  const [open, setOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState("");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const itemsPerPage = 9;
+  const products = useAppSelector(
+    (state: AppState) => state.productSlice.products
+  );
+
+  const handleOpenModal = (img: string) => {
+    setSelectedImage(img);
+    setOpen(true);
+  };
 
   useEffect(() => {
     dispatch(fetchAllProductAsync());
@@ -111,6 +119,7 @@ const CategoriesList = () => {
                     }}
                     loading="lazy"
                     style={{ borderRadius: "2%" }}
+                    onClick={() => handleOpenModal(images[0])}
                   />
                   <ImageListItemBar
                     sx={{ textAlign: "center" }}
@@ -207,6 +216,11 @@ const CategoriesList = () => {
             }}
           />
         )}
+        <ImageModal
+          open={open}
+          handleClose={() => setOpen(false)}
+          selectedImage={selectedImage}
+        />
       </Container>
     </Box>
   );

@@ -104,7 +104,6 @@ const userSlice = createSlice({
         if (foundIndex >= 0) {
           state.users[foundIndex] = action.payload;
         }
-        state.currentUser = action.payload;
       })
       .addCase(operations.fetchUptadeUserAsync.rejected, (state, action) => {
         return {

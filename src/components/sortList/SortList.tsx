@@ -83,6 +83,7 @@ const SortList = ({
         >
           <MenuItem value={"desc"}>Sort by Highest Price</MenuItem>
           <MenuItem value={"asc"}>Sort by Lowest Price</MenuItem>
+          <MenuItem value={"none"}>None</MenuItem>
         </Select>
       </FormControl>
       <TextField

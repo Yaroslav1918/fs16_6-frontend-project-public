@@ -1,4 +1,4 @@
-import { Box, List, Typography, useTheme } from "@mui/material";
+import { Box, List, Typography } from "@mui/material";
 
 import CartItem from "../cartItem";
 import Container from "../container";

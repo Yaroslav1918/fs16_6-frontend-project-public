@@ -1,11 +1,11 @@
-import Cart from '../components/cart';
+import Cart from "../components/cart";
 
-const CartPage =() => {
+const CartPage = () => {
   return (
     <>
-      <Cart/>
+      <Cart />
     </>
-  )
-}
+  );
+};
 
 export default CartPage;

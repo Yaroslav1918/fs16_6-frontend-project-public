@@ -16,7 +16,7 @@ import { resetToInitialState } from "../../redux/cart/cartSlice";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { Colors } from "../../styles";
-import ModalText from "../modalText/ModalText";
+import ModalText from "../modals/modalText/ModalText";
 import { AppState } from "../../redux/store";
 
 const CartTotals = () => {
@@ -69,7 +69,7 @@ const CartTotals = () => {
             {productsItems.map(({ id, title, quantity, price }) => (
               <TableRow key={id}>
                 <TableCell sx={{ fontSize: { xs: "13px", md: "20px" } }}>
-                  {title} × {quantity}{" "} 
+                  {title} × {quantity}{" "}
                 </TableCell>
                 <TableCell
                   align="right"

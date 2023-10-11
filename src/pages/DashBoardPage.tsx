@@ -15,15 +15,13 @@ import Container from "../components/container";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Box, IconButton, Pagination } from "@mui/material";
-
+import { Box, IconButton, Pagination, TextField } from "@mui/material";
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import {
   deleteProductAsync,
   fetchAllProductAsync,
 } from "../redux/product/productOperations";
-import { useAppSelector } from "../hooks/useAppSelector";
-import ModalText from "../components/modalText";
+import ModalText from "../components/modals/modalText";
 import AdminForm from "../components/adminForm";
 import { fetchUsersAsync } from "../redux/user/userOperations";
 import { Colors } from "../styles";
@@ -39,6 +37,7 @@ const DashboardPage = () => {
   const [valueId, setValueId] = useState(0);
   const [openModal, setOpenModal] = useState(false);
   const [action, setAction] = useState("");
+  const [searchText, setSearchText] = useState("");
   const dispatch = useAppDispatch();
   const { currentPage, displayedItems, count, onChange } =
     usePagination(selectedCategory);
@@ -47,6 +46,11 @@ const DashboardPage = () => {
     setOpenModal(false);
   };
 
+  const handleSearch = (arr: any[]) => {
+    return arr.filter((item: { name: string; title: string }) =>
+      (item.name || item.title).toLowerCase().includes(searchText.toLowerCase())
+    );
+  };
   useEffect(() => {
     switch (selectedCategory) {
       case "categories":
@@ -63,6 +67,8 @@ const DashboardPage = () => {
         break;
     }
   }, [dispatch, selectedCategory]);
+
+  const fiiteredItems = handleSearch(displayedItems);
 
   return (
     <Container>
@@ -120,6 +126,14 @@ const DashboardPage = () => {
         </Box>
         <Box flexBasis={{ xs: "100%", md: "80%" }} flexGrow={1} padding="16px">
           <Paper>
+            <TextField
+              label="Search by name"
+              size="small"
+              variant="standard"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              sx={{ marginBottom: "10px", marginLeft: "15px" }}
+            />
             <TableContainer>
               <Table>
                 <TableHead>
@@ -144,7 +158,7 @@ const DashboardPage = () => {
                       case "categories":
                         return (
                           <>
-                            {displayedItems.map(({ id, name, image }) => (
+                            {fiiteredItems.map(({ id, name, image }) => (
                               <TableRow key={id}>
                                 <TableCell>{name}</TableCell>
                                 <TableCell>
@@ -197,12 +211,12 @@ const DashboardPage = () => {
                       case "products":
                         return (
                           <>
-                            {displayedItems.map(
+                            {fiiteredItems.map(
                               ({ id, title, category, price, description }) => (
                                 <TableRow key={id}>
                                   <TableCell>{title}</TableCell>
                                   <TableCell>{description}</TableCell>
-                                  <TableCell>{price} $</TableCell>
+                                  <TableCell>{price}$</TableCell>
                                   <TableCell>
                                     <Box
                                       component="img"
@@ -254,11 +268,12 @@ const DashboardPage = () => {
                       case "users":
                         return (
                           <>
-                            {displayedItems.map(
-                              ({ id, name, email, avatar }) => (
+                            {fiiteredItems.map(
+                              ({ id, name, email, avatar, role }) => (
                                 <TableRow key={id}>
                                   <TableCell>{name}</TableCell>
                                   <TableCell>{email}</TableCell>
+                                  <TableCell>{role}</TableCell>
                                   <TableCell>
                                     <Box
                                       component="img"
@@ -307,20 +322,21 @@ const DashboardPage = () => {
               </Table>
             </TableContainer>
           </Paper>
-          <Pagination
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: "30px",
-            }}
-            count={count}
-            page={currentPage}
-            onChange={onChange}
-          />
+          {searchText === "" && (
+            <Pagination
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: "30px",
+              }}
+              count={count}
+              page={currentPage}
+              onChange={onChange}
+            />
+          )}
         </Box>
       </Box>
-
       <ModalText
         text="Choose the fields"
         openModal={openModal}
@@ -341,109 +357,3 @@ const DashboardPage = () => {
 };
 
 export default DashboardPage;
-
-// <Container>
-//   <CssBaseline />
-//   <Box display="flex">
-//     <Box
-//       flexBasis="20%"
-//       flexGrow={1}
-//       borderRight={`1px solid ${Colors.borderRight}`}
-//       padding="16px"
-//     >
-//       <Typography variant="h5" gutterBottom>
-//         {selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)}
-//       </Typography>
-//       <List>{/* ... (Your category selection list) */}</List>
-//     </Box>
-//     <Box flexBasis="80%" flexGrow={1} padding="16px">
-//       <Paper>
-//         <TableContainer>
-//           <Table>
-//             <TableHead>
-//               <TableRow>
-//                 <TableCell>Name</TableCell>
-//                 {selectedCategory === "products" && (
-//                   <TableCell>Description</TableCell>
-//                 )}
-//                 {selectedCategory === "users" && <TableCell>Email</TableCell>}
-//                 {selectedCategory === "products" && (
-//                   <TableCell>Price</TableCell>
-//                 )}
-//                 <TableCell>Photo</TableCell>
-//                 <TableCell>Action</TableCell>
-//               </TableRow>
-//             </TableHead>
-//             <TableBody>
-//               {(() => {
-//                 switch (selectedCategory) {
-//                   case "categories":
-//                     return (
-//                       <>
-//                         {displayedItems.map(({ id, name, image }) => (
-//                           <TableRow key={id}>
-//                             {/* ... (Category-specific table cells) */}
-//                           </TableRow>
-//                         ))}
-//                       </>
-//                     );
-//                   case "products":
-//                     return (
-//                       <>
-//                         {displayedItems.map(
-//                           ({ id, title, category, price, description }) => (
-//                             <TableRow key={id}>
-//                               {/* ... (Product-specific table cells) */}
-//                             </TableRow>
-//                           )
-//                         )}
-//                       </>
-//                     );
-//                   case "users":
-//                     return (
-//                       <>
-//                         {displayedItems.map(({ id, name, email, avatar }) => (
-//                           <TableRow key={id}>
-//                             {/* ... (User-specific table cells) */}
-//                           </TableRow>
-//                         ))}
-//                       </>
-//                     );
-//                   default:
-//                     break;
-//                 }
-//               })()}
-//             </TableBody>
-//           </Table>
-//         </TableContainer>
-//       </Paper>
-//       <Pagination
-//         sx={{
-//           display: "flex",
-//           justifyContent: "center",
-//           alignItems: "center",
-//           marginTop: "30px",
-//         }}
-//         count={count}
-//         page={currentPage}
-//         onChange={onChange}
-//       />
-//     </Box>
-//   </Box>
-
-//   <ModalText
-//     text="Choose the fields"
-//     openModal={openModal}
-//     handleCloseModal={onCloseModal}
-//   >
-//     <AdminForm
-//       formCategoriesFields={dataFields.formCategoriesFields}
-//       formProductsFields={dataFields.formProductsFields}
-//       formUsersFields={dataFields.formUsersFields}
-//       handleCloseModal={onCloseModal}
-//       action={action}
-//       valueId={valueId}
-//       selectedCategory={selectedCategory}
-//     />
-//   </ModalText>
-// </Container>;
