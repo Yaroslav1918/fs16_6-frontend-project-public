@@ -31,6 +31,7 @@ import {
   fetchCategoriesAsync,
   fetchDeleteCategoryAsync,
 } from "../redux/category/categoryOperations";
+import { useDebounce } from "../hooks/useDebounce";
 
 const DashboardPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("categories");
@@ -38,19 +39,13 @@ const DashboardPage = () => {
   const [openModal, setOpenModal] = useState(false);
   const [action, setAction] = useState("");
   const [searchText, setSearchText] = useState("");
+  const debouncedSearchQuery = useDebounce(searchText);
   const dispatch = useAppDispatch();
-  const { currentPage, displayedItems, count, onChange } =
-    usePagination(selectedCategory);
+  const { currentPage, displayedItems, count, onChange } = usePagination(
+    selectedCategory,
+    debouncedSearchQuery
+  );
 
-  const onCloseModal = () => {
-    setOpenModal(false);
-  };
-
-  const handleSearch = (arr: any[]) => {
-    return arr.filter((item: { name: string; title: string }) =>
-      (item.name || item.title).toLowerCase().includes(searchText.toLowerCase())
-    );
-  };
   useEffect(() => {
     switch (selectedCategory) {
       case "categories":
@@ -67,8 +62,6 @@ const DashboardPage = () => {
         break;
     }
   }, [dispatch, selectedCategory]);
-
-  const fiiteredItems = handleSearch(displayedItems);
 
   return (
     <Container>
@@ -130,7 +123,7 @@ const DashboardPage = () => {
               label="Search by name"
               size="small"
               variant="standard"
-              value={searchText}
+              value={debouncedSearchQuery}
               onChange={(e) => setSearchText(e.target.value)}
               sx={{ marginBottom: "10px", marginLeft: "15px" }}
             />
@@ -158,7 +151,7 @@ const DashboardPage = () => {
                       case "categories":
                         return (
                           <>
-                            {fiiteredItems.map(({ id, name, image }) => (
+                            {displayedItems.map(({ id, name, image }) => (
                               <TableRow key={id}>
                                 <TableCell>{name}</TableCell>
                                 <TableCell>
@@ -211,7 +204,7 @@ const DashboardPage = () => {
                       case "products":
                         return (
                           <>
-                            {fiiteredItems.map(
+                            {displayedItems.map(
                               ({ id, title, category, price, description }) => (
                                 <TableRow key={id}>
                                   <TableCell>{title}</TableCell>
@@ -268,7 +261,7 @@ const DashboardPage = () => {
                       case "users":
                         return (
                           <>
-                            {fiiteredItems.map(
+                            {displayedItems.map(
                               ({ id, name, email, avatar, role }) => (
                                 <TableRow key={id}>
                                   <TableCell>{name}</TableCell>
@@ -322,7 +315,7 @@ const DashboardPage = () => {
               </Table>
             </TableContainer>
           </Paper>
-          {searchText === "" && (
+          {debouncedSearchQuery === "" && (
             <Pagination
               sx={{
                 display: "flex",
@@ -340,13 +333,13 @@ const DashboardPage = () => {
       <ModalText
         text="Choose the fields"
         openModal={openModal}
-        handleCloseModal={onCloseModal}
+        handleCloseModal={() => setOpenModal(false)}
       >
         <AdminForm
           formCategoriesFields={dataFields.formCategoriesFields}
           formProductsFields={dataFields.formProductsFields}
           formUsersFields={dataFields.formUsersFields}
-          handleCloseModal={onCloseModal}
+          handleCloseModal={() => setOpenModal(false)}
           action={action}
           valueId={valueId}
           selectedCategory={selectedCategory}

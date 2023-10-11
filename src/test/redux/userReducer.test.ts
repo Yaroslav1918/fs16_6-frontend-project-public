@@ -47,7 +47,7 @@ describe("Test usersReducer async actions", () => {
       })
     );
     await store.dispatch(operations.fetchCurrentUser());
-    expect(store.getState().userSlice.user).toMatchObject(usersData[0]);
+    expect(store.getState().userSlice.currentUser).toMatchObject(usersData[0]);
   });
 
   test("Should uptade a user", async () => {
@@ -73,10 +73,9 @@ describe("Test usersReducer async actions", () => {
       avatar: "someUrl",
     };
     await store.dispatch(operations.fetchRegisterAsync(input));
-    await store.dispatch(operations.fetchRegisterAsync(input));
-    expect(Object.keys(store.getState().userSlice.user).length).toBeGreaterThan(
-      0
-    );
+    expect(
+      Object.keys(store.getState().userSlice.currentUser).length
+    ).toBeGreaterThan(0);
   });
 
   test("Should not register a user with exist email", async () => {

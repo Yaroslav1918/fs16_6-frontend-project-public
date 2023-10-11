@@ -110,8 +110,9 @@ const productsSlice = createSlice({
       state.loading = false;
     });
     builder.addCase(createProductAsync.rejected, (state, action) => {
-      console.log(action.payload);
+      console.log("🚀 ~ file: produtSlice.ts:113 ~ builder.addCase ~ action:", action)
       state.error = action.payload as string;
+      state.loading = false;
     });
     builder.addCase(createProductAsync.pending, (state, action) => {
       return {

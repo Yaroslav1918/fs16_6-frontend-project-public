@@ -1,18 +1,24 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import { useAppSelector } from "./useAppSelector";
 import { AppState } from "../redux/store";
 
-const usePagination = (selectedCategory: string) => {
+const usePagination = (selectedCategory: string, searchText: string) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [displayedItems, setDisplayedItems] = useState<any[]>([]);
+  const users = useAppSelector((state: AppState) => state.userSlice.users);
   const categories = useAppSelector(
     (state: AppState) => state.categorySlice.categories
   );
   const products = useAppSelector(
     (state: AppState) => state.productSlice.products
   );
-  const users = useAppSelector((state: AppState) => state.userSlice.users);
+
+const handleSearch = useCallback((arr: any[]) => {
+  return arr.filter((item) =>
+    (item.name || item.title).toLowerCase().includes(searchText.toLowerCase())
+  );
+}, [searchText]);
   const itemsPerPage = 9;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -20,22 +26,26 @@ const usePagination = (selectedCategory: string) => {
   useEffect(() => {
     switch (selectedCategory) {
       case "products":
-        const slicedProducts = products.slice(startIndex, endIndex);
+        const filteredProducts = handleSearch(products);
+        const slicedProducts = filteredProducts.slice(startIndex, endIndex);
         setDisplayedItems(slicedProducts);
+
         break;
       case "users":
-        const slicedUsers = users.slice(startIndex, endIndex);
+        const filteredUsers = handleSearch(users);
+        const slicedUsers = filteredUsers.slice(startIndex, endIndex);
         setDisplayedItems(slicedUsers);
         break;
       case "categories":
-        const slicedCategories = categories.slice(startIndex, endIndex);
+        const filteredCategories = handleSearch(categories);
+        const slicedCategories = filteredCategories.slice(startIndex, endIndex);
         setDisplayedItems(slicedCategories);
         break;
 
       default:
         break;
     }
-  }, [categories, endIndex, products, selectedCategory, startIndex, users]);
+  }, [categories, endIndex, handleSearch, products, selectedCategory, startIndex, users]);
 
   let count = 1;
   let onChange: (event: React.ChangeEvent<unknown>, value: number) => void = (
