@@ -52,7 +52,6 @@ export default function Footer() {
         .email("Invalid email address"),
     }),
     onSubmit: (values, { resetForm }) => {
-      console.log("Submitted:", values.email);
       resetForm();
     },
   });

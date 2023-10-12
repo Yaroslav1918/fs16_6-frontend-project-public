@@ -1,12 +1,17 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 import { Category } from "../../types/Category";
-import { fetchCategoriesAsync, fetchCreateCategoryAsync, fetchDeleteCategoryAsync, fetchUptadeCategoryAsync } from "./categoryOperations";
+import {
+  fetchCategoriesAsync,
+  fetchCreateCategoryAsync,
+  fetchDeleteCategoryAsync,
+  fetchUptadeCategoryAsync,
+} from "./categoryOperations";
 
 export const initialState: {
+  categories: Category[];
   error: string | null;
   loading: boolean;
-  categories: Category[];
 } = {
   loading: false,
   error: null,

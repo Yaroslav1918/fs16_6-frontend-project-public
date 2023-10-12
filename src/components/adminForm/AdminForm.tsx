@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Container, TextField, Button, Box } from "@mui/material";
+import {
+  Container,
+  TextField,
+  Button,
+  Box,
+  FormControl,
+  MenuItem,
+  Select,
+  InputLabel,
+} from "@mui/material";
 
 import { DynamicInput } from "../../types/DynamicInput";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
@@ -8,7 +17,13 @@ import {
   updateProductAsync,
 } from "../../redux/product/productOperations";
 import operations from "../../redux/user/userOperations";
-import { fetchCreateCategoryAsync, fetchUptadeCategoryAsync } from "../../redux/category/categoryOperations";
+import {
+  fetchCategoriesAsync,
+  fetchCreateCategoryAsync,
+  fetchUptadeCategoryAsync,
+} from "../../redux/category/categoryOperations";
+import { useAppSelector } from "../../hooks/useAppSelector";
+import { AppState } from "../../redux/store";
 
 interface FormProps {
   formCategoriesFields: DynamicInput[];
@@ -31,6 +46,9 @@ const AdminForm = ({
 }: FormProps) => {
   const [formData, setFormData] = useState<{ [key: string]: string }>({});
   const dispatch = useAppDispatch();
+  const categories = useAppSelector(
+    (state: AppState) => state.categorySlice.categories
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,6 +77,7 @@ const AdminForm = ({
           ...formData,
           images: imagesArray,
         };
+        dispatch(fetchCategoriesAsync());
         dispatch(createProductAsync(product));
         break;
       case "add user":
@@ -77,7 +96,7 @@ const AdminForm = ({
     handleCloseModal();
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -102,11 +121,42 @@ const AdminForm = ({
               sx={{ marginBottom: "15px" }}
             />
           ))}
+
         {selectedCategory === "products" &&
           formProductsFields.map((field) => {
             if (field.name === "categoryId" && action === "update product") {
               return null;
             }
+
+            if (field.name === "categoryId") {
+              return (
+                <FormControl
+                  key={field.name}
+                  fullWidth
+                  variant="filled"
+                  sx={{ marginBottom: "15px" }}
+                >
+                  <InputLabel htmlFor="category-select">Category</InputLabel>
+                  <Select
+                    value={formData[field.name] || ""}
+                    onChange={handleInputChange}
+                    name={field.name}
+                    inputProps={{
+                      name: field.name,
+                      id: "category-select",
+                    }}
+                  >
+                    <MenuItem value="">Select a category</MenuItem>
+                    {categories.map((category) => (
+                      <MenuItem key={category.id} value={category.id}>
+                        {category.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              );
+            }
+
             return (
               <TextField
                 key={field.name}
@@ -121,22 +171,22 @@ const AdminForm = ({
               />
             );
           })}
+
         {selectedCategory === "users" &&
-          formUsersFields.map((field) => {
-            return (
-              <TextField
-                key={field.name}
-                label={field.label}
-                variant="outlined"
-                fullWidth
-                name={field.name}
-                placeholder={field.placeholder || ""}
-                value={formData[field.name] || ""}
-                onChange={handleInputChange}
-                sx={{ marginBottom: "15px" }}
-              />
-            );
-          })}
+          formUsersFields.map((field) => (
+            <TextField
+              key={field.name}
+              label={field.label}
+              variant="outlined"
+              fullWidth
+              name={field.name}
+              placeholder={field.placeholder || ""}
+              value={formData[field.name] || ""}
+              onChange={handleInputChange}
+              sx={{ marginBottom: "15px" }}
+            />
+          ))}
+
         <Button
           variant="contained"
           color="primary"

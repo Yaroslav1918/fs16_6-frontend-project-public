@@ -30,7 +30,6 @@ function ProfileCard() {
           backgroundColor: theme.palette.background.default,
         }}
       >
-        <CardActionArea>
           <CardMedia component="img" width="140" image={avatar} alt={name} />
           <CardContent>
             <Typography gutterBottom variant="h5" sx={{ textAlign: "center" }}>
@@ -51,7 +50,6 @@ function ProfileCard() {
               </IconButton>
             </Typography>
           </CardContent>
-        </CardActionArea>
       </Card>
     </>
   );

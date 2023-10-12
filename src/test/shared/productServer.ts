@@ -59,7 +59,6 @@ export const handlers = [
         };
         return res(ctx.json(newProduct));
       } else {
-        console.log("product cannot be created");
         ctx.status(400);
         ctx.json({
           message: [

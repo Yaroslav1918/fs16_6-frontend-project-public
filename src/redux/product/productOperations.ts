@@ -10,7 +10,6 @@ import { toast } from "react-toastify";
 
 axios.defaults.baseURL = "https://api.escuelajs.co/api/v1";
 
-// Products
 export const fetchAllProductAsync = createAsyncThunk(
   "fetchAllProductAsync",
   async (_, { rejectWithValue }) => {
