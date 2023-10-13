@@ -123,20 +123,27 @@ const CategoriesList = () => {
                   />
                   <ImageListItemBar
                     sx={{ textAlign: "center" }}
-                    title={title}
+                    title={
+                      <Box
+                        component="span"
+                        sx={{ fontSize: { xs: 10, sm: 18 } }}
+                      >
+                        {title}
+                      </Box>
+                    }
                     subtitle={
                       <List sx={{ padding: "0" }}>
                         <ListItem
                           sx={{
                             color: Colors.secondaryColor,
-                            fontSize: "15px",
+                            fontSize: { xs: 10, sm: 15 },
                           }}
                         >
                           Price: {price} $
                         </ListItem>
                         <ListItem
                           sx={{
-                            fontSize: "15px",
+                            fontSize: { xs: 10, sm: 15 },
                             color: "inherit",
                           }}
                         >
@@ -167,13 +174,13 @@ const CategoriesList = () => {
                       }}
                       sx={{
                         color: "inherit",
-                        fontSize: { xs: 10, sm: 13 },
+                        fontSize: { xs: 8, sm: 13 },
                         display: "flex",
                         alignItems: "baseline",
                       }}
                     >
                       <ShoppingBasketIcon
-                        sx={{ fontSize: { xs: 10, sm: 15 }, mr: 0.3 }}
+                        sx={{ fontSize: { xs: 8, sm: 15 }, mr: 0.3 }}
                       />
                       Add to cart
                     </Button>
