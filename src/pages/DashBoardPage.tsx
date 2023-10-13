@@ -35,7 +35,7 @@ import { useDebounce } from "../hooks/useDebounce";
 
 const DashboardPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("categories");
-  const [valueId, setValueId] = useState(0);
+  const [uptadeId, setUptadeId] = useState(0);
   const [openModal, setOpenModal] = useState(false);
   const [action, setAction] = useState("");
   const [searchText, setSearchText] = useState("");
@@ -181,7 +181,7 @@ const DashboardPage = () => {
                                       aria-label="Edit"
                                       onClick={() => {
                                         setAction("update category");
-                                        setValueId(id);
+                                        setUptadeId(id);
                                         setOpenModal(true);
                                       }}
                                     >
@@ -237,7 +237,7 @@ const DashboardPage = () => {
                                         aria-label="Edit"
                                         onClick={() => {
                                           setAction("update product");
-                                          setValueId(id);
+                                          setUptadeId(id);
                                           setOpenModal(true);
                                         }}
                                       >
@@ -294,7 +294,7 @@ const DashboardPage = () => {
                                         aria-label="Edit"
                                         onClick={() => {
                                           setAction("update user");
-                                          setValueId(id);
+                                          setUptadeId(id);
                                           setOpenModal(true);
                                         }}
                                       >
@@ -341,7 +341,7 @@ const DashboardPage = () => {
           formUsersFields={dataFields.formUsersFields}
           handleCloseModal={() => setOpenModal(false)}
           action={action}
-          valueId={valueId}
+          uptadeId={uptadeId}
           selectedCategory={selectedCategory}
         />
       </ModalText>

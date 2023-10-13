@@ -31,7 +31,7 @@ interface FormProps {
   formUsersFields: DynamicInput[];
   handleCloseModal: () => void;
   action: string;
-  valueId: number;
+  uptadeId: number;
   selectedCategory: string;
 }
 
@@ -39,7 +39,7 @@ const AdminForm = ({
   formCategoriesFields,
   handleCloseModal,
   action,
-  valueId,
+  uptadeId,
   selectedCategory,
   formProductsFields,
   formUsersFields,
@@ -58,14 +58,14 @@ const AdminForm = ({
         break;
       case "update category":
         const updatedCategory = {
-          id: valueId,
+          id: uptadeId,
           update: formData,
         };
         dispatch(fetchUptadeCategoryAsync(updatedCategory));
         break;
       case "update product":
         const updatedProduct = {
-          id: valueId,
+          id: uptadeId,
           update: formData,
         };
         dispatch(updateProductAsync(updatedProduct));
@@ -85,7 +85,7 @@ const AdminForm = ({
         break;
       case "update user":
         const updatedUser = {
-          id: valueId,
+          id: uptadeId,
           update: formData,
         };
         dispatch(operations.fetchUptadeUserAsync(updatedUser));

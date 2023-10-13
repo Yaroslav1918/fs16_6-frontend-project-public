@@ -11,6 +11,7 @@ import categorySlice from "./category/categorySlice";
 const persisConfig: PersistConfig<any> = {
   key: "root",
   storage,
+  whitelist: ["cartSlice", "userSlice"],
 };
 
 const rootReducer = combineReducers({
