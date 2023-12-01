@@ -29,7 +29,7 @@ describe("Test async category thunk actions in categorySlice", () => {
   test("Should create category", async () => {
     const input: CategoryInput = {
       name: "text",
-      image: "https://i.imgur.com/O1LUkwy.jpeg",
+      images: ["https://i.imgur.com/O1LUkwy.jpeg"],
     };
     const resultAction = await store.dispatch(fetchCreateCategoryAsync(input));
     expect(store.getState().categorySlice.categories.length).toBeGreaterThan(0);
@@ -38,17 +38,17 @@ describe("Test async category thunk actions in categorySlice", () => {
 
   test("Should update category", async () => {
     const input: UpdateCategoryInput = {
-      id: 1,
+      _id: 1,
       update: {
         name: "newName4",
-        image: "https://i.pp.com/nZnWUc0.jpeg",
+        images: ["https://i.pp.com/nZnWUc0.jpeg"],
       },
     };
     const actionResult = await store.dispatch(fetchUptadeCategoryAsync(input));
     expect(actionResult.payload).toMatchObject({
-      id: 1,
+      _id: 1,
       name: "newName4",
-      image: "https://i.pp.com/nZnWUc0.jpeg",
+      images: ["https://i.pp.com/nZnWUc0.jpeg"],
       creationAt: "2023-10-02T12:08:45.000Z",
       updatedAt: "2023-10-02T12:08:45.000Z",
     });

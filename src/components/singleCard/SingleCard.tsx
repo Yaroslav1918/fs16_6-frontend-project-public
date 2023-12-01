@@ -19,10 +19,12 @@ import { addItemToCart } from "../../redux/cart/cartSlice";
 import { AppState } from "../../redux/store";
 
 const SingleCard = () => {
-  let { id } = useParams();
-  const numericId = Number(id);
-  const product = useAppSelector((state: AppState) => state.productSlice.singleProduct);
-  const { title, description, price, category, images } = product || {};
+  let { _id } = useParams();
+  const numericId = Number(_id);
+  const product = useAppSelector(
+    (state: AppState) => state.productSlice.singleProduct
+  );
+  const { name, description, price, category, images, stock } = product || {};
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -52,14 +54,14 @@ const SingleCard = () => {
               key={index}
               sx={{ width: "100%", height: 500 }}
               image={i}
-              title={title}
+              title={name}
             />
           ))}
       </Carousel>
 
       <CardContent>
         <Typography gutterBottom variant="h5">
-          {title}
+          {name}
         </Typography>
         <Typography
           variant="body2"
@@ -81,6 +83,13 @@ const SingleCard = () => {
           sx={{ color: Colors.secondaryColor }}
         >
           Price: {price} $
+        </Typography>
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{ color: Colors.secondaryColor }}
+        >
+          Stock: {stock}
         </Typography>
       </CardContent>
 
@@ -104,13 +113,14 @@ const SingleCard = () => {
         <Button
           onClick={() => {
             const newItem = {
-              id: numericId,
-              title: title || "",
+              _id: numericId,
+              name: name || "",
               price: price || 0,
               description: description || "",
-              category: category || { id: 0, name: "", image: "" },
+              category: category || { _id: 0, name: "", images: [] },
               images: images || [],
               quantity: 1,
+              stock: stock || 0,
             };
             dispatch(addItemToCart(newItem));
           }}

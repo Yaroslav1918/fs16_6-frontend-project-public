@@ -36,7 +36,7 @@ describe("Test cartSlice normal action", () => {
   test("Should remove product from cart", () => {
     const cart = cartSlice(cartData, removeItemFromCart(2));
     expect(cart.cartProductItems.length).toBe(1);
-    expect(cart.cartProductItems[0].id).toBe(1);
+    expect(cart.cartProductItems[0]._id).toBe(1);
   });
   test("Should empty cart", () => {
     const cart = cartSlice(cartData, resetToInitialState());

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { UptadeUserInput } from "../../types/UptadeUserInput";
@@ -9,23 +8,22 @@ import { DynamicInput } from "../../types/DynamicInput";
 import { toast } from "react-toastify";
 import { User } from "../../types/User";
 import { LoginResponse } from "../../types/LoginResponse";
+import baseURL from "../../utils/axiosInstance";
+import { RegisterResponse } from "../../types/RegisterResponse";
+import { AuthState } from "./userSlice";
+import token from "../../utils/axiosAuth";
 
-axios.defaults.baseURL = "https://api.escuelajs.co/api/v1";
 
-const token = {
-  set(token: null | string) {
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-  },
-  unset() {
-    axios.defaults.headers.common.Authorization = "";
-  },
-};
 
 const fetchRegisterAsync = createAsyncThunk(
-  "/api/auth",
+  "auth/signUp",
   async (credentials: SignUpInput | DynamicInput, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post<User>("/users/", credentials);
+      const { data } = await baseURL.post<RegisterResponse>(
+        "/users/signup",
+        credentials
+      );
+      toast.success("User created successfully. Please log in.");
       return data;
     } catch (e) {
       const errorMessage = extractErrorMessages(e);
@@ -35,14 +33,31 @@ const fetchRegisterAsync = createAsyncThunk(
 );
 
 const fetchlogInAsync = createAsyncThunk(
-  "/auth/login",
+  "auth/login",
   async (credentials: SignIn, { rejectWithValue }) => {
     try {
-      const { data } = await axios.post<LoginResponse>(
-        "/auth/login",
+      const { data } = await baseURL.post<LoginResponse>(
+        "/users/login",
         credentials
       );
-      token.set(data.access_token);
+      return data;
+    } catch (e) {
+      const errorMessage = extractErrorMessages(e);
+      return rejectWithValue(errorMessage);
+    }
+  }
+);
+
+const fetchGoogleLogInAsync = createAsyncThunk(
+  "auth/googleLogin",
+  async (credentials: any, { rejectWithValue }) => {
+    try {
+      const { data } = await baseURL.post<LoginResponse>(
+        "/users/login-google",
+        {
+          id_token: credentials,
+        }
+      );
       return data;
     } catch (e) {
       const errorMessage = extractErrorMessages(e);
@@ -53,9 +68,13 @@ const fetchlogInAsync = createAsyncThunk(
 
 export const fetchUsersAsync = createAsyncThunk(
   "fetchUsersAsync",
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue, getState }) => {
     try {
-      const { data } = await axios.get<User[]>("/users");
+      const { token: authToken } = (getState() as { userSlice: AuthState })
+        .userSlice;
+
+      token.set(authToken);
+      const { data } = await baseURL.get<User[]>("/users");
       return data;
     } catch (e) {
       const errorMessage = extractErrorMessages(e);
@@ -64,14 +83,15 @@ export const fetchUsersAsync = createAsyncThunk(
   }
 );
 
-const fetchCurrentUser = createAsyncThunk(
-  "auth/current",
-  async (_, thunkAPI) => {
-    const { token: authToken } = (thunkAPI.getState() as { userSlice: any })
-      .userSlice;
+const fetchByIdUser = createAsyncThunk(
+  "auth/geByIdUser",
+  async (_id, thunkAPI) => {
+    const { token: authToken } = (
+      thunkAPI.getState() as { userSlice: AuthState }
+    ).userSlice;
     token.set(authToken);
     try {
-      const { data } = await axios.get<User>("/auth/profile");
+      const { data } = await baseURL.get<User>(`/users/${_id}`);
       return data;
     } catch (e) {
       const errorMessage = extractErrorMessages(e);
@@ -82,9 +102,12 @@ const fetchCurrentUser = createAsyncThunk(
 
 const fetchUptadeUserAsync = createAsyncThunk(
   "auth/uptadeUSer",
-  async ({ id, update }: UptadeUserInput, { rejectWithValue }) => {
+  async ({ _id, update }: UptadeUserInput, { rejectWithValue, getState }) => {
     try {
-      const { data } = await axios.put<User>(`/users/${id}`, update);
+      const { token: authToken } = (getState() as { userSlice: AuthState })
+        .userSlice;
+      token.set(authToken);
+      const { data } = await baseURL.put<User>(`/users/${_id}`, update);
       toast.success("User successfully updated");
       return data;
     } catch (e) {
@@ -97,8 +120,9 @@ const fetchUptadeUserAsync = createAsyncThunk(
 const operations = {
   fetchRegisterAsync,
   fetchlogInAsync,
-  fetchCurrentUser,
+  fetchByIdUser,
   fetchUptadeUserAsync,
   fetchUsersAsync,
+  fetchGoogleLogInAsync,
 };
 export default operations;

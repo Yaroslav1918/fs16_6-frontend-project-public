@@ -76,7 +76,7 @@ describe("Test async  product thunk actions in productsReducer", () => {
 
   test("should create new Product", async () => {
     const input: CreateProductInput = {
-      title: "test product",
+      name: "test product",
       description: "test product",
       price: 100,
       categoryId: 3,
@@ -88,10 +88,10 @@ describe("Test async  product thunk actions in productsReducer", () => {
 
   test("Should update product", async () => {
     const input: UpdateProductInput = {
-      id: 1,
+      _id: 1,
       update: {
         price: 200,
-        title: "Newly updated product",
+        name: "Newly updated product",
       },
     };
     const action = await store.dispatch(updateProductAsync(input));

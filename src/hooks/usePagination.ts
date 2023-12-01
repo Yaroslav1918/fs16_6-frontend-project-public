@@ -14,11 +14,14 @@ const usePagination = (selectedCategory: string, searchText: string) => {
     (state: AppState) => state.productSlice.products
   );
 
-const handleSearch = useCallback((arr: any[]) => {
-  return arr.filter((item) =>
-    (item.name || item.title).toLowerCase().includes(searchText.toLowerCase())
+  const handleSearch = useCallback(
+    (arr: any[]) => {
+      return arr.filter((item) =>
+        item.name.toLowerCase().includes(searchText.toLowerCase())
+      );
+    },
+    [searchText]
   );
-}, [searchText]);
   const itemsPerPage = 9;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -45,7 +48,15 @@ const handleSearch = useCallback((arr: any[]) => {
       default:
         break;
     }
-  }, [categories, endIndex, handleSearch, products, selectedCategory, startIndex, users]);
+  }, [
+    categories,
+    endIndex,
+    handleSearch,
+    products,
+    selectedCategory,
+    startIndex,
+    users,
+  ]);
 
   let count = 1;
   let onChange: (event: React.ChangeEvent<unknown>, value: number) => void = (

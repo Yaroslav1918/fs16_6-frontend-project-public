@@ -1,21 +1,21 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { toast } from "react-toastify";
 
 import { DynamicInput } from "../../types/DynamicInput";
 import { UpdateCategoryInput } from "../../types/UpdateCategoryInput";
 import extractErrorMessages from "../../utils/extractErrorMessages";
 import { CategoryInput } from "../../types/CategoryInput";
-import { toast } from "react-toastify";
 import { Category } from "../../types/Category";
-
-axios.defaults.baseURL = "https://api.escuelajs.co/api/v1";
+import baseURL from "../../utils/axiosInstance";
+import { AuthState } from "../user/userSlice";
+import token from "../../utils/axiosAuth";
 
 // Categories
 export const fetchCategoriesAsync = createAsyncThunk(
   "fetchCategoriesAsync",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get<Category[]>("categories");
+      const { data } = await baseURL.get<Category[]>("categories");
       return data;
     } catch (e) {
       const errorMessage = extractErrorMessages(e);
@@ -26,14 +26,17 @@ export const fetchCategoriesAsync = createAsyncThunk(
 
 export const fetchDeleteCategoryAsync = createAsyncThunk(
   "fetchDeleteCategoryAsync",
-  async (id: number, { rejectWithValue }) => {
+  async (_id: number, { rejectWithValue, getState }) => {
     try {
-      const { data } = await axios.delete<boolean>(`categories/${id}`);
+      const { token: authToken } = (getState() as { userSlice: AuthState })
+        .userSlice;
+      token.set(authToken);
+      const { data } = await baseURL.delete<boolean>(`categories/${_id}`);
       if (!data) {
         throw new Error("Cannot delete");
       }
       toast.success("Category successfully deleted");
-      return id;
+      return _id;
     } catch (e) {
       const errorMessage = extractErrorMessages(e);
       return rejectWithValue(errorMessage);
@@ -43,9 +46,18 @@ export const fetchDeleteCategoryAsync = createAsyncThunk(
 
 export const fetchCreateCategoryAsync = createAsyncThunk(
   "fetchCreateCategoryAsync",
-  async (newCategory: CategoryInput | DynamicInput, { rejectWithValue }) => {
+  async (
+    newCategory: CategoryInput | DynamicInput,
+    { rejectWithValue, getState }
+  ) => {
     try {
-      const { data } = await axios.post<Category>("/categories/", newCategory);
+      const { token: authToken } = (getState() as { userSlice: AuthState })
+        .userSlice;
+      token.set(authToken);
+      const { data } = await baseURL.post<Category>(
+        "/categories/",
+        newCategory
+      );
       toast.success("Category successfully created");
       return data;
     } catch (e) {
@@ -57,9 +69,15 @@ export const fetchCreateCategoryAsync = createAsyncThunk(
 
 export const fetchUptadeCategoryAsync = createAsyncThunk(
   "fetchUptadeCategoryAsync",
-  async ({ id, update }: UpdateCategoryInput, { rejectWithValue }) => {
+  async (
+    { _id, update }: UpdateCategoryInput,
+    { rejectWithValue, getState }
+  ) => {
     try {
-      const { data } = await axios.put<Category>(`categories/${id}`, update);
+      const { token: authToken } = (getState() as { userSlice: AuthState })
+        .userSlice;
+      token.set(authToken);
+      const { data } = await baseURL.put<Category>(`categories/${_id}`, update);
       toast.success("Category successfully updated");
       return data;
     } catch (e) {

@@ -60,14 +60,8 @@ const CartItem = ({ hideContent, style }: Props) => {
         </TableHead>
         <TableBody>
           {productsItems.map(
-            ({
-              title,
-              images,
-              id,
-              quantity,
-              price,
-            }: Product) => (
-              <TableRow key={id}>
+            ({ name, images, _id, quantity, price, stock }: Product) => (
+              <TableRow key={_id}>
                 <TableCell
                   sx={{ display: "grid", placeItems: "center", ...cellStyle }}
                 >
@@ -75,7 +69,7 @@ const CartItem = ({ hideContent, style }: Props) => {
                     <CardMedia
                       component="img"
                       image={images[0]}
-                      alt={title}
+                      alt={name}
                       sx={{
                         width: "50px",
                         height: "50px",
@@ -85,7 +79,7 @@ const CartItem = ({ hideContent, style }: Props) => {
                       }}
                     />
                   )}
-                  {title}
+                  {name}
                 </TableCell>
                 <TableCell align="center" sx={cellStyle}>
                   {price} $
@@ -98,12 +92,12 @@ const CartItem = ({ hideContent, style }: Props) => {
                 </TableCell>
                 {!hideContent && !isMobileScreen && (
                   <TableCell>
-                    <IconButton onClick={() => dispatch(decreaseQuantity(id))}>
+                    <IconButton onClick={() => dispatch(decreaseQuantity(_id))}>
                       <RemoveIcon />
                     </IconButton>
                     <IconButton
                       onClick={() => {
-                        dispatch(increaseQuantity(id));
+                        dispatch(increaseQuantity(_id));
                       }}
                     >
                       <AddIcon />

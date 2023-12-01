@@ -39,24 +39,13 @@ describe("Test usersReducer async actions", () => {
     expect(store.getState().userSlice.token).toBe("my-access-token_1");
   });
 
-  test("Should authenticate witg right token", async () => {
-    await store.dispatch(
-      operations.fetchlogInAsync({
-        email: "john@mail.com",
-        password: "changeme",
-      })
-    );
-    await store.dispatch(operations.fetchCurrentUser());
-    expect(store.getState().userSlice.currentUser).toMatchObject(usersData[0]);
-  });
-
   test("Should uptade a user", async () => {
     const input: UptadeUserInput = {
       update: {
         name: "Petro",
         email: "petro@mail.com",
       },
-      id: 1,
+      _id: 1,
     };
     const action = await store.dispatch(operations.fetchUptadeUserAsync(input));
     expect(action.payload).toMatchObject({

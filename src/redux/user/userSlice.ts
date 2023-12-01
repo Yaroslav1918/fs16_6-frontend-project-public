@@ -1,8 +1,8 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import operations from "./userOperations";
 import { User } from "../../types/User";
 
-interface AuthState {
+export interface AuthState {
   currentUser: User | null;
   users: User[];
   token: string | null;
@@ -28,6 +28,8 @@ const userSlice = createSlice({
       state.isLoggedIn = false;
       state.error = null;
       state.token = null;
+      state.currentUser = null;
+      state.users = [];
     },
   },
   extraReducers: (builder) => {
@@ -49,8 +51,8 @@ const userSlice = createSlice({
         state.loading = false;
       })
       .addCase(operations.fetchRegisterAsync.fulfilled, (state, action) => {
-        state.currentUser = action.payload;
-        state.isLoggedIn = true;
+        state.currentUser = action.payload.user;
+        state.isLoggedIn = false;
         state.error = null;
         state.loading = false;
       })
@@ -65,7 +67,8 @@ const userSlice = createSlice({
         state.loading = false;
       })
       .addCase(operations.fetchlogInAsync.fulfilled, (state, action) => {
-        state.token = action.payload.access_token;
+        state.token = action.payload.accessToken;
+        state.currentUser = action.payload.user;
         state.isLoggedIn = true;
         state.error = null;
         state.loading = false;
@@ -80,26 +83,43 @@ const userSlice = createSlice({
         state.error = action.error.message as string | null;
         state.loading = false;
       })
-
-      .addCase(operations.fetchCurrentUser.fulfilled, (state, action) => {
-        state.currentUser = action.payload;
+      .addCase(operations.fetchGoogleLogInAsync.fulfilled, (state, action) => {
+        state.token = action.payload.accessToken;
+        state.currentUser = action.payload.user;
         state.isLoggedIn = true;
         state.error = null;
         state.loading = false;
       })
-      .addCase(operations.fetchCurrentUser.pending, (state) => {
+      .addCase(operations.fetchGoogleLogInAsync.pending, (state) => {
         return {
           ...state,
           loading: true,
         };
       })
-      .addCase(operations.fetchCurrentUser.rejected, (state, action) => {
+      .addCase(operations.fetchGoogleLogInAsync.rejected, (state, action) => {
+        state.error = action.error.message as string | null;
+        state.loading = false;
+      })
+
+      .addCase(operations.fetchByIdUser.fulfilled, (state, action) => {
+        state.currentUser = action.payload;
+        state.isLoggedIn = true;
+        state.error = null;
+        state.loading = false;
+      })
+      .addCase(operations.fetchByIdUser.pending, (state) => {
+        return {
+          ...state,
+          loading: true,
+        };
+      })
+      .addCase(operations.fetchByIdUser.rejected, (state, action) => {
         state.error = action.error.message as string | null;
         state.loading = false;
       })
       .addCase(operations.fetchUptadeUserAsync.fulfilled, (state, action) => {
         const foundIndex = state.users.findIndex(
-          (p) => p.id === action.payload.id
+          (p) => p._id === action.payload._id
         );
         if (foundIndex >= 0) {
           state.users[foundIndex] = action.payload;

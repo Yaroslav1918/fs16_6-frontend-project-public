@@ -66,10 +66,10 @@ const CartTotals = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {productsItems.map(({ id, title, quantity, price }) => (
-              <TableRow key={id}>
+            {productsItems.map(({ _id, name, quantity, price }) => (
+              <TableRow key={_id}>
                 <TableCell sx={{ fontSize: { xs: "13px", md: "20px" } }}>
-                  {title} × {quantity}{" "}
+                  {name} × {quantity}{" "}
                 </TableCell>
                 <TableCell
                   align="right"

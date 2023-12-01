@@ -1,4 +1,4 @@
-import { useGoogleLogin } from "@react-oauth/google";
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import { Button } from "@mui/material";
 import { AxiosError } from "axios";
 
@@ -6,30 +6,52 @@ import { Colors } from "../../styles";
 import GoogleIcon from "@mui/icons-material/Google";
 import { GoogleInfo } from "../../types/GoogleProfile";
 import requestToGoogle from "../../utils/requestToGoogle";
+import { useAppDispatch } from "../../hooks/useAppDispatch";
+import operations from "../../redux/user/userOperations";
 
 interface GoogleLoginButtonProps {
-  sendGoogleInfo: (data: GoogleInfo) => void;
+  
 }
 
 const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
-  sendGoogleInfo,
 }) => {
-  const login = useGoogleLogin({
-    onSuccess: async (response) => {
-      try {
-        const res = await requestToGoogle(response);
-        const { name, email, picture } = res;
-        sendGoogleInfo({ name, email, picture });
-      } catch (e) {
-        const error = e as AxiosError;
-        return error.message;
-      }
-    },
-  });
+   const dispatch = useAppDispatch();
+  // const login = useGoogleLogin({
+  //   onSuccess: async (response) => {
+  //     console.log(
+  //       "🚀 ~ file: GoogleLoginButton.tsx:19 ~ onSuccess: ~ response:",
+  //       response
+  //     );
+  //     try {
+  //       const res = await requestToGoogle(response);
+
+  //       // const { name, email, picture } = res;
+  //       // sendGoogleInfo({ name, email, picture });
+  //     } catch (e) {
+  //       const error = e as AxiosError;
+  //       return error.message;
+  //     }
+  //   },
+  // });
 
   return (
     <>
-      <Button
+      <GoogleLogin
+        onSuccess={(credentialResponse) => {
+          if (credentialResponse) {
+            dispatch(
+              operations.fetchGoogleLogInAsync(credentialResponse.credential)
+            );
+            // sendGoogleInfo(credentialResponse.credential);
+          }
+        }}
+        onError={() => {
+          // Handle the Google login error here if needed
+          console.log("Login Failed");
+        }}
+       
+      ></GoogleLogin>
+      {/* <Button
         type="submit"
         variant="contained"
         color="primary"
@@ -47,8 +69,8 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
         }}
       >
         <GoogleIcon sx={{ marginRight: "5px" }} />
-        Fill the form using your Google account
-      </Button>
+        Sign In using your Google account
+      </Button> */}
     </>
   );
 };

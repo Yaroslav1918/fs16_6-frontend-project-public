@@ -31,7 +31,7 @@ const productsSlice = createSlice({
       } else if (action.payload === "desc") {
         state.products.sort((a, b) => b.price - a.price);
       } else {
-        state.products.sort((a, b) => a.id - b.id);
+        state.products.sort((a, b) => a._id - b._id);
       }
     },
   },
@@ -86,7 +86,7 @@ const productsSlice = createSlice({
     });
     builder.addCase(deleteProductAsync.fulfilled, (state, action) => {
       if (typeof action.payload === "number") {
-        state.products = state.products.filter((p) => p.id !== action.payload);
+        state.products = state.products.filter((p) => p._id !== action.payload);
         state.loading = false;
       }
     });
@@ -121,7 +121,7 @@ const productsSlice = createSlice({
     });
     builder.addCase(updateProductAsync.fulfilled, (state, action) => {
       const foundIndex = state.products.findIndex(
-        (p) => p.id === action.payload.id
+        (p) => p._id === action.payload._id
       );
       if (foundIndex >= 0) {
         state.products[foundIndex] = action.payload;

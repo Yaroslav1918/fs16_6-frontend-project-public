@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 import { Category } from "../../types/Category";
 import {
@@ -51,7 +51,7 @@ const categoriesSlice = createSlice({
     builder.addCase(fetchDeleteCategoryAsync.fulfilled, (state, action) => {
       if (typeof action.payload === "number") {
         state.categories = state.categories.filter(
-          (p) => p.id !== action.payload
+          (p) => p._id !== action.payload
         );
         state.loading = false;
       }
@@ -83,7 +83,7 @@ const categoriesSlice = createSlice({
     });
     builder.addCase(fetchUptadeCategoryAsync.fulfilled, (state, action) => {
       const foundIndex = state.categories.findIndex(
-        (p) => p.id === action.payload.id
+        (p) => p._id === action.payload._id
       );
 
       if (foundIndex >= 0) {

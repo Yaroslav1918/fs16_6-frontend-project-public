@@ -205,9 +205,9 @@ const DashboardPage = () => {
                         return (
                           <>
                             {displayedItems.map(
-                              ({ id, title, category, price, description }) => (
+                              ({ id, name, category, price, description }) => (
                                 <TableRow key={id}>
-                                  <TableCell>{title}</TableCell>
+                                  <TableCell>{name}</TableCell>
                                   <TableCell>{description}</TableCell>
                                   <TableCell>{price}$</TableCell>
                                   <TableCell>

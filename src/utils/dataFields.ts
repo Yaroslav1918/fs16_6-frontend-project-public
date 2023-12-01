@@ -6,10 +6,10 @@ export const formCategoriesFields: DynamicInput[] = [
 ];
 
 export const formProductsFields: DynamicInput[] = [
-  { name: "title", label: "title" },
+  { name: "name", label: "name" },
   { name: "price", label: "price" },
   { name: "description", label: "description" },
-  { name: "categoryId", label: "categoryId" },
+  { name: "category", label: "category" },
   { name: "images", label: "images", placeholder: "Write only url" },
 ];
 

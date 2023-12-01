@@ -14,11 +14,11 @@ import { AppState } from "../../redux/store";
 
 const SignUp = () => {
   const dispatch = useAppDispatch();
-  const isLoggedIn = useAppSelector(
-    (state: AppState) => state.userSlice.isLoggedIn
-  );
+  const user = useAppSelector((state: AppState) => state.userSlice.currentUser);
+  const error = useAppSelector((state: AppState) => state.userSlice.error);
+  const token = useAppSelector((state: AppState) => state.userSlice.token);
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const navigate = useNavigate();
-  const [googleInfo, setGoogleInfo] = useState<GoogleInfo>();
   const [formData, setFormData] = useState<{ [key: string]: string }>({});
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -28,26 +28,16 @@ const SignUp = () => {
     });
   };
 
-  useEffect(() => {
-    if (googleInfo) {
-      const { name, email, picture } = googleInfo;
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        name: prevFormData.name || name || "",
-        email: prevFormData.email || email || "",
-        avatar: prevFormData.avatar || picture || "",
-      }));
-    }
-  }, [googleInfo]);
-
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const updatedFormData = { ...formData };
-    if (updatedFormData.avatar === "") {
+    if (!formData.avatar) {
       updatedFormData.avatar =
         "https://i.pinimg.com/originals/ea/76/c3/ea76c343f9bbd6917e9a094b9317ab9e.jpg";
     }
-    dispatch(operations.fetchRegisterAsync(updatedFormData));
+    await dispatch(operations.fetchRegisterAsync(updatedFormData));
+    setFormSubmitted(true);
     setFormData({
       name: "",
       email: "",
@@ -57,10 +47,14 @@ const SignUp = () => {
   };
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (user?.name && error === null && formSubmitted) {
+      setTimeout(() => {
+        navigate("/signIn");
+      }, 2000);
+    } else if (user?.name && error === null  && token) {
       navigate("/");
     }
-  }, [isLoggedIn, navigate]);
+  }, [error, navigate, user?.name, formSubmitted, token]);
 
   return (
     <Box
@@ -97,7 +91,7 @@ const SignUp = () => {
             variant="outlined"
             label={"Name"}
             name="name"
-            placeholder={!googleInfo?.name ? "Enter user name" : ""}
+            placeholder={"Enter user name"}
             required
             value={formData.name || ""}
             onChange={handleInputChange}
@@ -112,7 +106,7 @@ const SignUp = () => {
             type="email"
             required
             value={formData.email || ""}
-            placeholder={!googleInfo?.email ? "Enter your email" : ""}
+            placeholder={"Enter your email"}
             onChange={handleInputChange}
             sx={{ marginBottom: "20px" }}
           />
@@ -122,7 +116,7 @@ const SignUp = () => {
             label={"Avatar"}
             name="avatar"
             value={formData.avatar || ""}
-            placeholder={"Enter your avatar"}
+            placeholder={"Enter your url  avatar"}
             onChange={handleInputChange}
             sx={{ marginBottom: "20px" }}
           />
@@ -153,8 +147,7 @@ const SignUp = () => {
           >
             submit
           </Button>
-
-          <GoogleLoginButton sendGoogleInfo={setGoogleInfo} />
+          <GoogleLoginButton  />
         </Box>
       </Container>
     </Box>

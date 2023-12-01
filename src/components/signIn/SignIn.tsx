@@ -39,14 +39,15 @@ const SignIn = () => {
   const isLoggedIn = useAppSelector(
     (state: AppState) => state.userSlice.isLoggedIn
   );
+  const token = useAppSelector((state: AppState) => state.userSlice.token);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && token) {
       navigate("/");
     }
-  }, [isLoggedIn, navigate]);
+  }, [isLoggedIn, token, navigate]);
 
   const FieldErrorMessage = ({ fieldName }: { fieldName: string }) => {
     return (
@@ -71,7 +72,6 @@ const SignIn = () => {
     { setSubmitting, resetForm }: FormikHelpers<FormValues>
   ) => {
     await dispatch(operations.fetchlogInAsync(values));
-    await dispatch(operations.fetchCurrentUser());
     resetForm();
     setSubmitting(false);
   };

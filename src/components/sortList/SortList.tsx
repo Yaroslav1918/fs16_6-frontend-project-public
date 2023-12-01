@@ -65,8 +65,8 @@ const SortList = ({
           label="Categories"
           onChange={(event) => onCategorySelect(event.target.value)}
         >
-          {categories.map(({ id, name }) => (
-            <MenuItem key={id} value={name}>
+          {categories.map(({ _id, name }) => (
+            <MenuItem key={_id} value={name}>
               {name}
             </MenuItem>
           ))}
@@ -87,7 +87,7 @@ const SortList = ({
         </Select>
       </FormControl>
       <TextField
-        label="Search by Title"
+        label="Search by Name"
         variant="outlined"
         value={searchQuery}
         onChange={(event: React.ChangeEvent<HTMLInputElement>) => {

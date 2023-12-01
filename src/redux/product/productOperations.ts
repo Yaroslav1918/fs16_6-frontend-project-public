@@ -1,20 +1,20 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { toast } from "react-toastify";
 
 import { CreateProductInput } from "../../types/CreateProductInput";
 import { Product } from "../../types/Product";
 import { UpdateProductInput } from "../../types/UpdateProductInput";
 import { DynamicInput } from "../../types/DynamicInput";
 import extractErrorMessages from "../../utils/extractErrorMessages";
-import { toast } from "react-toastify";
-
-axios.defaults.baseURL = "https://api.escuelajs.co/api/v1";
+import baseURL from "../../utils/axiosInstance";
+import token from "../../utils/axiosAuth";
+import { AuthState } from "../user/userSlice";
 
 export const fetchAllProductAsync = createAsyncThunk(
   "fetchAllProductAsync",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get<Product[]>("/products");
+      const { data } = await baseURL.get<Product[]>("/products");
       return data;
     } catch (e) {
       const errorMessage = extractErrorMessages(e);
@@ -25,9 +25,9 @@ export const fetchAllProductAsync = createAsyncThunk(
 
 export const fetchSingleAsync = createAsyncThunk(
   "fetchSingleAsync",
-  async (id: number, { rejectWithValue }) => {
+  async (_id: number, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get<Product>(`/products/${id}`);
+      const { data } = await baseURL.get<Product>(`/products/${_id}`);
       return data;
     } catch (e) {
       const errorMessage = extractErrorMessages(e);
@@ -38,14 +38,17 @@ export const fetchSingleAsync = createAsyncThunk(
 
 export const deleteProductAsync = createAsyncThunk(
   "deleteProductAsync",
-  async (id: number, { rejectWithValue }) => {
+  async (_id: number, { rejectWithValue, getState }) => {
     try {
-      const { data } = await axios.delete<boolean>(`products/${id}`);
+      const { token: authToken } = (getState() as { userSlice: AuthState })
+        .userSlice;
+      token.set(authToken);
+      const { data } = await baseURL.delete<boolean>(`products/${_id}`);
       if (!data) {
         throw new Error("Cannot delete");
       }
       toast.success("Product successfully deleted");
-      return id;
+      return _id;
     } catch (e) {
       const errorMessage = extractErrorMessages(e);
       return rejectWithValue(errorMessage);
@@ -57,10 +60,13 @@ export const createProductAsync = createAsyncThunk(
   "createProductAsync",
   async (
     newProduct: CreateProductInput | DynamicInput,
-    { rejectWithValue }
+    { rejectWithValue, getState }
   ) => {
     try {
-      const { data } = await axios.post<Product>("products/", newProduct);
+      const { token: authToken } = (getState() as { userSlice: AuthState })
+        .userSlice;
+      token.set(authToken);
+      const { data } = await baseURL.post<Product>("products/", newProduct);
       toast.success("Product successfully created");
       return data;
     } catch (e) {
@@ -71,9 +77,15 @@ export const createProductAsync = createAsyncThunk(
 );
 export const updateProductAsync = createAsyncThunk(
   "updateProductAsync",
-  async ({ id, update }: UpdateProductInput, { rejectWithValue }) => {
+  async (
+    { _id, update }: UpdateProductInput,
+    { rejectWithValue, getState }
+  ) => {
     try {
-      const { data } = await axios.put<Product>(`products/${id}`, update);
+      const { token: authToken } = (getState() as { userSlice: AuthState })
+        .userSlice;
+      token.set(authToken);
+      const { data } = await baseURL.put<Product>(`products/${_id}`, update);
       toast.success("Product successfully updated");
       return data;
     } catch (e) {

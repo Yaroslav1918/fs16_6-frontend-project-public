@@ -1,4 +1,4 @@
 export interface CategoryInput {
     name: string;
-    image: string;
+    images: string[];
 }

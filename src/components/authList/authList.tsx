@@ -47,7 +47,7 @@ export default function AuthList({
           />
         </ListItemButton>
       </ListItem>
-      <ListItem sx={{ padding: 0 }}>
+      <ListItem sx={{ padding: 0}}>
         <ListItemButton
           component={Link}
           to="signUp"

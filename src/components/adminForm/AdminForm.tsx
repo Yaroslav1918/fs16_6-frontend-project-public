@@ -58,14 +58,14 @@ const AdminForm = ({
         break;
       case "update category":
         const updatedCategory = {
-          id: uptadeId,
+          _id: uptadeId,
           update: formData,
         };
         dispatch(fetchUptadeCategoryAsync(updatedCategory));
         break;
       case "update product":
         const updatedProduct = {
-          id: uptadeId,
+          _id: uptadeId,
           update: formData,
         };
         dispatch(updateProductAsync(updatedProduct));
@@ -85,7 +85,7 @@ const AdminForm = ({
         break;
       case "update user":
         const updatedUser = {
-          id: uptadeId,
+          _id: uptadeId,
           update: formData,
         };
         dispatch(operations.fetchUptadeUserAsync(updatedUser));
@@ -124,11 +124,11 @@ const AdminForm = ({
 
         {selectedCategory === "products" &&
           formProductsFields.map((field) => {
-            if (field.name === "categoryId" && action === "update product") {
+            if (field.name === "category" && action === "update product") {
               return null;
             }
 
-            if (field.name === "categoryId") {
+            if (field.name === "category") {
               return (
                 <FormControl
                   key={field.name}
@@ -148,7 +148,7 @@ const AdminForm = ({
                   >
                     <MenuItem value="">Select a category</MenuItem>
                     {categories.map((category) => (
-                      <MenuItem key={category.id} value={category.id}>
+                      <MenuItem key={category._id} value={category._id}>
                         {category.name}
                       </MenuItem>
                     ))}

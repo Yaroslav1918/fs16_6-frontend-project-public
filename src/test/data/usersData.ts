@@ -2,27 +2,27 @@ import { User } from "../../types/User";
 
 export const usersData: User[] = [
   {
-    id: 1,
+    _id: 1,
     email: "john@mail.com",
     password: "changeme",
     name: "Jhon",
-    role: "customer",
+    role: "USER",
     avatar: "https://i.imgur.com/DumuKkD.jpeg",
   },
   {
-    id: 2,
+    _id: 2,
     email: "maria@mail.com",
     password: "12345",
     name: "Maria",
-    role: "customer",
+    role: "USER",
     avatar: "https://i.imgur.com/00qWleT.jpeg",
   },
   {
-    id: 3,
+    _id: 3,
     email: "admin@mail.com",
     password: "admin123",
     name: "Admin",
-    role: "admin",
+    role: "ADMIN",
     avatar: "https://i.imgur.com/5mPmJYO.jpeg",
   },
 ];

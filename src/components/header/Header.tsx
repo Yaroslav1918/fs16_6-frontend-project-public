@@ -30,6 +30,7 @@ const Header = () => {
   const isLoggedIn = useAppSelector(
     (state: AppState) => state.userSlice.isLoggedIn
   );
+  const token = useAppSelector((state: AppState) => state.userSlice.token);
   const role = useAppSelector(
     (state: AppState) => state.userSlice.currentUser?.role
   );
@@ -63,9 +64,9 @@ const Header = () => {
   };
 
   const pages = ["Products", "Cart"];
-  if (isLoggedIn && role === "admin") {
+  if (isLoggedIn && role === "ADMIN") {
     pages.push("Dashboard", "Profile");
-  } else if (isLoggedIn && role !== "admin") {
+  } else if (isLoggedIn && role !== "ADMIN") {
     pages.push("Profile");
   }
   const settings = ["Profile", "Logout"];
@@ -171,7 +172,7 @@ const Header = () => {
           </Box>
           <NightModeToggle />
           <CartButton />
-          {isLoggedIn ? (
+          {isLoggedIn && token ? (
             <Box sx={{ flexGrow: 0, marginLeft: "30px" }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

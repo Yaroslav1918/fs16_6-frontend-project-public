@@ -1,4 +1,6 @@
+import { User } from "./User";
+
 export interface LoginResponse {
-    access_token: string;
-    refresh_token: string;
-  }
+  user: User;
+  accessToken: string;
+}

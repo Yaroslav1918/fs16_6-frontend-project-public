@@ -21,7 +21,7 @@ const App = () => {
         <StyledEngineProvider injectFirst>
           <Provider store={store}>
             <RouterProvider router={router} />
-            <ToastContainer position="top-center" autoClose={4000} />
+            <ToastContainer position="top-left" autoClose={3000} />
           </Provider>
         </StyledEngineProvider>
       </ThemeProvider>

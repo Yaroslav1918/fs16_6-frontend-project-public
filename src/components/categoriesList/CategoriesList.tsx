@@ -51,7 +51,7 @@ const CategoriesList = () => {
 
   const getFilteredCategories = (state: Product[], name?: string) => {
     return state.filter((p) =>
-      p.category.name.toLowerCase().includes(name?.toLowerCase() || "")
+      p.category?.name.toLowerCase().includes(name?.toLowerCase() || "")
     );
   };
 
@@ -62,9 +62,9 @@ const CategoriesList = () => {
 
   const getFilteredProducts = filteredCategoriesList.filter(
     (product: Product) =>
-      product.title.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
+      product.name.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
   );
-
+ 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const displayedProducts = getFilteredProducts.slice(startIndex, endIndex);
@@ -97,21 +97,17 @@ const CategoriesList = () => {
             displayedProducts.map(
               ({
                 price,
-                title,
-                id,
+                name,
+                _id,
                 images,
                 description,
                 category,
+                stock,
               }: Product) => (
-                <ImageListItem key={id} sx={{ width: "33%" }}>
+                <ImageListItem key={_id} sx={{ width: "33%" }}>
                   <img
-                    srcSet={images
-                      .map((i) => `${i}?w=248&fit=crop&auto=format&dpr=2 2x`)
-                      .join(", ")}
-                    src={images
-                      .map((i) => `${i}?w=248&fit=crop&auto=format`)
-                      .join(", ")}
-                    alt={title}
+                    src={images[0]}
+                    alt={name}
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src =
@@ -128,7 +124,7 @@ const CategoriesList = () => {
                         component="span"
                         sx={{ fontSize: { xs: 10, sm: 18 } }}
                       >
-                        {title}
+                        {name}
                       </Box>
                     }
                     subtitle={
@@ -147,7 +143,7 @@ const CategoriesList = () => {
                             color: "inherit",
                           }}
                         >
-                          Category: {category.name}
+                          Category: {category?.name}
                         </ListItem>
                       </List>
                     }
@@ -162,13 +158,14 @@ const CategoriesList = () => {
                     <Button
                       onClick={() => {
                         const newItem = {
-                          id,
-                          title,
+                          _id,
+                          name,
                           price,
                           description,
                           category,
                           images,
                           quantity: 1,
+                          stock,
                         };
                         dispatch(addItemToCart(newItem));
                       }}
@@ -185,7 +182,7 @@ const CategoriesList = () => {
                       Add to cart
                     </Button>
                     <Button
-                      onClick={() => navigate(`/product/${id}`)}
+                      onClick={() => navigate(`/product/${_id}`)}
                       sx={{
                         background: "none",
                         color: Colors.secondaryColor,

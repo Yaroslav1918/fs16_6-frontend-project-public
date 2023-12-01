@@ -42,9 +42,9 @@ const FilterButton = ({
     >
       <ButtonGroup color="secondary" aria-label="medium secondary button group">
         {categories &&
-          categories.map(({ name, id }) => (
+          categories.map(({ name, _id }) => (
             <Button
-              key={id}
+              key={_id}
               onClick={() => handleCategoryClick(name)}
               sx={{
                 backgroundColor:

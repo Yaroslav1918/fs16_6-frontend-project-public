@@ -1,7 +1,6 @@
 export interface GoogleInfo {
-  name: string ;
-  email: string;
-  picture: string;
+  credential: string;
+
 }
 
 export interface GoogleResponse {
