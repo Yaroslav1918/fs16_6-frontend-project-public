@@ -31,7 +31,7 @@ const productsSlice = createSlice({
       } else if (action.payload === "desc") {
         state.products.sort((a, b) => b.price - a.price);
       } else {
-        state.products.sort((a, b) => a._id - b._id);
+        state.products.sort((a, b) => a._id.localeCompare(b._id));
       }
     },
   },
@@ -85,7 +85,7 @@ const productsSlice = createSlice({
       }
     });
     builder.addCase(deleteProductAsync.fulfilled, (state, action) => {
-      if (typeof action.payload === "number") {
+      if (typeof action.payload === "string") {
         state.products = state.products.filter((p) => p._id !== action.payload);
         state.loading = false;
       }
@@ -106,7 +106,7 @@ const productsSlice = createSlice({
       };
     });
     builder.addCase(createProductAsync.fulfilled, (state, action) => {
-      state.products.push(action.payload);
+      state.products.push(action.payload.product);
       state.loading = false;
     });
     builder.addCase(createProductAsync.rejected, (state, action) => {

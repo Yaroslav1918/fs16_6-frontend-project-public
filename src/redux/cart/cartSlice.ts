@@ -24,7 +24,7 @@ const cartSlice = createSlice({
     },
     removeItemFromCart: (
       { cartProductItems },
-      action: PayloadAction<number>
+      action: PayloadAction<string>
     ) => {
       const foundIndex = cartProductItems.findIndex(
         (item) => item._id === action.payload
@@ -34,7 +34,7 @@ const cartSlice = createSlice({
       }
     },
 
-    increaseQuantity: ({ cartProductItems }, action: PayloadAction<number>) => {
+    increaseQuantity: ({ cartProductItems }, action: PayloadAction<string>) => {
       const foundIndex = cartProductItems.findIndex(
         (item) => item._id === action.payload
       );
@@ -42,7 +42,7 @@ const cartSlice = createSlice({
         cartProductItems[foundIndex].quantity++;
       }
     },
-    decreaseQuantity: ({ cartProductItems }, action: PayloadAction<number>) => {
+    decreaseQuantity: ({ cartProductItems }, action: PayloadAction<string>) => {
       const foundIndex = cartProductItems.findIndex(
         (item) => item._id === action.payload
       );

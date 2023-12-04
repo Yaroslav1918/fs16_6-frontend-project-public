@@ -6,10 +6,10 @@ import { useEffect } from "react";
 
 import Container from "../container/Container";
 import { Colors } from "../../styles";
-import operations from "../../redux/user/userOperations";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { AppState } from "../../redux/store";
+import { fetchlogInAsync } from "../../redux/user/userOperations";
 
 type FormValues = {
   email: string;
@@ -71,7 +71,7 @@ const SignIn = () => {
     values: FormValues,
     { setSubmitting, resetForm }: FormikHelpers<FormValues>
   ) => {
-    await dispatch(operations.fetchlogInAsync(values));
+    await dispatch(fetchlogInAsync(values));
     resetForm();
     setSubmitting(false);
   };

@@ -9,6 +9,7 @@ import { Category } from "../../types/Category";
 import baseURL from "../../utils/axiosInstance";
 import { AuthState } from "../user/userSlice";
 import token from "../../utils/axiosAuth";
+import { CategoryResponse } from "../../types/CategoryResponse";
 
 // Categories
 export const fetchCategoriesAsync = createAsyncThunk(
@@ -26,12 +27,12 @@ export const fetchCategoriesAsync = createAsyncThunk(
 
 export const fetchDeleteCategoryAsync = createAsyncThunk(
   "fetchDeleteCategoryAsync",
-  async (_id: number, { rejectWithValue, getState }) => {
+  async (_id: string, { rejectWithValue, getState }) => {
     try {
       const { token: authToken } = (getState() as { userSlice: AuthState })
         .userSlice;
       token.set(authToken);
-      const { data } = await baseURL.delete<boolean>(`categories/${_id}`);
+      const { data } = await baseURL.delete<string>(`categories/${_id}`);
       if (!data) {
         throw new Error("Cannot delete");
       }
@@ -54,7 +55,7 @@ export const fetchCreateCategoryAsync = createAsyncThunk(
       const { token: authToken } = (getState() as { userSlice: AuthState })
         .userSlice;
       token.set(authToken);
-      const { data } = await baseURL.post<Category>(
+      const { data } = await baseURL.post<CategoryResponse>(
         "/categories/",
         newCategory
       );

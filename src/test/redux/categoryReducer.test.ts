@@ -38,7 +38,7 @@ describe("Test async category thunk actions in categorySlice", () => {
 
   test("Should update category", async () => {
     const input: UpdateCategoryInput = {
-      _id: 1,
+      _id: "1",
       update: {
         name: "newName4",
         images: ["https://i.pp.com/nZnWUc0.jpeg"],
@@ -46,7 +46,7 @@ describe("Test async category thunk actions in categorySlice", () => {
     };
     const actionResult = await store.dispatch(fetchUptadeCategoryAsync(input));
     expect(actionResult.payload).toMatchObject({
-      _id: 1,
+      _id: "1",
       name: "newName4",
       images: ["https://i.pp.com/nZnWUc0.jpeg"],
       creationAt: "2023-10-02T12:08:45.000Z",
@@ -55,7 +55,7 @@ describe("Test async category thunk actions in categorySlice", () => {
   });
 
   test("Should delete category", async () => {
-    const resultAction = await store.dispatch(fetchDeleteCategoryAsync(1));
+    const resultAction = await store.dispatch(fetchDeleteCategoryAsync("1"));
     expect(resultAction.payload).toBe(1);
     expect(resultAction.meta.requestStatus).toBe("fulfilled");
   });

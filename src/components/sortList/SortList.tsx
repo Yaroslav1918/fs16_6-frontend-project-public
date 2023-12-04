@@ -67,7 +67,7 @@ const SortList = ({
         >
           {categories.map(({ _id, name }) => (
             <MenuItem key={_id} value={name}>
-              {name}
+              {name} 
             </MenuItem>
           ))}
         </Select>

@@ -12,8 +12,6 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-import { resetToInitialState } from "../../redux/cart/cartSlice";
-import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { Colors } from "../../styles";
 import ModalText from "../modals/modalText/ModalText";
@@ -21,14 +19,15 @@ import { AppState } from "../../redux/store";
 
 const CartTotals = () => {
   const [openModal, setOpenModal] = useState(false);
-  const dispatch = useAppDispatch();
   const productsItems = useAppSelector(
     (state: AppState) => state.cartSlice.cartProductItems
+  );
+  const isLoggenIn = useAppSelector(
+    (state: AppState) => state.userSlice.isLoggedIn
   );
 
   const onCloseModal = () => {
     setOpenModal(false);
-    dispatch(resetToInitialState());
   };
 
   const totalPrice = productsItems.reduce(
@@ -112,7 +111,11 @@ const CartTotals = () => {
         </Button>
       </Box>
       <ModalText
-        text="The transaction was successful"
+        text={
+          !isLoggenIn
+            ? "Only authenticated users can make purchases. Please log in first."
+            : ""
+        }
         openModal={openModal}
         handleCloseModal={onCloseModal}
       />

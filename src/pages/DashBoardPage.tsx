@@ -23,7 +23,10 @@ import {
 } from "../redux/product/productOperations";
 import ModalText from "../components/modals/modalText";
 import AdminForm from "../components/adminForm";
-import { fetchUsersAsync } from "../redux/user/userOperations";
+import {
+  fetchUDeleteUserAsync,
+  fetchUsersAsync,
+} from "../redux/user/userOperations";
 import { Colors } from "../styles";
 import { dataFields } from "../utils/dataFields";
 import usePagination from "../hooks/usePagination";
@@ -35,7 +38,7 @@ import { useDebounce } from "../hooks/useDebounce";
 
 const DashboardPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("categories");
-  const [uptadeId, setUptadeId] = useState(0);
+  const [uptadeId, setUptadeId] = useState("0");
   const [openModal, setOpenModal] = useState(false);
   const [action, setAction] = useState("");
   const [searchText, setSearchText] = useState("");
@@ -136,7 +139,10 @@ const DashboardPage = () => {
                       <TableCell>Description</TableCell>
                     )}
                     {selectedCategory === "users" && (
-                      <TableCell>Email</TableCell>
+                      <>
+                        <TableCell>Email</TableCell>
+                        <TableCell>Role</TableCell>
+                      </>
                     )}
                     {selectedCategory === "products" && (
                       <TableCell>Price</TableCell>
@@ -151,8 +157,8 @@ const DashboardPage = () => {
                       case "categories":
                         return (
                           <>
-                            {displayedItems.map(({ id, name, image }) => (
-                              <TableRow key={id}>
+                            {displayedItems.map(({ _id, name, image }) => (
+                              <TableRow key={_id}>
                                 <TableCell>{name}</TableCell>
                                 <TableCell>
                                   <Box
@@ -181,7 +187,7 @@ const DashboardPage = () => {
                                       aria-label="Edit"
                                       onClick={() => {
                                         setAction("update category");
-                                        setUptadeId(id);
+                                        setUptadeId(_id);
                                         setOpenModal(true);
                                       }}
                                     >
@@ -190,7 +196,7 @@ const DashboardPage = () => {
                                     <IconButton
                                       aria-label="Delete"
                                       onClick={() => {
-                                        dispatch(fetchDeleteCategoryAsync(id));
+                                        dispatch(fetchDeleteCategoryAsync(_id));
                                       }}
                                     >
                                       <DeleteIcon />{" "}
@@ -205,8 +211,8 @@ const DashboardPage = () => {
                         return (
                           <>
                             {displayedItems.map(
-                              ({ id, name, category, price, description }) => (
-                                <TableRow key={id}>
+                              ({ _id, name, category, price, description }) => (
+                                <TableRow key={_id}>
                                   <TableCell>{name}</TableCell>
                                   <TableCell>{description}</TableCell>
                                   <TableCell>{price}$</TableCell>
@@ -237,7 +243,7 @@ const DashboardPage = () => {
                                         aria-label="Edit"
                                         onClick={() => {
                                           setAction("update product");
-                                          setUptadeId(id);
+                                          setUptadeId(_id);
                                           setOpenModal(true);
                                         }}
                                       >
@@ -246,7 +252,7 @@ const DashboardPage = () => {
                                       <IconButton
                                         aria-label="Delete"
                                         onClick={() => {
-                                          dispatch(deleteProductAsync(id));
+                                          dispatch(deleteProductAsync(_id));
                                         }}
                                       >
                                         <DeleteIcon />{" "}
@@ -262,8 +268,8 @@ const DashboardPage = () => {
                         return (
                           <>
                             {displayedItems.map(
-                              ({ id, name, email, avatar, role }) => (
-                                <TableRow key={id}>
+                              ({ _id, name, email, avatar, role }) => (
+                                <TableRow key={_id}>
                                   <TableCell>{name}</TableCell>
                                   <TableCell>{email}</TableCell>
                                   <TableCell>{role}</TableCell>
@@ -294,11 +300,19 @@ const DashboardPage = () => {
                                         aria-label="Edit"
                                         onClick={() => {
                                           setAction("update user");
-                                          setUptadeId(id);
+                                          setUptadeId(_id);
                                           setOpenModal(true);
                                         }}
                                       >
                                         <EditIcon />{" "}
+                                      </IconButton>
+                                      <IconButton
+                                        aria-label="Delete"
+                                        onClick={() => {
+                                          dispatch(fetchUDeleteUserAsync(_id));
+                                        }}
+                                      >
+                                        <DeleteIcon />{" "}
                                       </IconButton>
                                     </Box>
                                   </TableCell>

@@ -7,7 +7,8 @@ import GoogleIcon from "@mui/icons-material/Google";
 import { GoogleInfo } from "../../types/GoogleProfile";
 import requestToGoogle from "../../utils/requestToGoogle";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import operations from "../../redux/user/userOperations";
+import { fetchGoogleLogInAsync } from "../../redux/user/userOperations";
+
 
 interface GoogleLoginButtonProps {
   
@@ -40,7 +41,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
         onSuccess={(credentialResponse) => {
           if (credentialResponse) {
             dispatch(
-              operations.fetchGoogleLogInAsync(credentialResponse.credential)
+              fetchGoogleLogInAsync(credentialResponse.credential)
             );
             // sendGoogleInfo(credentialResponse.credential);
           }

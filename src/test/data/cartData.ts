@@ -2,7 +2,7 @@ import { categoriesData } from "./categoriesData";
 export const cartData = {
   cartProductItems: [
     {
-      _id: 1,
+      _id: "1",
       name: "nuevo title",
       price: 987,
       category: categoriesData[1],
@@ -13,7 +13,7 @@ export const cartData = {
       stock: 22,
     },
     {
-      _id: 2,
+      _id: "2",
       name: "Bespoke Wooden Shirt",
       price: 551,
       category: categoriesData[0],

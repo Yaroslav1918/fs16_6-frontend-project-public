@@ -1,4 +1,4 @@
 import { Product } from './Product';
 export interface CreateProductInput extends Partial<Product> {
-  categoryId?: number;
+  categoryId?: string;
 }

@@ -11,12 +11,14 @@ import ProductPage from "../pages/ProductPage";
 import CategoriesList from "../components/categoriesList";
 import ScrollToTop from "../utils/scrollToTop";
 import DashBoardPage from "../pages/DashBoardPage";
+import LogoutTimer from "../components/logoutTimer";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: (
       <>
+        <LogoutTimer />
         <ScrollToTop />
         <Root />
       </>

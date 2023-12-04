@@ -20,7 +20,7 @@ import { AppState } from "../../redux/store";
 
 const SingleCard = () => {
   let { _id } = useParams();
-  const numericId = Number(_id);
+
   const product = useAppSelector(
     (state: AppState) => state.productSlice.singleProduct
   );
@@ -34,10 +34,8 @@ const SingleCard = () => {
   };
 
   useEffect(() => {
-    if (numericId) {
-      dispatch(fetchSingleAsync(numericId));
-    }
-  }, [dispatch, numericId]);
+    if (_id) dispatch(fetchSingleAsync(_id));
+  }, [dispatch, _id]);
 
   return (
     <Card
@@ -113,11 +111,11 @@ const SingleCard = () => {
         <Button
           onClick={() => {
             const newItem = {
-              _id: numericId,
+              _id: _id || "",
               name: name || "",
               price: price || 0,
               description: description || "",
-              category: category || { _id: 0, name: "", images: [] },
+              category: category || { _id: "0", name: "", images: [] },
               images: images || [],
               quantity: 1,
               stock: stock || 0,

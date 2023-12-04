@@ -8,7 +8,7 @@ import { categoriesData } from "../data/categoriesData";
 export const handlers = [
   rest.delete("http://localhost:5000/products/:_id", async (req, res, ctx) => {
     const { _id } = req.params;
-    if (productsData.find((p) => p._id === Number(_id))) {
+    if (productsData.find((p) => p._id === (_id))) {
       return res(ctx.json(true));
     } else {
       return res(ctx.json(false));
@@ -21,7 +21,7 @@ export const handlers = [
 
   rest.get("http://localhost:5000/products/:_id", async (req, res, ctx) => {
     const { _id } = req.params;
-    const product = productsData.find((item) => item._id === +_id);
+    const product = productsData.find((item) => item._id === _id);
     if (product) {
       return res(ctx.json(product));
     } else {
@@ -39,7 +39,7 @@ export const handlers = [
     const category = categoriesData.find((c) => c._id === input.categoryId);
     if (category) {
       const newProduct = {
-        id: productsData.length + 1,
+        _id: productsData.length + 1,
         images: input.images,
         name: input.name,
         description: input.description,
@@ -65,7 +65,7 @@ export const handlers = [
   rest.put("http://localhost:5000/products/:_id", async (req, res, ctx) => {
     const update = await req.json();
     const { _id } = req.params;
-    const index = productsData.findIndex((p) => p._id === Number(_id));
+    const index = productsData.findIndex((p) => p._id === (_id));
     try {
       if (index > -1) {
         return res(

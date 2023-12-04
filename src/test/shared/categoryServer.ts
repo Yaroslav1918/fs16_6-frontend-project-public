@@ -10,7 +10,7 @@ export const handlers = [
   rest.put("http://localhost:5000/categories/:_id", async (req, res, ctx) => {
     const update = await req.json();
     const { _id } = req.params;
-    const index = categoriesData.findIndex((p) => p._id === Number(_id));
+    const index = categoriesData.findIndex((p) => p._id === (_id));
     try {
       if (index > -1) {
         return res(
@@ -37,7 +37,7 @@ export const handlers = [
     "http://localhost:5000/categories/:_id",
     async (req, res, ctx) => {
       const { _id } = req.params;
-      if (categoriesData.find((p) => p._id === Number(_id))) {
+      if (categoriesData.find((p) => p._id === (_id))) {
         return res(ctx.json(true));
       } else {
         return res(ctx.json(false));

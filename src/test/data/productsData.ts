@@ -3,7 +3,7 @@ import { categoriesData } from "./categoriesData";
 
 export const productsData: Product[] = [
   {
-    _id: 1,
+    _id: "1",
     name: "nuevo title",
     price: 987,
     description:
@@ -15,7 +15,7 @@ export const productsData: Product[] = [
   },
 
   {
-    _id: 2,
+    _id: "2",
     name: "Bespoke Wooden Shirt",
     price: 551,
     description:
@@ -27,7 +27,7 @@ export const productsData: Product[] = [
   },
 
   {
-    _id: 3,
+    _id: "3",
     name: "Gorgeous Soft Hat",
     price: 635,
     description:

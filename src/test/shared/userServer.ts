@@ -1,7 +1,6 @@
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { usersData } from "../data/usersData";
-import { productsData } from "../data/productsData";
 
 export const access_token = "my-access-token";
 export const handlers = [
@@ -39,7 +38,7 @@ export const handlers = [
     async (req, res, ctx) => {
       const update = await req.json();
       const { _id } = req.params;
-      const index =usersData.findIndex((p) => p._id === Number(_id));
+      const index =usersData.findIndex((p) => p._id === (_id));
       try {
         if (index > -1) {
           return res(
@@ -87,7 +86,7 @@ export const handlers = [
     const token = req.headers.get("Authorization")?.split(" ")[1];
     const originalToken = token?.split("_")[0];
     const userId = token?.split("_")[1];
-    const user = usersData.find((u) => u._id === Number(userId));
+    const user = usersData.find((u) => u._id === (userId));
     if (originalToken === access_token && user) {
       return res(ctx.json(user));
     } else {

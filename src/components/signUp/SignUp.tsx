@@ -6,11 +6,10 @@ import { useEffect, useState } from "react";
 import Container from "../container/Container";
 import { Colors } from "../../styles";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
-import operations from "../../redux/user/userOperations";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import GoogleLoginButton from "../googleLoginButton";
-import { GoogleInfo } from "../../types/GoogleProfile";
 import { AppState } from "../../redux/store";
+import { fetchRegisterAsync } from "../../redux/user/userOperations";
 
 const SignUp = () => {
   const dispatch = useAppDispatch();
@@ -36,7 +35,7 @@ const SignUp = () => {
       updatedFormData.avatar =
         "https://i.pinimg.com/originals/ea/76/c3/ea76c343f9bbd6917e9a094b9317ab9e.jpg";
     }
-    await dispatch(operations.fetchRegisterAsync(updatedFormData));
+    await dispatch(fetchRegisterAsync(updatedFormData));
     setFormSubmitted(true);
     setFormData({
       name: "",

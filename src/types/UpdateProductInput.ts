@@ -2,5 +2,5 @@ import { CreateProductInput } from "./CreateProductInput";
 
 export interface UpdateProductInput {
   update: Partial<CreateProductInput>;
-  _id: number;
+  _id: string;
 };

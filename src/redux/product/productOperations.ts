@@ -9,6 +9,7 @@ import extractErrorMessages from "../../utils/extractErrorMessages";
 import baseURL from "../../utils/axiosInstance";
 import token from "../../utils/axiosAuth";
 import { AuthState } from "../user/userSlice";
+import { ProductResponse } from "../../types/ProductResponse";
 
 export const fetchAllProductAsync = createAsyncThunk(
   "fetchAllProductAsync",
@@ -25,7 +26,7 @@ export const fetchAllProductAsync = createAsyncThunk(
 
 export const fetchSingleAsync = createAsyncThunk(
   "fetchSingleAsync",
-  async (_id: number, { rejectWithValue }) => {
+  async (_id: string, { rejectWithValue }) => {
     try {
       const { data } = await baseURL.get<Product>(`/products/${_id}`);
       return data;
@@ -38,12 +39,12 @@ export const fetchSingleAsync = createAsyncThunk(
 
 export const deleteProductAsync = createAsyncThunk(
   "deleteProductAsync",
-  async (_id: number, { rejectWithValue, getState }) => {
+  async (_id: string, { rejectWithValue, getState }) => {
     try {
       const { token: authToken } = (getState() as { userSlice: AuthState })
         .userSlice;
       token.set(authToken);
-      const { data } = await baseURL.delete<boolean>(`products/${_id}`);
+      const { data } = await baseURL.delete<string>(`products/${_id}`);
       if (!data) {
         throw new Error("Cannot delete");
       }
@@ -66,12 +67,16 @@ export const createProductAsync = createAsyncThunk(
       const { token: authToken } = (getState() as { userSlice: AuthState })
         .userSlice;
       token.set(authToken);
-      const { data } = await baseURL.post<Product>("products/", newProduct);
+      const { data } = await baseURL.post<ProductResponse>(
+        "products/",
+        newProduct
+      );
       toast.success("Product successfully created");
       return data;
     } catch (e) {
+      console.log("🚀 ~ file: productOperations.ts:73 ~ e:", e)
       const errorMessage = extractErrorMessages(e);
-      return rejectWithValue(errorMessage);
+      return rejectWithValue(e);
     }
   }
 );

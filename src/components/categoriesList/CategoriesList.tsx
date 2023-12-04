@@ -28,7 +28,7 @@ import ImageModal from "../modals/imageModal";
 
 const CategoriesList = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedCategory, setSelectedCategory] = useState("Clothes");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearchQuery = useDebounce(searchQuery);
   const [open, setOpen] = useState(false);

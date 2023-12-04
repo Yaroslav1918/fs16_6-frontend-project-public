@@ -57,20 +57,20 @@ describe("Test async  product thunk actions in productsReducer", () => {
   });
 
   test("Should fetch single product", async () => {
-    await store.dispatch(fetchSingleAsync(1));
+    await store.dispatch(fetchSingleAsync("1"));
     expect(
       Object.keys(store.getState().productSlice.singleProduct).length
     ).toBeGreaterThan(0);
   });
 
   test("Should delete an existing product", async () => {
-    const resultAction = await store.dispatch(deleteProductAsync(1));
+    const resultAction = await store.dispatch(deleteProductAsync("1"));
     expect(resultAction.payload).toBe(1);
     expect(resultAction.meta.requestStatus).toBe("fulfilled");
   });
 
   test("Should delete an non-existing product", async () => {
-    const resultAction = await store.dispatch(deleteProductAsync(2000));
+    const resultAction = await store.dispatch(deleteProductAsync("2000"));
     expect(resultAction.meta.requestStatus).toBe("rejected");
   });
 
@@ -79,7 +79,7 @@ describe("Test async  product thunk actions in productsReducer", () => {
       name: "test product",
       description: "test product",
       price: 100,
-      categoryId: 3,
+      categoryId: "3",
       images: ["https://i.imgur.com/O1LUkwy.jpeg"],
     };
     const resultAction = await store.dispatch(createProductAsync(input));
@@ -88,7 +88,7 @@ describe("Test async  product thunk actions in productsReducer", () => {
 
   test("Should update product", async () => {
     const input: UpdateProductInput = {
-      _id: 1,
+      _id: "1",
       update: {
         price: 200,
         name: "Newly updated product",

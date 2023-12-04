@@ -49,7 +49,7 @@ const categoriesSlice = createSlice({
     });
 
     builder.addCase(fetchDeleteCategoryAsync.fulfilled, (state, action) => {
-      if (typeof action.payload === "number") {
+      if (typeof action.payload === "string") {
         state.categories = state.categories.filter(
           (p) => p._id !== action.payload
         );
@@ -68,7 +68,7 @@ const categoriesSlice = createSlice({
     });
 
     builder.addCase(fetchCreateCategoryAsync.fulfilled, (state, action) => {
-      state.categories.push(action.payload);
+      state.categories.push(action.payload.newCategory);
       state.loading = false;
     });
     builder.addCase(fetchCreateCategoryAsync.rejected, (state, action) => {

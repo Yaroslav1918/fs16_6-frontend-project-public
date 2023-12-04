@@ -16,14 +16,18 @@ import {
   createProductAsync,
   updateProductAsync,
 } from "../../redux/product/productOperations";
-import operations from "../../redux/user/userOperations";
 import {
-  fetchCategoriesAsync,
   fetchCreateCategoryAsync,
   fetchUptadeCategoryAsync,
 } from "../../redux/category/categoryOperations";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { AppState } from "../../redux/store";
+import validUrl from "../../utils/validUrl";
+import {
+  fetchCreateUserAsync,
+  fetchUptadeUserAsync,
+} from "../../redux/user/userOperations";
+import useRoles from "../../hooks/useRoles";
 
 interface FormProps {
   formCategoriesFields: DynamicInput[];
@@ -31,7 +35,7 @@ interface FormProps {
   formUsersFields: DynamicInput[];
   handleCloseModal: () => void;
   action: string;
-  uptadeId: number;
+  uptadeId: string;
   selectedCategory: string;
 }
 
@@ -44,51 +48,59 @@ const AdminForm = ({
   formProductsFields,
   formUsersFields,
 }: FormProps) => {
-  const [formData, setFormData] = useState<{ [key: string]: string }>({});
+  const [formData, setFormData] = useState<{ [key: string]: any }>({});
   const dispatch = useAppDispatch();
+  const { roles } = useRoles(selectedCategory);
   const categories = useAppSelector(
     (state: AppState) => state.categorySlice.categories
   );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const imagesArr = validUrl(formData.images)
+      ? formData.images.slice(1, -1).replace(/\\"/g, '"').split('","')
+      : formData.images;
+    const category = {
+      ...formData,
+      images: imagesArr,
+    };
     switch (action) {
       case "add category":
-        dispatch(fetchCreateCategoryAsync(formData));
+        dispatch(fetchCreateCategoryAsync(category));
         break;
       case "update category":
         const updatedCategory = {
           _id: uptadeId,
-          update: formData,
+          update: category,
         };
         dispatch(fetchUptadeCategoryAsync(updatedCategory));
         break;
       case "update product":
         const updatedProduct = {
           _id: uptadeId,
-          update: formData,
+          update: {
+            ...formData,
+            images: imagesArr,
+          },
         };
         dispatch(updateProductAsync(updatedProduct));
         break;
       case "add product":
-        const imagesArray =
-          formData.images !== undefined ? formData.images.split(",") : [];
         const product = {
           ...formData,
-          images: imagesArray,
+          images: imagesArr,
         };
-        dispatch(fetchCategoriesAsync());
         dispatch(createProductAsync(product));
         break;
       case "add user":
-        dispatch(operations.fetchRegisterAsync(formData));
+        dispatch(fetchCreateUserAsync(formData));
         break;
       case "update user":
         const updatedUser = {
           _id: uptadeId,
           update: formData,
         };
-        dispatch(operations.fetchUptadeUserAsync(updatedUser));
+        dispatch(fetchUptadeUserAsync(updatedUser));
         break;
       default:
         break;
@@ -98,9 +110,22 @@ const AdminForm = ({
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
+    let parsedValue;
+    switch (true) {
+      case name === "price" && !isNaN(Number(value)):
+        parsedValue = parseFloat(value);
+        break;
+      case name === "name" && !isNaN(value):
+        parsedValue = parseFloat(value);
+        break;
+      default:
+        parsedValue = value;
+        break;
+    }
+
     setFormData({
       ...formData,
-      [name]: value,
+      [name]: parsedValue,
     });
   };
 
@@ -173,20 +198,50 @@ const AdminForm = ({
           })}
 
         {selectedCategory === "users" &&
-          formUsersFields.map((field) => (
-            <TextField
-              key={field.name}
-              label={field.label}
-              variant="outlined"
-              fullWidth
-              name={field.name}
-              placeholder={field.placeholder || ""}
-              value={formData[field.name] || ""}
-              onChange={handleInputChange}
-              sx={{ marginBottom: "15px" }}
-            />
-          ))}
+          formUsersFields.map((field) => {
+            if (field.name === "role") {
+              return (
+                <FormControl
+                  key={field.name}
+                  fullWidth
+                  variant="filled"
+                  sx={{ marginBottom: "15px" }}
+                >
+                  <InputLabel htmlFor="roles-select">Role</InputLabel>
+                  <Select
+                    value={formData[field.name] || ""}
+                    onChange={handleInputChange}
+                    name={field.name}
+                    inputProps={{
+                      name: field.name,
+                      id: "roles-select",
+                    }}
+                  >
+                    <MenuItem value="">Select a roles</MenuItem>
+                    {roles.map((role) => (
+                      <MenuItem key={role._id} value={role._id}>
+                        {role.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              );
+            }
 
+            return (
+              <TextField
+                key={field.name}
+                label={field.label}
+                variant="outlined"
+                fullWidth
+                name={field.name}
+                placeholder={field.placeholder || ""}
+                value={formData[field.name] || ""}
+                onChange={handleInputChange}
+                sx={{ marginBottom: "15px" }}
+              />
+            );
+          })}
         <Button
           variant="contained"
           color="primary"

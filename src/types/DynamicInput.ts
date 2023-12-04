@@ -1,3 +1,3 @@
 export interface DynamicInput {
-  [key: string]: string;
+  [key: string]: any;
 }

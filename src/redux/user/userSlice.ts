@@ -1,5 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import operations from "./userOperations";
+import {
+  fetchByIdUser,
+  fetchCreateUserAsync,
+  fetchGoogleLogInAsync,
+  fetchRegisterAsync,
+  fetchUDeleteUserAsync,
+  fetchUptadeUserAsync,
+  fetchUsersAsync,
+  fetchlogInAsync,
+} from "./userOperations";
 import { User } from "../../types/User";
 
 export interface AuthState {
@@ -34,110 +43,143 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(operations.fetchUsersAsync.fulfilled, (state, action) => {
+      .addCase(fetchUsersAsync.fulfilled, (state, action) => {
         state.users = action.payload;
         state.isLoggedIn = true;
         state.error = null;
         state.loading = false;
       })
-      .addCase(operations.fetchUsersAsync.pending, (state) => {
+      .addCase(fetchUsersAsync.pending, (state) => {
         return {
           ...state,
           loading: true,
         };
       })
-      .addCase(operations.fetchUsersAsync.rejected, (state, action) => {
+      .addCase(fetchUsersAsync.rejected, (state, action) => {
         state.error = action.error.message as string | null;
         state.loading = false;
       })
-      .addCase(operations.fetchRegisterAsync.fulfilled, (state, action) => {
+      .addCase(fetchRegisterAsync.fulfilled, (state, action) => {
         state.currentUser = action.payload.user;
         state.isLoggedIn = false;
         state.error = null;
         state.loading = false;
       })
-      .addCase(operations.fetchRegisterAsync.pending, (state) => {
+      .addCase(fetchRegisterAsync.pending, (state) => {
         return {
           ...state,
           loading: true,
         };
       })
-      .addCase(operations.fetchRegisterAsync.rejected, (state, action) => {
+      .addCase(fetchRegisterAsync.rejected, (state, action) => {
         state.error = action.error.message as string | null;
         state.loading = false;
       })
-      .addCase(operations.fetchlogInAsync.fulfilled, (state, action) => {
+      .addCase(fetchlogInAsync.fulfilled, (state, action) => {
         state.token = action.payload.accessToken;
         state.currentUser = action.payload.user;
         state.isLoggedIn = true;
         state.error = null;
         state.loading = false;
       })
-      .addCase(operations.fetchlogInAsync.pending, (state) => {
+      .addCase(fetchlogInAsync.pending, (state) => {
         return {
           ...state,
           loading: true,
         };
       })
-      .addCase(operations.fetchlogInAsync.rejected, (state, action) => {
+      .addCase(fetchlogInAsync.rejected, (state, action) => {
         state.error = action.error.message as string | null;
         state.loading = false;
       })
-      .addCase(operations.fetchGoogleLogInAsync.fulfilled, (state, action) => {
+      .addCase(fetchGoogleLogInAsync.fulfilled, (state, action) => {
         state.token = action.payload.accessToken;
         state.currentUser = action.payload.user;
         state.isLoggedIn = true;
         state.error = null;
         state.loading = false;
       })
-      .addCase(operations.fetchGoogleLogInAsync.pending, (state) => {
+      .addCase(fetchGoogleLogInAsync.pending, (state) => {
         return {
           ...state,
           loading: true,
         };
       })
-      .addCase(operations.fetchGoogleLogInAsync.rejected, (state, action) => {
+      .addCase(fetchGoogleLogInAsync.rejected, (state, action) => {
         state.error = action.error.message as string | null;
         state.loading = false;
       })
 
-      .addCase(operations.fetchByIdUser.fulfilled, (state, action) => {
+      .addCase(fetchByIdUser.fulfilled, (state, action) => {
         state.currentUser = action.payload;
         state.isLoggedIn = true;
         state.error = null;
         state.loading = false;
       })
-      .addCase(operations.fetchByIdUser.pending, (state) => {
+      .addCase(fetchByIdUser.pending, (state) => {
         return {
           ...state,
           loading: true,
         };
       })
-      .addCase(operations.fetchByIdUser.rejected, (state, action) => {
+      .addCase(fetchByIdUser.rejected, (state, action) => {
         state.error = action.error.message as string | null;
         state.loading = false;
       })
-      .addCase(operations.fetchUptadeUserAsync.fulfilled, (state, action) => {
+      .addCase(fetchUptadeUserAsync.fulfilled, (state, action) => {
         const foundIndex = state.users.findIndex(
-          (p) => p._id === action.payload._id
+          (p) => p._id === action.payload.user._id
         );
         if (foundIndex >= 0) {
-          state.users[foundIndex] = action.payload;
+          state.users[foundIndex] = action.payload.user;
         }
       })
-      .addCase(operations.fetchUptadeUserAsync.rejected, (state, action) => {
+      .addCase(fetchUptadeUserAsync.rejected, (state, action) => {
         return {
           ...state,
           error: action.error.message as string | null,
           loading: false,
         };
       })
-      .addCase(operations.fetchUptadeUserAsync.pending, (state) => {
+      .addCase(fetchUptadeUserAsync.pending, (state) => {
         return {
           ...state,
           loading: true,
         };
       });
+    builder.addCase(fetchUDeleteUserAsync.fulfilled, (state, action) => {
+      state.users = state.users.filter((p) => p._id !== action.payload);
+      state.loading = false;
+    });
+    builder.addCase(fetchUDeleteUserAsync.rejected, (state, action) => {
+      if (action.payload instanceof Error) {
+        return {
+          ...state,
+          loading: false,
+          error: action.payload.message,
+        };
+      }
+    });
+    builder.addCase(fetchUDeleteUserAsync.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    });
+    builder.addCase(fetchCreateUserAsync.fulfilled, (state, action) => {
+      state.users.push(action.payload.user);
+      state.loading = false;
+    });
+    builder.addCase(fetchCreateUserAsync.rejected, (state, action) => {
+      state.error = action.payload as string;
+      state.loading = false;
+    });
+    builder.addCase(fetchCreateUserAsync.pending, (state, action) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    });
   },
 });
 
