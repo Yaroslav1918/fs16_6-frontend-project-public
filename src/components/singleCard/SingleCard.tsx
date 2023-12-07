@@ -19,8 +19,7 @@ import { addItemToCart } from "../../redux/cart/cartSlice";
 import { AppState } from "../../redux/store";
 
 const SingleCard = () => {
-  let { _id } = useParams();
-
+  const { _id } = useParams();
   const product = useAppSelector(
     (state: AppState) => state.productSlice.singleProduct
   );
@@ -34,7 +33,9 @@ const SingleCard = () => {
   };
 
   useEffect(() => {
-    if (_id) dispatch(fetchSingleAsync(_id));
+    if (_id) {
+      dispatch(fetchSingleAsync(_id));
+    }
   }, [dispatch, _id]);
 
   return (
@@ -43,6 +44,7 @@ const SingleCard = () => {
         maxWidth: 500,
         margin: "90px auto 0",
         backgroundColor: theme.palette.background.default,
+        boxShadow: 5,
       }}
     >
       <Carousel showThumbs={false}>
@@ -58,7 +60,7 @@ const SingleCard = () => {
       </Carousel>
 
       <CardContent>
-        <Typography gutterBottom variant="h5">
+        <Typography gutterBottom variant="h5" sx={{ textAlign: "center" }}>
           {name}
         </Typography>
         <Typography
@@ -66,7 +68,7 @@ const SingleCard = () => {
           color="text.secondary"
           sx={{ marginBottom: "5px" }}
         >
-          Category: {category && category.name}
+          Category: {category?.name}
         </Typography>
         <Typography
           variant="body2"
@@ -82,31 +84,31 @@ const SingleCard = () => {
         >
           Price: {price} $
         </Typography>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          sx={{ color: Colors.secondaryColor }}
-        >
-          Stock: {stock}
+        <Typography variant="body2" color="text.secondary">
+          Stock: {stock} pieces
         </Typography>
       </CardContent>
 
       <Box
         sx={{
           display: "flex",
-          justifyContent: "center",
+          justifyContent: "space-evenly",
           alignItems: "center",
         }}
       >
         <Button
           onClick={handleClickBack}
           sx={{
+            display: "flex",
+            alignItems: "baseline",
             background: "none",
+            padding: "10px",
             color: Colors.secondaryColor,
-            fontSize: "20px",
+            fontSize: { xs: 10, sm: 13 },
           }}
         >
-          <ChevronLeftIcon />
+          <ChevronLeftIcon sx={{ fontSize: { xs: 10, sm: 15 }, mr: 0.3 }} />
+          Back
         </Button>
         <Button
           onClick={() => {
@@ -123,13 +125,20 @@ const SingleCard = () => {
             dispatch(addItemToCart(newItem));
           }}
           sx={{
-            color: "inherit",
+            color: Colors.secondaryColor,
             fontSize: { xs: 10, sm: 13 },
+            padding: "10px",
             display: "flex",
             alignItems: "baseline",
           }}
         >
-          <ShoppingBasketIcon sx={{ fontSize: { xs: 10, sm: 15 }, mr: 0.3 }} />
+          <ShoppingBasketIcon
+            sx={{
+              color: Colors.secondaryColor,
+              fontSize: { xs: 10, sm: 15 },
+              mr: 0.3,
+            }}
+          />
           Add to cart
         </Button>
       </Box>

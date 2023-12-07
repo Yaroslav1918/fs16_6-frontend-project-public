@@ -12,6 +12,8 @@ import CategoriesList from "../components/categoriesList";
 import ScrollToTop from "../utils/scrollToTop";
 import DashBoardPage from "../pages/DashBoardPage";
 import LogoutTimer from "../components/logoutTimer";
+import PaymentPage from "../pages/PaymentPage";
+import OrderHistoryPage from "../pages/OrderHistoryPage";
 
 export const router = createBrowserRouter([
   {
@@ -38,7 +40,7 @@ export const router = createBrowserRouter([
         element: <ProfilePage />,
       },
       {
-        path: "product/:id",
+        path: "product/:_id",
         element: <ProductPage />,
       },
       {
@@ -56,6 +58,14 @@ export const router = createBrowserRouter([
       {
         path: "dashboard",
         element: <DashBoardPage />,
+      },
+      {
+        path: "payment",
+        element: <PaymentPage />,
+      },
+      {
+        path: "order",
+        element: <OrderHistoryPage/>,
       },
     ],
   },

@@ -120,18 +120,25 @@ const DashboardPage = () => {
             ))}
           </List>
         </Box>
-        <Box flexBasis={{ xs: "100%", md: "80%" }} flexGrow={1} padding="16px">
-          <Paper>
+        <Box
+          flexBasis={{ xs: "100%", md: "80%"}}
+          flexGrow={1}
+          padding="16px"
+        >
+          <Paper sx ={{bgcolor: "background.default"}}>
             <TextField
               label="Search by name"
               size="small"
               variant="standard"
               value={debouncedSearchQuery}
               onChange={(e) => setSearchText(e.target.value)}
-              sx={{ marginBottom: "10px", marginLeft: "15px" }}
+              sx={{
+                marginBottom: "10px",
+                marginLeft: "15px",
+              }}
             />
             <TableContainer>
-              <Table>
+              <Table sx={{ bgcolor: "background.default" }}>
                 <TableHead>
                   <TableRow>
                     <TableCell>Name</TableCell>

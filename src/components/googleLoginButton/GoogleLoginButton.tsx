@@ -17,32 +17,40 @@ interface GoogleLoginButtonProps {
 const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
 }) => {
    const dispatch = useAppDispatch();
-  // const login = useGoogleLogin({
-  //   onSuccess: async (response) => {
-  //     console.log(
-  //       "🚀 ~ file: GoogleLoginButton.tsx:19 ~ onSuccess: ~ response:",
-  //       response
-  //     );
-  //     try {
-  //       const res = await requestToGoogle(response);
+  const login = useGoogleLogin({
+    onSuccess: async (response) => {
+      console.log(
+        "🚀 ~ file: GoogleLoginButton.tsx:19 ~ onSuccess: ~ response:",
+        response
+      );
+      try {
+        const res = await requestToGoogle(response);
 
-  //       // const { name, email, picture } = res;
-  //       // sendGoogleInfo({ name, email, picture });
-  //     } catch (e) {
-  //       const error = e as AxiosError;
-  //       return error.message;
-  //     }
-  //   },
-  // });
+        // const { name, email, picture } = res;
+        // sendGoogleInfo({ name, email, picture });
+      } catch (e) {
+        const error = e as AxiosError;
+        return error.message;
+      }
+    },
+  });
 
   return (
     <>
       <GoogleLogin
+        containerProps={{
+          style: {
+            marginTop: "20px",
+          },
+        }}
+       width= "590"
         onSuccess={(credentialResponse) => {
           if (credentialResponse) {
-            dispatch(
-              fetchGoogleLogInAsync(credentialResponse.credential)
+            console.log(
+              "🚀 ~ file: GoogleLoginButton.tsx:43 ~ credentialResponse:",
+              credentialResponse
             );
+            dispatch(fetchGoogleLogInAsync(credentialResponse.credential));
             // sendGoogleInfo(credentialResponse.credential);
           }
         }}
@@ -50,9 +58,8 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
           // Handle the Google login error here if needed
           console.log("Login Failed");
         }}
-       
       ></GoogleLogin>
-      {/* <Button
+      <Button
         type="submit"
         variant="contained"
         color="primary"
@@ -71,7 +78,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
       >
         <GoogleIcon sx={{ marginRight: "5px" }} />
         Sign In using your Google account
-      </Button> */}
+      </Button>
     </>
   );
 };

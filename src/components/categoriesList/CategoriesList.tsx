@@ -24,26 +24,18 @@ import { Colors } from "../../styles";
 import { useDebounce } from "../../hooks/useDebounce";
 import { AppState } from "../../redux/store";
 import { fetchAllProductAsync } from "../../redux/product/productOperations";
-import ImageModal from "../modals/imageModal";
 
 const CategoriesList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearchQuery = useDebounce(searchQuery);
-  const [open, setOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState("");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const itemsPerPage = 9;
   const products = useAppSelector(
     (state: AppState) => state.productSlice.products
   );
-
-  const handleOpenModal = (img: string) => {
-    setSelectedImage(img);
-    setOpen(true);
-  };
 
   useEffect(() => {
     dispatch(fetchAllProductAsync());
@@ -64,7 +56,7 @@ const CategoriesList = () => {
     (product: Product) =>
       product.name.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
   );
- 
+
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const displayedProducts = getFilteredProducts.slice(startIndex, endIndex);
@@ -104,7 +96,14 @@ const CategoriesList = () => {
                 category,
                 stock,
               }: Product) => (
-                <ImageListItem key={_id} sx={{ width: "33%" }}>
+                <ImageListItem
+                  key={_id}
+                  sx={{
+                    margin: "7px",
+                    "&:hover": { transform: "scale(1.01)" },
+                  }}
+                  onClick={() => navigate(`/product/${_id}`)}
+                >
                   <img
                     src={images[0]}
                     alt={name}
@@ -114,8 +113,11 @@ const CategoriesList = () => {
                         "https://demofree.sirv.com/nope-not-here.jpg";
                     }}
                     loading="lazy"
-                    style={{ borderRadius: "2%" }}
-                    onClick={() => handleOpenModal(images[0])}
+                    style={{
+                      borderRadius: "2%",
+                      width: "350px",
+                      height: "350px",
+                    }}
                   />
                   <ImageListItemBar
                     sx={{ textAlign: "center" }}
@@ -153,10 +155,12 @@ const CategoriesList = () => {
                     sx={{
                       display: "flex",
                       justifyContent: "space-evenly",
+                      alignItems: "baseline",
                     }}
                   >
                     <Button
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         const newItem = {
                           _id,
                           name,
@@ -171,6 +175,7 @@ const CategoriesList = () => {
                       }}
                       sx={{
                         color: "inherit",
+                        padding: "10px",
                         fontSize: { xs: 8, sm: 13 },
                         display: "flex",
                         alignItems: "baseline",
@@ -185,10 +190,13 @@ const CategoriesList = () => {
                       onClick={() => navigate(`/product/${_id}`)}
                       sx={{
                         background: "none",
+                        padding: "10px",
                         color: Colors.secondaryColor,
-                        fontSize: "20px",
+                        fontSize: "15px",
                       }}
                     >
+                      {" "}
+                      Detail Info
                       <ChevronRightIcon />
                     </Button>
                   </Box>
@@ -220,11 +228,6 @@ const CategoriesList = () => {
             }}
           />
         )}
-        <ImageModal
-          open={open}
-          handleClose={() => setOpen(false)}
-          selectedImage={selectedImage}
-        />
       </Container>
     </Box>
   );

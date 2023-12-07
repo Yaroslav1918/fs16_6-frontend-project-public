@@ -16,6 +16,7 @@ import { useAppSelector } from "../../hooks/useAppSelector";
 import { Colors } from "../../styles";
 import ModalText from "../modals/modalText/ModalText";
 import { AppState } from "../../redux/store";
+import PayButton from "../payButton";
 
 const CartTotals = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -93,22 +94,26 @@ const CartTotals = () => {
         </Table>
       </TableContainer>
       <Box mt={3} sx={{ display: "flex", justifyContent: "center" }}>
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{
-            background: Colors.secondaryColor,
-            "&:hover": {
-              background: Colors.hoverColor,
-            },
-            fontSize: { xs: "13px", md: "15px" },
-          }}
-          onClick={() => {
-            setOpenModal((prev) => !prev);
-          }}
-        >
-          Place order
-        </Button>
+        {isLoggenIn ? (
+          <PayButton />
+        ) : (
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{
+              background: Colors.secondaryColor,
+              "&:hover": {
+                background: Colors.hoverColor,
+              },
+              fontSize: { xs: "13px", md: "15px" },
+            }}
+            onClick={() => {
+              setOpenModal((prev) => !prev);
+            }}
+          >
+            Place order
+          </Button>
+        )}
       </Box>
       <ModalText
         text={

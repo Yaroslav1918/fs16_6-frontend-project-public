@@ -15,6 +15,7 @@ export const Colors = {
   borderRight: "#100b0b",
   googleBack: "#7697f9",
   googleHoverColor: "#5179f0",
+  redColor: "#FF0000",
 };
 
 export const override = {

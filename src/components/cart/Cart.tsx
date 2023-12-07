@@ -10,7 +10,6 @@ import { AppState } from "../../redux/store";
 const Cart = () => {
   const productItems = useAppSelector((state: AppState) => state.cartSlice.cartProductItems);
 
-  
   return (
     <Box component="section" sx={{ padding: "50px 0 100px" }}>
       <Container>

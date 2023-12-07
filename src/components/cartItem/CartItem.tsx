@@ -39,11 +39,11 @@ const CartItem = ({ hideContent, style }: Props) => {
   return (
     <TableContainer
       component={Paper}
-      sx={{ backgroundColor: theme.palette.background.default, ...style }}
+      sx={{ backgroundColor: theme.palette.background.default, boxShadow: 6, ...style }}
     >
       <Table sx={{ flex: 1 }}>
         <TableHead>
-          <TableRow>
+          <TableRow >
             <TableCell align="center" sx={cellStyle}>
               Product Cart
             </TableCell>

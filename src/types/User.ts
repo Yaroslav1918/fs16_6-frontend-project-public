@@ -5,5 +5,5 @@ export interface User {
   name: string;
   avatar: string;
   role: "USER" | "ADMIN";
+  isGoogleLoggedIn: boolean;
 }
-

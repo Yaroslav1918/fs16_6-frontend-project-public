@@ -8,6 +8,7 @@ export const usersData: User[] = [
     name: "Jhon",
     role: "USER",
     avatar: "https://i.imgur.com/DumuKkD.jpeg",
+    isGoogleLoggedIn: false,
   },
   {
     _id: "2",
@@ -16,6 +17,7 @@ export const usersData: User[] = [
     name: "Maria",
     role: "USER",
     avatar: "https://i.imgur.com/00qWleT.jpeg",
+    isGoogleLoggedIn: false,
   },
   {
     _id: "3",
@@ -24,5 +26,6 @@ export const usersData: User[] = [
     name: "Admin",
     role: "ADMIN",
     avatar: "https://i.imgur.com/5mPmJYO.jpeg",
+    isGoogleLoggedIn: false,
   },
 ];

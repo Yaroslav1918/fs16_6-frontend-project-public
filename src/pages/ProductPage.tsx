@@ -1,9 +1,7 @@
-import SingleCard from "../components/singleCard"
+import SingleCard from "../components/singleCard";
 
 const ProductPage = () => {
-  return (
-  <SingleCard/>
-  )
-}
+  return <SingleCard />;
+};
 
-export default ProductPage
+export default ProductPage;
