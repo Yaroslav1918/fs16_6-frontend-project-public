@@ -5,15 +5,16 @@ import { useAppSelector } from "../../hooks/useAppSelector";
 import { logOut } from "../../redux/user/userSlice";
 import { AppState } from "../../redux/store";
 import ModalText from "../modals/modalText";
+import { useNavigate } from "react-router-dom";
 
 const LogoutTimer = () => {
   const dispatch = useAppDispatch();
   const [openModal, setOpenModal] = useState(false);
+  const navigate = useNavigate();
   const isLoggedIn = useAppSelector(
     (state: AppState) => state.userSlice.isLoggedIn
   );
   const expiresTokenTime = 60 * 60 * 1000;
-
   const logoutTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -25,6 +26,7 @@ const LogoutTimer = () => {
     const setLogoutTimeout = () => {
       return setTimeout(() => {
         handleLogout();
+        navigate("/signIn");
       }, expiresTokenTime);
     };
 
@@ -37,7 +39,7 @@ const LogoutTimer = () => {
         clearTimeout(logoutTimeoutRef.current);
       }
     };
-  }, [dispatch, isLoggedIn, expiresTokenTime]);
+  }, [dispatch, isLoggedIn, expiresTokenTime, navigate]);
 
   return (
     <ModalText

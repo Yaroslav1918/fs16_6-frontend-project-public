@@ -50,6 +50,7 @@ const OrderDetails: React.FC<{ order: Order }> = ({ order }) => {
               sx={{
                 width: "100%",
                 bgcolor: "background.default",
+                boxShadow: 4,
               }}
             >
               <CardContent

@@ -12,17 +12,12 @@ const PayButton = () => {
   const cart = useAppSelector(
     (state: AppState) => state.cartSlice.cartProductItems
   );
-  const userId = useAppSelector(
-    (state: AppState) => state.userSlice.currentUser?._id
-  );
   const authToken = useAppSelector((state: AppState) => state.userSlice.token);
-
   const handleCheckout = async () => {
     try {
       token.set(authToken);
       const response = await baseURL.post("/payments/create-checkout-session", {
         cart,
-        userId,
       });
       if (response.data.url) {
         window.location.href = response.data.url;

@@ -50,7 +50,7 @@ const SignUp = () => {
       setTimeout(() => {
         navigate("/signIn");
       }, 2000);
-    } else if (user?.name && error === null  && token) {
+    } else if (user?.name && error === null && token) {
       navigate("/");
     }
   }, [error, navigate, user?.name, formSubmitted, token]);
@@ -146,7 +146,7 @@ const SignUp = () => {
           >
             submit
           </Button>
-          <GoogleLoginButton  />
+          <GoogleLoginButton />
         </Box>
       </Container>
     </Box>
