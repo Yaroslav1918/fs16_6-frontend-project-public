@@ -39,11 +39,15 @@ const CartItem = ({ hideContent, style }: Props) => {
   return (
     <TableContainer
       component={Paper}
-      sx={{ backgroundColor: theme.palette.background.default, boxShadow: 6, ...style }}
+      sx={{
+        backgroundColor: theme.palette.background.default,
+        boxShadow: 6,
+        ...style,
+      }}
     >
       <Table sx={{ flex: 1 }}>
         <TableHead>
-          <TableRow >
+          <TableRow>
             <TableCell align="center" sx={cellStyle}>
               Product Cart
             </TableCell>
@@ -56,11 +60,14 @@ const CartItem = ({ hideContent, style }: Props) => {
             <TableCell align="center" sx={cellStyle}>
               Total
             </TableCell>
+            <TableCell align="center" sx={cellStyle}>
+              Add or remove product
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {productsItems.map(
-            ({ name, images, _id, quantity, price, stock }: Product) => (
+            ({ name, images, _id, quantity, price }: Product) => (
               <TableRow key={_id}>
                 <TableCell
                   sx={{ display: "grid", placeItems: "center", ...cellStyle }}
@@ -89,9 +96,8 @@ const CartItem = ({ hideContent, style }: Props) => {
                 </TableCell>
                 <TableCell align="center" sx={cellStyle}>
                   {price * quantity} $
-                </TableCell>
-                {!hideContent && !isMobileScreen && (
-                  <TableCell>
+                </TableCell>   
+                  <TableCell align="center" sx={cellStyle}>
                     <IconButton onClick={() => dispatch(decreaseQuantity(_id))}>
                       <RemoveIcon />
                     </IconButton>
@@ -102,8 +108,7 @@ const CartItem = ({ hideContent, style }: Props) => {
                     >
                       <AddIcon />
                     </IconButton>
-                  </TableCell>
-                )}
+                  </TableCell>          
               </TableRow>
             )
           )}

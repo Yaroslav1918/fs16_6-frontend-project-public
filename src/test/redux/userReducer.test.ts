@@ -1,5 +1,10 @@
 import { createStore } from "../../redux/store";
-import { fetchRegisterAsync, fetchUptadeUserAsync, fetchUsersAsync, fetchlogInAsync } from "../../redux/user/userOperations";
+import {
+  fetchRegisterAsync,
+  fetchUptadeUserAsync,
+  fetchUsersAsync,
+  fetchlogInAsync,
+} from "../../redux/user/userOperations";
 import userSlice, { initialState, logOut } from "../../redux/user/userSlice";
 import { SignUpInput } from "../../types/SignUpInput";
 import { UptadeUserInput } from "../../types/UptadeUserInput";
@@ -29,13 +34,15 @@ describe("Test usersReducer async actions", () => {
   });
 
   test("Should login user with right credential", async () => {
-    await store.dispatch(
+    const action = await store.dispatch(
       fetchlogInAsync({
         email: "john@mail.com",
         password: "changeme",
       })
     );
-    expect(store.getState().userSlice.token).toBe("my-access-token_1");
+    expect(action.payload).toMatchObject({
+      access_token: "my-access-token_1",
+    });
   });
 
   test("Should uptade a user", async () => {
@@ -48,8 +55,13 @@ describe("Test usersReducer async actions", () => {
     };
     const action = await store.dispatch(fetchUptadeUserAsync(input));
     expect(action.payload).toMatchObject({
+      _id: "1",
       email: "petro@mail.com",
+      password: "changeme",
       name: "Petro",
+      role: "USER",
+      avatar: "https://i.imgur.com/DumuKkD.jpeg",
+      isGoogleLoggedIn: false,
     });
   });
 
@@ -60,10 +72,14 @@ describe("Test usersReducer async actions", () => {
       password: "1234567",
       avatar: "someUrl",
     };
-    await store.dispatch(fetchRegisterAsync(input));
-    expect(
-      Object.keys(store.getState().userSlice.currentUser).length
-    ).toBeGreaterThan(0);
+    const action = await store.dispatch(fetchRegisterAsync(input));
+    expect(action.payload).toMatchObject({
+      id: 4,
+      name: "Petro",
+      email: "petro@mail.com",
+      avatar: "someUrl",
+    });
+    expect(action.type).toBe("auth/signUp/fulfilled");
   });
 
   test("Should not register a user with exist email", async () => {

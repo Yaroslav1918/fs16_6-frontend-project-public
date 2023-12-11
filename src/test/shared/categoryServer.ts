@@ -2,6 +2,7 @@ import { rest } from "msw";
 import { setupServer } from "msw/node";
 
 import { categoriesData } from "../data/categoriesData";
+import { CategoryInput } from "../../types/CategoryInput";
 
 export const handlers = [
   rest.get("http://localhost:5000/categories", async (req, res, ctx) => {
@@ -10,7 +11,7 @@ export const handlers = [
   rest.put("http://localhost:5000/categories/:_id", async (req, res, ctx) => {
     const update = await req.json();
     const { _id } = req.params;
-    const index = categoriesData.findIndex((p) => p._id === (_id));
+    const index = categoriesData.findIndex((p) => p._id === _id);
     try {
       if (index > -1) {
         return res(
@@ -37,13 +38,23 @@ export const handlers = [
     "http://localhost:5000/categories/:_id",
     async (req, res, ctx) => {
       const { _id } = req.params;
-      if (categoriesData.find((p) => p._id === (_id))) {
+      if (categoriesData.find((p) => p._id === _id)) {
         return res(ctx.json(true));
       } else {
         return res(ctx.json(false));
       }
     }
   ),
+  rest.post("http://localhost:5000/categories", async (req, res, ctx) => {
+    const categoryData: CategoryInput = await req.json();
+    const newCategory = {
+      _id: categoriesData.length + 1,
+      name: categoryData.name,
+      images: categoryData.images,
+    };
+
+    return res(ctx.json(newCategory));
+  }),
 ];
 
 const categoryServer = setupServer(...handlers);

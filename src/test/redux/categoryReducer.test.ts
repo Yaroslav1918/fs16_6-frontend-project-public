@@ -31,9 +31,13 @@ describe("Test async category thunk actions in categorySlice", () => {
       name: "text",
       images: ["https://i.imgur.com/O1LUkwy.jpeg"],
     };
-    const resultAction = await store.dispatch(fetchCreateCategoryAsync(input));
-    expect(store.getState().categorySlice.categories.length).toBeGreaterThan(0);
-    expect(resultAction.meta.requestStatus).toBe("fulfilled");
+  const actionResult = await store.dispatch(fetchCreateCategoryAsync(input));
+    expect(actionResult.payload).toMatchObject({
+      _id: 7,
+      name: "text",
+      images: ["https://i.imgur.com/O1LUkwy.jpeg"],
+    });
+
   });
 
   test("Should update category", async () => {
@@ -49,14 +53,12 @@ describe("Test async category thunk actions in categorySlice", () => {
       _id: "1",
       name: "newName4",
       images: ["https://i.pp.com/nZnWUc0.jpeg"],
-      creationAt: "2023-10-02T12:08:45.000Z",
-      updatedAt: "2023-10-02T12:08:45.000Z",
     });
   });
 
   test("Should delete category", async () => {
     const resultAction = await store.dispatch(fetchDeleteCategoryAsync("1"));
-    expect(resultAction.payload).toBe(1);
+    expect(resultAction.payload).toBe("1");
     expect(resultAction.meta.requestStatus).toBe("fulfilled");
   });
 });

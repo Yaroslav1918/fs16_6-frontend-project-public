@@ -43,9 +43,15 @@ const OrderDetails: React.FC<{ order: Order }> = ({ order }) => {
       <Typography variant="h6" style={{ marginTop: 16 }}>
         Product Information
       </Typography>
-      <List>
+      <List
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          width: "100%",
+        }}
+      >
         {order.products.map((product) => (
-          <ListItem key={product.productId._id}>
+          <ListItem key={product.productId._id} sx={{ width: "48%" }}>
             <Card
               sx={{
                 width: "100%",
@@ -56,9 +62,8 @@ const OrderDetails: React.FC<{ order: Order }> = ({ order }) => {
               <CardContent
                 sx={{
                   display: "flex",
-                  width: "100%",
-                  justifyContent: "space-around",
                   alignItems: "center",
+                  justifyContent: "space-between",
                   padding: 2,
                   "@media (max-width:600px)": {
                     flexDirection: "column",
@@ -77,7 +82,7 @@ const OrderDetails: React.FC<{ order: Order }> = ({ order }) => {
                 <Box
                   component="img"
                   src={product.productId.images[0]}
-                  sx={{ width: "70px", borderRadius: "10px" }}
+                  sx={{ width: "90px", height: "90px", borderRadius: "10px" }}
                   alt={product.productId.name}
                 />
               </CardContent>

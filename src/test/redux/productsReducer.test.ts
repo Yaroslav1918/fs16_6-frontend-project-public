@@ -65,7 +65,7 @@ describe("Test async  product thunk actions in productsReducer", () => {
 
   test("Should delete an existing product", async () => {
     const resultAction = await store.dispatch(deleteProductAsync("1"));
-    expect(resultAction.payload).toBe(1);
+    expect(resultAction.payload).toBe("1");
     expect(resultAction.meta.requestStatus).toBe("fulfilled");
   });
 
