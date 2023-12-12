@@ -14,7 +14,7 @@ import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 
 import Container from "../container";
 import { Product } from "../../types/Product";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import SortList from "../sortList";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useEffect, useState } from "react";
@@ -26,8 +26,9 @@ import { AppState } from "../../redux/store";
 import { fetchAllProductAsync } from "../../redux/product/productOperations";
 
 const CategoriesList = () => {
+  const { categoryName } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("" );
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearchQuery = useDebounce(searchQuery);
   const dispatch = useAppDispatch();
@@ -38,9 +39,17 @@ const CategoriesList = () => {
   );
 
   useEffect(() => {
+    if (categoryName) {
+      setSelectedCategory(categoryName);
+    }
+  }, [categoryName]);
+
+
+  useEffect(() => {
     dispatch(fetchAllProductAsync());
   }, [dispatch, currentPage]);
-
+  
+    
   const getFilteredCategories = (state: Product[], name?: string) => {
     return state.filter((p) =>
       p.category?.name.toLowerCase().includes(name?.toLowerCase() || "")
@@ -73,6 +82,7 @@ const CategoriesList = () => {
         </Typography>
         <SortList
           searchQuery={debouncedSearchQuery}
+          categoryName={categoryName}
           setSearchQuery={setSearchQuery}
           onCategorySelect={setSelectedCategory}
           selectedCategory={selectedCategory}
@@ -124,7 +134,7 @@ const CategoriesList = () => {
                     title={
                       <Box
                         component="span"
-                        sx={{ fontSize: { xs: 10, sm: 18 } }}
+                        sx={{ fontSize: { xs: 15, sm: 21 } }}
                       >
                         {name}
                       </Box>
@@ -134,14 +144,14 @@ const CategoriesList = () => {
                         <ListItem
                           sx={{
                             color: Colors.secondaryColor,
-                            fontSize: { xs: 10, sm: 15 },
+                            fontSize: { xs: 15, sm: 18 },
                           }}
                         >
                           Price: {price} $
                         </ListItem>
                         <ListItem
                           sx={{
-                            fontSize: { xs: 10, sm: 15 },
+                            fontSize: { xs: 15, sm: 18 },
                             color: "inherit",
                           }}
                         >
@@ -176,13 +186,13 @@ const CategoriesList = () => {
                       sx={{
                         color: "inherit",
                         padding: "10px",
-                        fontSize: { xs: 8, sm: 13 },
+                        fontSize: { xs: 15, sm: 15 },
                         display: "flex",
                         alignItems: "baseline",
                       }}
                     >
                       <ShoppingBasketIcon
-                        sx={{ fontSize: { xs: 8, sm: 15 }, mr: 0.3 }}
+                        sx={{ fontSize: { xs: 15, sm: 15 }, mr: 0.3 }}
                       />
                       Add to cart
                     </Button>
@@ -192,7 +202,7 @@ const CategoriesList = () => {
                         background: "none",
                         padding: "10px",
                         color: Colors.secondaryColor,
-                        fontSize: "15px",
+                        fontSize: { xs: 15, sm: 15 },
                       }}
                     >
                       {" "}

@@ -54,7 +54,6 @@ const AdminForm = ({
   const categories = useAppSelector(
     (state: AppState) => state.categorySlice.categories
   );
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const imagesArr = validUrl(formData.images)
@@ -134,6 +133,7 @@ const AdminForm = ({
       <Box component="form" onSubmit={handleSubmit}>
         {selectedCategory === "categories" &&
           formCategoriesFields.map((field) => (
+            
             <TextField
               key={field.name}
               label={field.label}
@@ -141,7 +141,9 @@ const AdminForm = ({
               fullWidth
               name={field.name}
               placeholder={field.placeholder || ""}
-              value={formData[field.name] || ""}
+              value={
+                formData[field.name] || ""
+              }
               onChange={handleInputChange}
               sx={{ marginBottom: "15px" }}
             />

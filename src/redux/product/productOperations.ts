@@ -74,9 +74,8 @@ export const createProductAsync = createAsyncThunk(
       toast.success("Product successfully created");
       return data;
     } catch (e) {
-      console.log("🚀 ~ file: productOperations.ts:73 ~ e:", e)
       const errorMessage = extractErrorMessages(e);
-      return rejectWithValue(e);
+      return rejectWithValue(errorMessage);
     }
   }
 );

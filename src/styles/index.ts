@@ -16,6 +16,7 @@ export const Colors = {
   googleBack: "#7697f9",
   googleHoverColor: "#5179f0",
   redColor: "#FF0000",
+  categoryTitle: "rgba(255, 255, 255, 0.54)",
 };
 
 export const override = {

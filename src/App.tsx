@@ -21,7 +21,18 @@ const App = () => {
         <StyledEngineProvider injectFirst>
           <Provider store={store}>
             <RouterProvider router={router} />
-            <ToastContainer position="top-left" autoClose={3000} />
+            <ToastContainer
+              position="bottom-right"
+              autoClose={4000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme={theme.palette.mode === "dark" ? "dark" : "colored"}
+            />
           </Provider>
         </StyledEngineProvider>
       </ThemeProvider>

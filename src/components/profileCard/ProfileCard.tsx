@@ -25,7 +25,7 @@ function ProfileCard() {
   const [showPasswordFields, setShowPasswordFields] = useState(false);
   const theme = useTheme();
   const user = useAppSelector((state) => state.userSlice.currentUser);
-  const { name, email, avatar, role } = user || {};
+  const { name, email, avatar } = user || {};
   const authToken = useAppSelector((state: AppState) => state.userSlice.token);
   const isGoogleLoggedIn = useAppSelector(
     (state: AppState) => state.userSlice.currentUser?.isGoogleLoggedIn
@@ -76,16 +76,13 @@ function ProfileCard() {
           backgroundColor: theme.palette.background.default,
         }}
       >
-        <CardMedia component="img" width="140" image={avatar} alt={name} />
+        <CardMedia component="img" width="170" image={avatar} alt={name} />
         <CardContent>
           <Typography gutterBottom variant="h5" sx={{ textAlign: "center" }}>
             {name}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.secondary" sx={{fontSize:"17px"}}>
             Email: {email}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Role: {role}
           </Typography>
         </CardContent>
         {showPasswordFields &&

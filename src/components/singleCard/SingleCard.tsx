@@ -66,25 +66,29 @@ const SingleCard = () => {
         <Typography
           variant="body2"
           color="text.secondary"
-          sx={{ marginBottom: "5px" }}
+          sx={{ marginBottom: "5px", fontSize: { xs: 15, sm: 18 } }}
         >
           Category: {category?.name}
         </Typography>
         <Typography
           variant="body2"
           color="text.secondary"
-          sx={{ marginBottom: "5px" }}
+          sx={{ marginBottom: "5px", fontSize: { xs: 15, sm: 18 } }}
         >
           {description}
         </Typography>
         <Typography
           variant="body2"
           color="text.secondary"
-          sx={{ color: Colors.secondaryColor }}
+          sx={{ color: Colors.secondaryColor, fontSize: { xs: 15, sm: 18 } }}
         >
           Price: {price} $
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{ fontSize: { xs: 15, sm: 18 } }}
+        >
           Stock: {stock} pieces
         </Typography>
       </CardContent>
@@ -104,10 +108,10 @@ const SingleCard = () => {
             background: "none",
             padding: "10px",
             color: Colors.secondaryColor,
-            fontSize: { xs: 10, sm: 13 },
+            fontSize: { xs: 15, sm: 18 },
           }}
         >
-          <ChevronLeftIcon sx={{ fontSize: { xs: 10, sm: 15 }, mr: 0.3 }} />
+          <ChevronLeftIcon sx={{ fontSize: { xs: 15, sm: 18 }, mr: 0.3 }} />
           Back
         </Button>
         <Button
@@ -126,7 +130,7 @@ const SingleCard = () => {
           }}
           sx={{
             color: Colors.secondaryColor,
-            fontSize: { xs: 10, sm: 13 },
+            fontSize: { xs: 15, sm: 18 },
             padding: "10px",
             display: "flex",
             alignItems: "baseline",

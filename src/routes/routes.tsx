@@ -52,6 +52,10 @@ export const router = createBrowserRouter([
         element: <CategoriesList />,
       },
       {
+        path: "products/:categoryName",
+        element: <CategoriesList />,
+      },
+      {
         path: "signUp",
         element: <SignUp />,
       },
@@ -65,7 +69,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "order",
-        element: <OrderHistoryPage/>,
+        element: <OrderHistoryPage />,
       },
     ],
   },

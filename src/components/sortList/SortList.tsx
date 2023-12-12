@@ -16,7 +16,8 @@ interface SortListProps {
   searchQuery: string;
   setSearchQuery: (query: string) => void;
   onCategorySelect: (category: string) => void;
-  selectedCategory: string;
+  selectedCategory: string | undefined;
+  categoryName: string | undefined;
 }
 
 const SortList = ({
@@ -24,6 +25,7 @@ const SortList = ({
   setSearchQuery,
   onCategorySelect,
   selectedCategory,
+  categoryName,
 }: SortListProps) => {
   const [value, setValue] = useState<string>("");
   const dispatch = useAppDispatch();
@@ -49,29 +51,33 @@ const SortList = ({
         marginBottom: "20px",
       }}
     >
-      <FormControl
-        sx={{
-          minWidth: 150,
-          marginRight: "10px",
-          backgroundColor: theme.palette.background.default,
-        }}
-        size="small"
-      >
-        <InputLabel id="demo-select-small-label">Categories</InputLabel>
-        <Select
-          labelId="demo-select-small-label"
-          id="demo-select-small"
-          value={selectedCategory}
-          label="Categories"
-          onChange={(event) => onCategorySelect(event.target.value)}
+      {!categoryName && (
+        <FormControl
+          sx={{
+            minWidth: 150,
+            marginRight: "10px",
+            backgroundColor: theme.palette.background.default,
+          }}
+          size="small"
         >
-          {categories.map(({ _id, name }) => (
-            <MenuItem key={_id} value={name}>
-              {name} 
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+          <InputLabel id="demo-select-small-label">Categories</InputLabel>
+
+          <Select
+            labelId="demo-select-small-label"
+            id="demo-select-small"
+            value={selectedCategory}
+            label="Categories"
+            onChange={(event) => onCategorySelect(event.target.value)}
+          >
+            {categories.map(({ _id, name }) => (
+              <MenuItem key={_id} value={name}>
+                {name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      )}
+
       <FormControl sx={{ minWidth: 110, marginRight: "10px" }} size="small">
         <InputLabel id="demo-select-small-label">Sort By</InputLabel>
         <Select

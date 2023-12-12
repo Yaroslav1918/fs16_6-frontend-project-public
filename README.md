@@ -11,19 +11,22 @@ This project is part of the Frontend module at Integrify Academy. The primary go
 - MUI
 
 ## Features
+- choose day or night theme.
+- stripe payment.
+- google  authorization.
+
 
 ### User (not logged in)
 
 - able to:
 - use carousel effect to display product images
-- choose day or night theme.
 - view all products
 - filter products by price, category or find by name
 - view single product page
-- see sign up or sign ip
-- fill sign in form via google
+- direct authentication sign up or sign in
+- sign in  via google
 - add and remove products to cart
-- enlarge the product image on the home page
+
 
 #### Logged in user
 
@@ -34,6 +37,9 @@ This project is part of the Frontend module at Integrify Academy. The primary go
 - add and remove products to cart
 - view profile page
 - log out
+- change password in profile page
+- view profile page
+- view current orders
 
   #### Admin
 
@@ -43,6 +49,13 @@ This project is part of the Frontend module at Integrify Academy. The primary go
 - modify products (create, update, delete)
 - modify users (create, update)
 - modify categories (create, update, delete)
+
+
+  ## Env
+1. GOOGLE_CLIENT_ID - This is a unique identifier assigned to your application when you register it with the Google API Console. 
+
+## Additional information
+1. After a successful login, the user has an hour of access time. After this period, they need to log in again. (A `LogoutTimer` component is implemented, which shows a modal window and redirects to the login page.)
 
 ## Project structure
 
@@ -118,6 +131,15 @@ This project is part of the Frontend module at Integrify Academy. The primary go
 
 18 directories, 69 files
 ```
-# Front-end Project
 
-Project link https://fs16-6-frontend-project-tau.vercel.app/
+# Getting started 
+1. Clone this repo with git clone https://github.com/Yaroslav1918/fs16_6-frontend-project/tree/main.
+2. Install project dependencies using npm ci or npm install command.
+3. Run the app with npm start.
+
+## Testing
+The test cases for all the Redux store reducers have been built with Jest testing library. In this porject, unit testing approach was used. The test requests are sent to the mock server not the real API.
+Run `npm  test` to implement all the tests.
+
+# Front-end Project
+[Project Link](https://fs16-6-frontend-project-tau.vercel.app/){:target="_blank"}

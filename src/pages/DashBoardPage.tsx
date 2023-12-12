@@ -164,7 +164,7 @@ const DashboardPage = () => {
                       case "categories":
                         return (
                           <>
-                            {displayedItems.map(({ _id, name, image }) => (
+                            {displayedItems.map(({ _id, name, images }) => (
                               <TableRow key={_id}>
                                 <TableCell>{name}</TableCell>
                                 <TableCell>
@@ -177,7 +177,7 @@ const DashboardPage = () => {
                                     }}
                                     alt={name}
                                     src={
-                                      image ||
+                                      images ||
                                       "https://via.placeholder.com/50x50"
                                     }
                                     onError={(e) => {
@@ -218,7 +218,14 @@ const DashboardPage = () => {
                         return (
                           <>
                             {displayedItems.map(
-                              ({ _id, name, category, price, description }) => (
+                              ({
+                                _id,
+                                name,
+                                category,
+                                price,
+                                description,
+                                images,
+                              }) => (
                                 <TableRow key={_id}>
                                   <TableCell>{name}</TableCell>
                                   <TableCell>{description}</TableCell>
@@ -231,9 +238,9 @@ const DashboardPage = () => {
                                         width: 50,
                                         borderRadius: "5px",
                                       }}
-                                      alt={category && category.name}
+                                      alt={name}
                                       src={
-                                        (category && category.image) ||
+                                        images ||
                                         "https://via.placeholder.com/50x50"
                                       }
                                       onError={(e) => {
