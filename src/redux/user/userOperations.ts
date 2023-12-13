@@ -13,6 +13,7 @@ import { RegisterResponse } from "../../types/RegisterResponse";
 import { AuthState } from "./userSlice";
 import token from "../../utils/axiosAuth";
 import { UserResponse } from "../../types/UserResponse";
+import { CredentialResponse } from "@react-oauth/google";
 
 
 export const fetchRegisterAsync = createAsyncThunk(
@@ -50,7 +51,10 @@ export const fetchlogInAsync = createAsyncThunk(
 
 export const fetchGoogleLogInAsync = createAsyncThunk(
   "auth/googleLogin",
-  async (credentials: any, { rejectWithValue }) => {
+  async (
+    credentials: CredentialResponse["credential"],
+    { rejectWithValue }
+  ) => {
     try {
       const { data } = await baseURL.post<LoginResponse>(
         "/users/login-google",
