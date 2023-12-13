@@ -142,4 +142,4 @@ The test cases for all the Redux store reducers have been built with Jest testin
 Run `npm  test` to implement all the tests.
 
 # Front-end Project
-[Project Link](https://fs16-6-frontend-project-tau.vercel.app/){:target="_blank"}
+[Project Link](https://fs16-6-frontend-project-tau.vercel.app/)
