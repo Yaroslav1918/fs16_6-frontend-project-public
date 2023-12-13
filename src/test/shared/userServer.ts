@@ -4,7 +4,7 @@ import { usersData } from "../data/usersData";
 
 export const access_token = "my-access-token";
 export const handlers = [
-  rest.post("http://localhost:5000/users/signup", async (req, res, ctx) => {
+  rest.post("https://ecommerce-api-3946fddfdbf1.herokuapp.com/users/signup", async (req, res, ctx) => {
     const userData = await req.json();
 
     const isExiStEmail = usersData.some((i) => i.email === userData.email);
@@ -31,10 +31,10 @@ export const handlers = [
       });
     }
   }),
-  rest.get("http://localhost:5000/users", (req, res, ctx) => {
+  rest.get("https://ecommerce-api-3946fddfdbf1.herokuapp.com/users", (req, res, ctx) => {
     return res(ctx.json(usersData));
   }),
-  rest.put("http://localhost:5000/users/:_id", async (req, res, ctx) => {
+  rest.put("https://ecommerce-api-3946fddfdbf1.herokuapp.com/users/:_id", async (req, res, ctx) => {
     const update = await req.json();
     const { _id } = req.params;
     const index = usersData.findIndex((p) => p._id === _id);
@@ -64,7 +64,7 @@ export const handlers = [
       console.log("error happen in put");
     }
   }),
-  rest.post("http://localhost:5000/users/login", async (req, res, ctx) => {
+  rest.post("https://ecommerce-api-3946fddfdbf1.herokuapp.com/users/login", async (req, res, ctx) => {
     const { email, password } = await req.json();
     const foundUser = usersData.find(
       (u) => u.email === email && u.password === password
@@ -78,7 +78,7 @@ export const handlers = [
     }
   }),
 
-  rest.post("http://localhost:5000/users", async (req, res, ctx) => {
+  rest.post("https://ecommerce-api-3946fddfdbf1.herokuapp.com/users", async (req, res, ctx) => {
     const userData = await req.json();
     const isExiStEmail = usersData.some((i) => i.email === userData.email);
 
@@ -90,7 +90,7 @@ export const handlers = [
     }
   }),
 
-  rest.delete("http://localhost:5000/users/:_id", async (req, res, ctx) => {
+  rest.delete("https://ecommerce-api-3946fddfdbf1.herokuapp.com/users/:_id", async (req, res, ctx) => {
     const { _id } = req.params;
     if (usersData.find((p) => p._id === _id)) {
       return res(ctx.json(true));
@@ -99,7 +99,7 @@ export const handlers = [
     }
   }),
 
-  rest.get("http://localhost:5000/users/:_id", (req, res, ctx) => {
+  rest.get("https://ecommerce-api-3946fddfdbf1.herokuapp.com/users/:_id", (req, res, ctx) => {
     const { _id } = req.params;
     const foundUser = usersData.find((u) => u._id === _id);
     if (foundUser) {

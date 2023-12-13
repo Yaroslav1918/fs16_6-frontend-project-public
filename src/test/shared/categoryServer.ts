@@ -5,10 +5,10 @@ import { categoriesData } from "../data/categoriesData";
 import { CategoryInput } from "../../types/CategoryInput";
 
 export const handlers = [
-  rest.get("http://localhost:5000/categories", async (req, res, ctx) => {
+  rest.get("https://ecommerce-api-3946fddfdbf1.herokuapp.com/categories", async (req, res, ctx) => {
     return res(ctx.json(categoriesData));
   }),
-  rest.put("http://localhost:5000/categories/:_id", async (req, res, ctx) => {
+  rest.put("https://ecommerce-api-3946fddfdbf1.herokuapp.com/categories/:_id", async (req, res, ctx) => {
     const update = await req.json();
     const { _id } = req.params;
     const index = categoriesData.findIndex((p) => p._id === _id);
@@ -35,7 +35,7 @@ export const handlers = [
     }
   }),
   rest.delete(
-    "http://localhost:5000/categories/:_id",
+    "https://ecommerce-api-3946fddfdbf1.herokuapp.com/categories/:_id",
     async (req, res, ctx) => {
       const { _id } = req.params;
       if (categoriesData.find((p) => p._id === _id)) {
@@ -45,7 +45,7 @@ export const handlers = [
       }
     }
   ),
-  rest.post("http://localhost:5000/categories", async (req, res, ctx) => {
+  rest.post("https://ecommerce-api-3946fddfdbf1.herokuapp.com/categories", async (req, res, ctx) => {
     const categoryData: CategoryInput = await req.json();
     const newCategory = {
       _id: categoriesData.length + 1,

@@ -6,7 +6,7 @@ import { CreateProductInput } from "../../types/CreateProductInput";
 import { categoriesData } from "../data/categoriesData";
 
 export const handlers = [
-  rest.delete("http://localhost:5000/products/:_id", async (req, res, ctx) => {
+  rest.delete("https://ecommerce-api-3946fddfdbf1.herokuapp.com/products/:_id", async (req, res, ctx) => {
     const { _id } = req.params;
     if (productsData.find((p) => p._id === (_id))) {
       return res(ctx.json(true));
@@ -15,11 +15,11 @@ export const handlers = [
     }
   }),
 
-  rest.get("http://localhost:5000/products", async (req, res, ctx) => {
+  rest.get("https://ecommerce-api-3946fddfdbf1.herokuapp.com/products", async (req, res, ctx) => {
     return res(ctx.json(productsData));
   }),
 
-  rest.get("http://localhost:5000/products/:_id", async (req, res, ctx) => {
+  rest.get("https://ecommerce-api-3946fddfdbf1.herokuapp.com/products/:_id", async (req, res, ctx) => {
     const { _id } = req.params;
     const product = productsData.find((item) => item._id === _id);
     if (product) {
@@ -34,7 +34,7 @@ export const handlers = [
     }
   }),
 
-  rest.post("http://localhost:5000/products/", async (req, res, ctx) => {
+  rest.post("https://ecommerce-api-3946fddfdbf1.herokuapp.com/products/", async (req, res, ctx) => {
     const input: CreateProductInput = await req.json();
     const category = categoriesData.find((c) => c._id === input.categoryId);
     if (category) {
@@ -62,7 +62,7 @@ export const handlers = [
     }
   }),
 
-  rest.put("http://localhost:5000/products/:_id", async (req, res, ctx) => {
+  rest.put("https://ecommerce-api-3946fddfdbf1.herokuapp.com/products/:_id", async (req, res, ctx) => {
     const update = await req.json();
     const { _id } = req.params;
     const index = productsData.findIndex((p) => p._id === (_id));
