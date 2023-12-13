@@ -81,7 +81,11 @@ function ProfileCard() {
           <Typography gutterBottom variant="h5" sx={{ textAlign: "center" }}>
             {name}
           </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{fontSize:"17px"}}>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{ fontSize: "17px" }}
+          >
             Email: {email}
           </Typography>
         </CardContent>

@@ -69,7 +69,7 @@ describe("Test async  product thunk actions in productsReducer", () => {
     expect(resultAction.meta.requestStatus).toBe("fulfilled");
   });
 
-  test("Should delete an non-existing product", async () => {
+  test("Should not delete an non-existing product", async () => {
     const resultAction = await store.dispatch(deleteProductAsync("2000"));
     expect(resultAction.meta.requestStatus).toBe("rejected");
   });

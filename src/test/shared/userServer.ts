@@ -77,6 +77,38 @@ export const handlers = [
       return res(ctx.text("Cannot authenticate user"));
     }
   }),
+
+  rest.post("http://localhost:5000/users", async (req, res, ctx) => {
+    const userData = await req.json();
+    const isExiStEmail = usersData.some((i) => i.email === userData.email);
+
+    if (!isExiStEmail) {
+      return res(ctx.json(userData));
+    } else {
+      ctx.status(401);
+      return res(ctx.text("Cannot create user"));
+    }
+  }),
+
+  rest.delete("http://localhost:5000/users/:_id", async (req, res, ctx) => {
+    const { _id } = req.params;
+    if (usersData.find((p) => p._id === _id)) {
+      return res(ctx.json(true));
+    } else {
+      return res(ctx.json(false));
+    }
+  }),
+
+  rest.get("http://localhost:5000/users/:_id", (req, res, ctx) => {
+    const { _id } = req.params;
+    const foundUser = usersData.find((u) => u._id === _id);
+    if (foundUser) {
+      return res(ctx.json(foundUser));
+    }
+    ctx.status(401);
+    return res(ctx.text("User is not found"));
+  }),
 ];
+
 const userServer = setupServer(...handlers);
 export default userServer;

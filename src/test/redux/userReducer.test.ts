@@ -1,6 +1,9 @@
 import { createStore } from "../../redux/store";
 import {
+  fetchByIdUser,
+  fetchCreateUserAsync,
   fetchRegisterAsync,
+  fetchUDeleteUserAsync,
   fetchUptadeUserAsync,
   fetchUsersAsync,
   fetchlogInAsync,
@@ -92,4 +95,56 @@ describe("Test usersReducer async actions", () => {
     const action = await store.dispatch(fetchRegisterAsync(input));
     expect(action.meta.requestStatus).toBe("rejected");
   });
+
+  test("Should not  create user with existing email", async () => {
+    const input: SignUpInput = {
+      name: "Petro",
+      email: "maria@mail.com",
+      password: "1234567",
+      avatar: "someUrl",
+    };
+    const action = await store.dispatch(fetchCreateUserAsync(input));
+    expect(action.payload).toBe("Cannot create user");
+  });
+
+  test("Should  create user", async () => {
+    const input: SignUpInput = {
+      name: "Petro",
+      email: "maria19@mail.com",
+      password: "1234567",
+      avatar: "someUrl",
+    };
+    const action = await store.dispatch(fetchCreateUserAsync(input));
+    expect(action.payload).toMatchObject(input);
+  });
+
+  test("Should not delete user with wrong id", async () => {
+    const resultAction = await store.dispatch(fetchUDeleteUserAsync("111"));
+    expect(resultAction.meta.requestStatus).toBe("rejected");
+  });
+
+  test("Should  delete user", async () => {
+    const resultAction = await store.dispatch(fetchUDeleteUserAsync("1"));
+    expect(resultAction.meta.requestStatus).toBe("fulfilled");
+  });
+
+  test("Should  return user by id", async () => {
+    const resultAction = await store.dispatch(fetchByIdUser("1"));
+    expect(resultAction.meta.requestStatus).toBe("fulfilled");
+    expect(resultAction.payload).toMatchObject({
+      _id: "1",
+      email: "john@mail.com",
+      password: "changeme",
+      name: "Jhon",
+      role: "USER",
+      avatar: "https://i.imgur.com/DumuKkD.jpeg",
+      isGoogleLoggedIn: false,
+    });
+  });
+
+   test("Should not  return user with wrong id", async () => {
+     const resultAction = await store.dispatch(fetchByIdUser("1111"));
+     expect(resultAction.payload).toBe("User is not found");
+     
+   });
 });

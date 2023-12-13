@@ -84,9 +84,9 @@ export const fetchUsersAsync = createAsyncThunk(
 
 export const fetchByIdUser = createAsyncThunk(
   "auth/geByIdUser",
-  async (_id, thunkAPI) => {
+  async (_id: string, { rejectWithValue, getState }) => {
     const { token: authToken } = (
-      thunkAPI.getState() as { userSlice: AuthState }
+      getState() as { userSlice: AuthState }
     ).userSlice;
     token.set(authToken);
     try {
@@ -94,7 +94,7 @@ export const fetchByIdUser = createAsyncThunk(
       return data;
     } catch (e) {
       const errorMessage = extractErrorMessages(e);
-      return thunkAPI.rejectWithValue(errorMessage);
+      return rejectWithValue(errorMessage);
     }
   }
 );
