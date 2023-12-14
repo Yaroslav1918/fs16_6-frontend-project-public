@@ -1,6 +1,6 @@
 ## Introduction
 
-This project is part of the Frontend module at Integrify Academy. The primary goal of this project is to develop an e-commerce website. Requests were made by employing API endpoints from https://fakeapi.platzi.com/.
+This project is part of the Frontend module at Integrify Academy. The primary goal of this project is to develop an e-commerce website. Requests were made by employing API endpoints from https://ecommerce-api-3946fddfdbf1.herokuapp.com/.
 
 ## Technologies
 
@@ -56,6 +56,9 @@ This project is part of the Frontend module at Integrify Academy. The primary go
 
 ## Additional information
 1. After a successful login, the user has an hour of access time. After this period, they need to log in again. (A `LogoutTimer` component is implemented, which shows a modal window and redirects to the login page.)
+2. Log in as a admin; credentials:
+email: te2423@gmail.com
+password: 12345
 
 ## Project structure
 
