@@ -3,15 +3,17 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
+import { AxiosError } from "axios";
+import { toast } from "react-toastify";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
 
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AppState } from "../../redux/store";
 import token from "../../utils/axiosAuth";
 import baseURL from "../../utils/axiosInstance";
-import { AxiosError } from "axios";
-import { toast } from "react-toastify";
 import { Button, TextField } from "@mui/material";
+import { CurrentUserResponse } from "../../types/UserResponse";
 
 function ProfileCard() {
   const [passwordForm, setPasswordForm] = useState<{
@@ -23,13 +25,15 @@ function ProfileCard() {
   });
   const [message, setMessage] = useState("");
   const [showPasswordFields, setShowPasswordFields] = useState(false);
+  const [currentUser, setCurrentUser] = useState<CurrentUserResponse>();
   const theme = useTheme();
-  const user = useAppSelector((state) => state.userSlice.currentUser);
-  const { name, email, avatar } = user || {};
+  const userId = useAppSelector((state) => state.userSlice.currentUser?._id);
   const authToken = useAppSelector((state: AppState) => state.userSlice.token);
+
   const isGoogleLoggedIn = useAppSelector(
     (state: AppState) => state.userSlice.currentUser?.isGoogleLoggedIn
   );
+
   const handlePasswordChange = async () => {
     try {
       token.set(authToken);
@@ -48,6 +52,7 @@ function ProfileCard() {
       newPassword: "",
     }));
   };
+
   const verifyPassword = async () => {
     try {
       token.set(authToken);
@@ -66,6 +71,20 @@ function ProfileCard() {
     }));
   };
 
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        token.set(authToken);
+        const { data } = await baseURL.get(`/users/${userId}`);
+        setCurrentUser(data);
+      } catch (err) {
+        const error = err as AxiosError;
+        toast.error(error.message);
+      }
+    };
+    fetchCurrentUser();
+  }, [authToken, userId]);
+
   return (
     <>
       <Card
@@ -76,17 +95,34 @@ function ProfileCard() {
           backgroundColor: theme.palette.background.default,
         }}
       >
-        <CardMedia component="img" width="170" image={avatar} alt={name} />
+        <CardMedia
+          component="img"
+          width="170"
+          image={currentUser?.user.avatar}
+          alt={currentUser?.user.name}
+        />
         <CardContent>
           <Typography gutterBottom variant="h5" sx={{ textAlign: "center" }}>
-            {name}
+            {currentUser?.user.name}
           </Typography>
           <Typography
             variant="body2"
             color="text.secondary"
-            sx={{ fontSize: "17px" }}
+            sx={{
+              fontSize: "17px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
-            Email: {email}
+            <MailOutlineIcon
+              sx={{
+                fontSize: "20px",
+                marginRight: "5px",
+  
+              }}
+            />{" "}
+            Email: {currentUser?.user.email}
           </Typography>
         </CardContent>
         {showPasswordFields &&
