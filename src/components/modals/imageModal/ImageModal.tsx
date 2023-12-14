@@ -4,7 +4,7 @@ interface ModalProps {
   handleClose: () => void;
   selectedImage: string;
 }
-const imgModal = ({ open, handleClose, selectedImage }: ModalProps) => {
+const ImgModal = ({ open, handleClose, selectedImage }: ModalProps) => {
   return (
     <Modal open={open} onClose={handleClose}>
       <Box
@@ -14,7 +14,7 @@ const imgModal = ({ open, handleClose, selectedImage }: ModalProps) => {
           left: "50%",
           transform: "translate(-50%, -50%)",
           outline: "none",
-          width: { xs: "80%", sm: "60%", md: "32%" },
+          width: { xs: "80%", sm: "60%", md: "42%" },
         }}
       >
         <img
@@ -24,6 +24,7 @@ const imgModal = ({ open, handleClose, selectedImage }: ModalProps) => {
           style={{
             objectFit: "contain",
             width: "100%",
+            maxHeight: "80vh",
             borderRadius: "2%",
           }}
         />
@@ -32,4 +33,4 @@ const imgModal = ({ open, handleClose, selectedImage }: ModalProps) => {
   );
 };
 
-export default imgModal;
+export default ImgModal;

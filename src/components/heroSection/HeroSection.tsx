@@ -4,16 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { Colors } from "../../styles";
 
 const HeroSection = () => {
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
   return (
     <Box
       sx={{
         backgroundImage: "url(/img/hero.jpg)",
         backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
+        backgroundPosition: { xs: "center top", md: "center" },
         backgroundSize: "cover",
-        height: "100vh",
+        height: { xs: "50vh", md: "100vh" },
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -25,14 +24,14 @@ const HeroSection = () => {
         variant="h2"
         component="div"
         gutterBottom
-        sx={{ color: Colors.white }}
+        sx={{ color: Colors.white, fontSize: { xs: "28px", md: "47px" } }}
       >
         Discover Amazing Products
       </Typography>
       <Typography
         variant="subtitle1"
         gutterBottom
-        sx={{ color: Colors.white, fontSize: "25px" }}
+        sx={{ color: Colors.white, fontSize: { xs: "19px", md: "32px" } }}
       >
         Explore a Wide Range of Products and Services
       </Typography>
@@ -43,7 +42,7 @@ const HeroSection = () => {
         sx={{
           background: Colors.secondaryColor,
           "&:hover": {
-            background: Colors.hoverColor, 
+            background: Colors.hoverColor,
           },
         }}
       >

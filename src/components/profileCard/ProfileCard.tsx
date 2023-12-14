@@ -119,7 +119,6 @@ function ProfileCard() {
               sx={{
                 fontSize: "20px",
                 marginRight: "5px",
-  
               }}
             />{" "}
             Email: {currentUser?.user.email}

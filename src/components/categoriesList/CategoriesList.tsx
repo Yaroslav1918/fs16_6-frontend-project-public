@@ -76,7 +76,7 @@ const CategoriesList = () => {
         <Typography
           component="h4"
           variant="h4"
-          sx={{ textAlign: "center", marginBottom: "30px" }}
+          sx={{ textAlign: "center", marginBottom: "30px", fontSize: {xs: "22px", md:"30px"} }}
         >
           Check out what's new products of the trends we have to offer
         </Typography>

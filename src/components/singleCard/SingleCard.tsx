@@ -7,7 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Box, useTheme } from "@mui/material";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 
@@ -17,8 +17,10 @@ import { useAppSelector } from "../../hooks/useAppSelector";
 import { Colors } from "../../styles";
 import { addItemToCart } from "../../redux/cart/cartSlice";
 import { AppState } from "../../redux/store";
+import ImgModal from "../modals/imageModal";
 
 const SingleCard = () => {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const { _id } = useParams();
   const product = useAppSelector(
     (state: AppState) => state.productSlice.singleProduct
@@ -52,9 +54,10 @@ const SingleCard = () => {
           images.map((i, index) => (
             <CardMedia
               key={index}
-              sx={{ width: "100%", height: 500 }}
+              sx={{ width: "100%", height: 450 }}
               image={i}
               title={name}
+              onClick={() => setSelectedImage(i || null)}
             />
           ))}
       </Carousel>
@@ -146,6 +149,11 @@ const SingleCard = () => {
           Add to cart
         </Button>
       </Box>
+      <ImgModal
+        open={!!selectedImage}
+        handleClose={() => setSelectedImage(null)}
+        selectedImage={selectedImage || ""}
+      />
     </Card>
   );
 };

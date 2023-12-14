@@ -25,7 +25,11 @@ const CategoryPictureList = () => {
         <Typography
           component="h4"
           variant="h4"
-          sx={{ textAlign: "center", marginBottom: "30px" }}
+          sx={{
+            textAlign: "center",
+            marginBottom: "30px",
+            fontSize: { xs: "25px", md: "30px" },
+          }}
         >
           Our Categories
         </Typography>
