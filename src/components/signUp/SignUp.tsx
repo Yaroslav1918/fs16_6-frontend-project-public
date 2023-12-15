@@ -29,7 +29,6 @@ const SignUp = () => {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const updatedFormData = { ...formData };
     if (!formData.avatar) {
       updatedFormData.avatar =

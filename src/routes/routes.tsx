@@ -14,6 +14,7 @@ import DashBoardPage from "../pages/DashBoardPage";
 import LogoutTimer from "../components/logoutTimer";
 import PaymentPage from "../pages/PaymentPage";
 import OrderHistoryPage from "../pages/OrderHistoryPage";
+import ProtectedRoute from "./ProtectedRoute";
 
 export const router = createBrowserRouter([
   {
@@ -37,7 +38,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "profile",
-        element: <ProfilePage />,
+        element: <ProtectedRoute element={<ProfilePage />} />,
       },
       {
         path: "product/:_id",
@@ -61,15 +62,15 @@ export const router = createBrowserRouter([
       },
       {
         path: "dashboard",
-        element: <DashBoardPage />,
+        element: <ProtectedRoute isAdmin={true} element={<DashBoardPage />} />,
       },
       {
         path: "payment",
-        element: <PaymentPage />,
+        element: <ProtectedRoute element={<PaymentPage />} />,
       },
       {
         path: "order",
-        element: <OrderHistoryPage />,
+        element: <ProtectedRoute element={<OrderHistoryPage />} />,
       },
     ],
   },

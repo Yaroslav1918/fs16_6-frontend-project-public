@@ -27,7 +27,9 @@ function ProfileCard() {
   const [showPasswordFields, setShowPasswordFields] = useState(false);
   const [currentUser, setCurrentUser] = useState<CurrentUserResponse>();
   const theme = useTheme();
-  const userId = useAppSelector((state) => state.userSlice.currentUser?._id);
+  const userId = useAppSelector(
+    (state: AppState) => state.userSlice.currentUser?._id
+  );
   const authToken = useAppSelector((state: AppState) => state.userSlice.token);
 
   const isGoogleLoggedIn = useAppSelector(
@@ -82,7 +84,7 @@ function ProfileCard() {
         toast.error(error.message);
       }
     };
-    fetchCurrentUser();
+    userId && fetchCurrentUser();
   }, [authToken, userId]);
 
   return (

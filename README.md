@@ -56,7 +56,8 @@ This project is part of the Frontend module at Integrify Academy. The primary go
 
 ## Additional information
 1. After a successful login, the user has an hour of access time. After this period, they need to log in again. (A `LogoutTimer` component is implemented, which shows a modal window and redirects to the login page.)
-2. Log in as a admin; credentials:
+2. Protected routes is implemented.
+3. Log in as admin; credentials:
 email: te2423@gmail.com
 password: 12345
 
