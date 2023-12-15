@@ -144,7 +144,7 @@ const SignUp = () => {
               },
             }}
           >
-            submit
+            Submit
           </Button>
           <GoogleLoginButton />
         </Box>

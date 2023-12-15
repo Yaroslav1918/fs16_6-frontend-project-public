@@ -16,6 +16,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, IconButton, Pagination, TextField } from "@mui/material";
+
 import { useAppDispatch } from "../hooks/useAppDispatch";
 import {
   deleteProductAsync,
@@ -120,12 +121,8 @@ const DashboardPage = () => {
             ))}
           </List>
         </Box>
-        <Box
-          flexBasis={{ xs: "100%", md: "80%"}}
-          flexGrow={1}
-          padding="16px"
-        >
-          <Paper sx ={{bgcolor: "background.default"}}>
+        <Box flexBasis={{ xs: "100%", md: "80%" }} flexGrow={1} padding="16px">
+          <Paper sx={{ bgcolor: "background.default" }}>
             <TextField
               label="Search by name"
               size="small"

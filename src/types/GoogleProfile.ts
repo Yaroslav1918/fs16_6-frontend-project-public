@@ -1,6 +1,5 @@
 export interface GoogleInfo {
   credential: string;
-
 }
 
 export interface GoogleResponse {

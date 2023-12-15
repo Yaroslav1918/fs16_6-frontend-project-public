@@ -7,6 +7,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
+
 import { Order } from "../types/Order";
 
 const OrderDetails: React.FC<{ order: Order }> = ({ order }) => {

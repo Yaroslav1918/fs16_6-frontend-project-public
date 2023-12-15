@@ -1,9 +1,11 @@
 import { Box, Modal } from "@mui/material";
+
 interface ModalProps {
   open: boolean;
   handleClose: () => void;
   selectedImage: string;
 }
+
 const ImgModal = ({ open, handleClose, selectedImage }: ModalProps) => {
   return (
     <Modal open={open} onClose={handleClose}>

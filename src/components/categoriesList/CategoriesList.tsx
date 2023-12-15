@@ -28,7 +28,7 @@ import { fetchAllProductAsync } from "../../redux/product/productOperations";
 const CategoriesList = () => {
   const { categoryName } = useParams();
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedCategory, setSelectedCategory] = useState("" );
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearchQuery = useDebounce(searchQuery);
   const dispatch = useAppDispatch();
@@ -44,12 +44,10 @@ const CategoriesList = () => {
     }
   }, [categoryName]);
 
-
   useEffect(() => {
     dispatch(fetchAllProductAsync());
   }, [dispatch, currentPage]);
-  
-    
+
   const getFilteredCategories = (state: Product[], name?: string) => {
     return state.filter((p) =>
       p.category?.name.toLowerCase().includes(name?.toLowerCase() || "")
@@ -76,7 +74,11 @@ const CategoriesList = () => {
         <Typography
           component="h4"
           variant="h4"
-          sx={{ textAlign: "center", marginBottom: "30px", fontSize: {xs: "22px", md:"30px"} }}
+          sx={{
+            textAlign: "center",
+            marginBottom: "30px",
+            fontSize: { xs: "22px", md: "30px" },
+          }}
         >
           Check out what's new products of the trends we have to offer
         </Typography>

@@ -15,7 +15,6 @@ import token from "../../utils/axiosAuth";
 import { UserResponse } from "../../types/UserResponse";
 import { CredentialResponse } from "@react-oauth/google";
 
-
 export const fetchRegisterAsync = createAsyncThunk(
   "auth/signUp",
   async (credentials: SignUpInput | DynamicInput, { rejectWithValue }) => {
@@ -89,9 +88,8 @@ export const fetchUsersAsync = createAsyncThunk(
 export const fetchByIdUser = createAsyncThunk(
   "auth/geByIdUser",
   async (_id: string, { rejectWithValue, getState }) => {
-    const { token: authToken } = (
-      getState() as { userSlice: AuthState }
-    ).userSlice;
+    const { token: authToken } = (getState() as { userSlice: AuthState })
+      .userSlice;
     token.set(authToken);
     try {
       const { data } = await baseURL.get<User>(`/users/${_id}`);

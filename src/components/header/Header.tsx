@@ -8,13 +8,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import MenuItem from "@mui/material/MenuItem";
 import FitbitOutlinedIcon from "@mui/icons-material/FitbitOutlined";
+import { Avatar, Button, Tooltip, useTheme } from "@mui/material";
 
 import { Colors } from "../../styles";
 import AuthList from "../authList";
 import { Link, useNavigate } from "react-router-dom";
 import CartButton from "../cartButton";
 import { useAppSelector } from "../../hooks/useAppSelector";
-import { Avatar, Button, Tooltip, useTheme } from "@mui/material";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { logOut } from "../../redux/user/userSlice";
 import NightModeToggle from "../nightModeToggle";

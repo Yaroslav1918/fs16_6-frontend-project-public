@@ -4,12 +4,12 @@ import Header from "../header";
 import Footer from "../footer";
 
 const Root = () => {
-    return (
-        <>
-            <Header/>
-            <Outlet />
-            <Footer/>
-        </>
+  return (
+    <>
+      <Header />
+      <Outlet />
+      <Footer />
+    </>
   );
-}
+};
 export default Root;

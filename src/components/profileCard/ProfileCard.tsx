@@ -6,13 +6,13 @@ import { useTheme } from "@mui/material/styles";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import { Button, TextField } from "@mui/material";
 
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useEffect, useState } from "react";
 import { AppState } from "../../redux/store";
 import token from "../../utils/axiosAuth";
 import baseURL from "../../utils/axiosInstance";
-import { Button, TextField } from "@mui/material";
 import { CurrentUserResponse } from "../../types/UserResponse";
 
 function ProfileCard() {
@@ -143,7 +143,6 @@ function ProfileCard() {
                   })
                 }
               />
-
               <Button
                 variant="contained"
                 color="primary"

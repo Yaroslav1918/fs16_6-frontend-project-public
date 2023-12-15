@@ -8,4 +8,3 @@ export interface UserResponse {
 export interface CurrentUserResponse {
   user: User;
 }
-

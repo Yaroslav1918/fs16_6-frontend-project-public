@@ -3,5 +3,4 @@ export interface SignUpInput {
   email: string;
   password: string;
   avatar: string;
-
 }

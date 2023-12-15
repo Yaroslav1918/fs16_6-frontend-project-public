@@ -1,8 +1,8 @@
 import { GoogleLogin } from "@react-oauth/google";
+import { toast } from "react-toastify";
 
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { fetchGoogleLogInAsync } from "../../redux/user/userOperations";
-import { toast } from "react-toastify";
 
 const GoogleLoginButton = () => {
   const dispatch = useAppDispatch();

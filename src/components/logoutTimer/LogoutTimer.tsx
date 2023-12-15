@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { logOut } from "../../redux/user/userSlice";
 import { AppState } from "../../redux/store";
 import ModalText from "../modals/modalText";
-import { useNavigate } from "react-router-dom";
 
 const LogoutTimer = () => {
   const dispatch = useAppDispatch();

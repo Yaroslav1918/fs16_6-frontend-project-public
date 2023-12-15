@@ -37,7 +37,7 @@ const StyledLink = styled(Link)({
   cursor: "pointer",
 });
 
-export default function Footer() {
+const Footer = () => {
   const isLoggedIn = useAppSelector(
     (state: AppState) => state.userSlice.isLoggedIn
   );
@@ -185,4 +185,6 @@ export default function Footer() {
       </Container>
     </Box>
   );
-}
+};
+
+export default Footer;

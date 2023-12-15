@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import { AxiosError } from "axios";
+
 import token from "../utils/axiosAuth";
 import { useAppSelector } from "../hooks/useAppSelector";
 import { AppState } from "../redux/store";
 import { Role } from "../types/Role";
 import baseURL from "../utils/axiosInstance";
-import { AxiosError } from "axios";
 
 const useRoles = (selectedCategory: string) => {
   const authToken = useAppSelector((state: AppState) => state.userSlice.token);
