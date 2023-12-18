@@ -52,7 +52,13 @@ const OrderDetails: React.FC<{ order: Order }> = ({ order }) => {
         }}
       >
         {order.products.map((product) => (
-          <ListItem key={product.productId._id} sx={{ width: "48%" }}>
+          <ListItem
+            key={product.productId._id}
+            sx={{
+              width: { xs: "100%", md: "70%" },
+              marginBottom: 2,
+            }}
+          >
             <Card
               sx={{
                 width: "100%",
@@ -63,12 +69,10 @@ const OrderDetails: React.FC<{ order: Order }> = ({ order }) => {
               <CardContent
                 sx={{
                   display: "flex",
+                  flexDirection: { xs: "column", sm: "row" },
                   alignItems: "center",
                   justifyContent: "space-between",
                   padding: 2,
-                  "@media (max-width:600px)": {
-                    flexDirection: "column",
-                  },
                 }}
               >
                 <Typography variant="body1">

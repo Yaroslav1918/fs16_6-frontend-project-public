@@ -65,9 +65,9 @@ const Header = () => {
 
   const pages = ["Products", "Cart"];
   if (isLoggedIn && role === "ADMIN") {
-    pages.push("Dashboard", "Profile", "Order");
+    pages.push("Dashboard", "Profile", "Order", "Contact");
   } else if (isLoggedIn && role !== "ADMIN") {
-    pages.push("Profile", "Order");
+    pages.push("Profile", "Order", "Contact");
   }
   const settings = ["Profile", "Logout"];
 

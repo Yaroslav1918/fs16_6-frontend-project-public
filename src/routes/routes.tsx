@@ -15,6 +15,7 @@ import LogoutTimer from "../components/logoutTimer";
 import PaymentPage from "../pages/PaymentPage";
 import OrderHistoryPage from "../pages/OrderHistoryPage";
 import ProtectedRoute from "./ProtectedRoute";
+import ContactForm from "../components/contactForm";
 
 export const router = createBrowserRouter([
   {
@@ -71,6 +72,10 @@ export const router = createBrowserRouter([
       {
         path: "order",
         element: <ProtectedRoute element={<OrderHistoryPage />} />,
+      },
+      {
+        path: "contact",
+        element: <ProtectedRoute element={<ContactForm />} />,
       },
     ],
   },

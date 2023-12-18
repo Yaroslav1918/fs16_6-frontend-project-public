@@ -1,5 +1,8 @@
 export const Colors = {
   backColor: "#F7F5ED",
+  backColorContact: "#fefbf1",
+  contactButton: "#deefff",
+  hoverContactBtn: "#b7cce0",
   white: "#fff",
   boxShadowInput: "rgba(0,0,0,.1)",
   borderButton: "#eaeaea",
