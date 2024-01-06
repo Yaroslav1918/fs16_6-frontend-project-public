@@ -7,12 +7,9 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import SwipeableViews from "react-swipeable-views";
-import { autoPlay } from "react-swipeable-views-utils";
+import { Carousel } from "react-responsive-carousel";
 
 import Container from "../container";
-
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const images = [
   {
@@ -43,15 +40,13 @@ const AdCarousel = () => {
   const maxSteps = images.length;
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setActiveStep((prevActiveStep) => (prevActiveStep + 1) % maxSteps);
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleStepChange = (step: number) => {
-    setActiveStep(step);
+    setActiveStep((prevActiveStep) =>
+      prevActiveStep === 0 ? maxSteps - 1 : prevActiveStep - 1
+    );
   };
 
   return (
@@ -71,47 +66,45 @@ const AdCarousel = () => {
           >
             <Typography
               sx={{
-                margin:"0 auto",
+                margin: "0 auto",
                 fontSize: { xs: "17px", sm: "24px" },
               }}
             >
               {images[activeStep].label}
             </Typography>
           </Paper>
-          <AutoPlaySwipeableViews
-            axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-            index={activeStep}
-            onChangeIndex={handleStepChange}
-            enableMouseEvents
+          <Carousel
+            selectedItem={activeStep}
+            onChange={setActiveStep}
+            autoPlay
+            interval={2000}
+            infiniteLoop
+            stopOnHover={false}
+            emulateTouch
+            showArrows={false}
           >
             {images.map((step, index) => (
-              <div key={step.label} style={{marginTop:"10px"}}>
-                {Math.abs(activeStep - index) <= 2 ? (
-                  <Box
-                    component="img"
-                    sx={{
-                      height: { xs: "100%", sm: "500px" },
-                      display: "block",
-                      objectFit: "cover",
-                      width: "100%",
-                    }}
-                    src={step.imgPath}
-                    alt={step.label}
-                  />
-                ) : null}
-              </div>
+              <Box key={index} style={{ marginTop: "10px" }}>
+                <Box
+                  component={"img"}
+                  src={step.imgPath}
+                  alt={step.label}
+                  sx={{
+                    height: { xs: "100%", sm: "500px" },
+                    display: "block",
+                    objectFit: "cover",
+                    width: "100%",
+                  }}
+                />
+              </Box>
             ))}
-          </AutoPlaySwipeableViews>
+          </Carousel>
           <MobileStepper
             steps={maxSteps}
             position="static"
             activeStep={activeStep}
             nextButton={
-              <Button
-                size="small"
-                onClick={handleNext}
-                disabled={activeStep === maxSteps - 1}
-              >
+              <Button size="small" onClick={handleNext}>
                 Next
                 {theme.direction === "rtl" ? (
                   <KeyboardArrowLeft />
@@ -121,11 +114,7 @@ const AdCarousel = () => {
               </Button>
             }
             backButton={
-              <Button
-                size="small"
-                onClick={handleBack}
-                disabled={activeStep === 0}
-              >
+              <Button size="small" onClick={handleBack}>
                 {theme.direction === "rtl" ? (
                   <KeyboardArrowRight />
                 ) : (
