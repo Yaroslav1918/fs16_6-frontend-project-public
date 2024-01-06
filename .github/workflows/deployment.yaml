@@ -1,6 +1,6 @@
 name: backend-ci-cd
 on: [push]
-push:
+ push:
   branches: [main]
 
 jobs:
