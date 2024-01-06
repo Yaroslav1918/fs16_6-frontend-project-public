@@ -2,9 +2,9 @@ name: backend-ci-cd
 on: [push]
 push:
   branches: [main]
-  
+
 jobs:
-build:
+ build:
   name: Build
   runs-on: ubuntu-latest
   steps:
