@@ -2,6 +2,8 @@ name: backend-ci-cd
 on: [push, pull-request]
 push:
   branches: [main]
+pull_request:
+    branches: [main]
 
 jobs:
 build:
