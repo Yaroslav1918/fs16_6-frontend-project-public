@@ -1,5 +1,5 @@
 name: backend-ci-cd
-on: [push]
+on:
  push:
   branches: [main]
 
