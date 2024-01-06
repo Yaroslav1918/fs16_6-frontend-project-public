@@ -161,7 +161,7 @@ const userSlice = createSlice({
         };
       }
     });
-    builder.addCase(fetchUDeleteUserAsync.pending, (state, action) => {
+    builder.addCase(fetchUDeleteUserAsync.pending, (state) => {
       return {
         ...state,
         loading: true,
@@ -175,7 +175,7 @@ const userSlice = createSlice({
       state.error = action.payload as string;
       state.loading = false;
     });
-    builder.addCase(fetchCreateUserAsync.pending, (state, action) => {
+    builder.addCase(fetchCreateUserAsync.pending, (state) => {
       return {
         ...state,
         loading: true,

@@ -60,7 +60,7 @@ const categoriesSlice = createSlice({
       state.error = action.payload as string;
       state.loading = false;
     });
-    builder.addCase(fetchDeleteCategoryAsync.pending, (state, action) => {
+    builder.addCase(fetchDeleteCategoryAsync.pending, (state) => {
       return {
         ...state,
         loading: true,
@@ -75,7 +75,7 @@ const categoriesSlice = createSlice({
       state.error = action.payload as string;
       state.loading = false;
     });
-    builder.addCase(fetchCreateCategoryAsync.pending, (state, action) => {
+    builder.addCase(fetchCreateCategoryAsync.pending, (state) => {
       return {
         ...state,
         loading: true,
@@ -95,7 +95,7 @@ const categoriesSlice = createSlice({
       state.error = action.payload as string;
       state.loading = false;
     });
-    builder.addCase(fetchUptadeCategoryAsync.pending, (state, action) => {
+    builder.addCase(fetchUptadeCategoryAsync.pending, (state) => {
       return {
         ...state,
         loading: true,

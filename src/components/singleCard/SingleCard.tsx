@@ -51,7 +51,7 @@ const SingleCard = () => {
     >
       <Carousel showThumbs={false}>
         {images &&
-          images.map((i, index) => (
+          images.map((i:string, index:number) => (
             <CardMedia
               key={index}
               sx={{ width: "100%", height: 450 }}

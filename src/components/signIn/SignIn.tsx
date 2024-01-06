@@ -1,5 +1,5 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { Formik, Field, Form, FormikHelpers, ErrorMessage } from "formik";
+import { Formik, Field, Form, FormikHelpers, ErrorMessage } from "formik"
 import "react-app-polyfill/ie11";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -52,7 +52,7 @@ const SignIn = () => {
   const FieldErrorMessage = ({ fieldName }: { fieldName: string }) => {
     return (
       <ErrorMessage name={fieldName}>
-        {(errorMsg) => (
+        {(errorMsg:string) => (
           <Box
             sx={{
               color: Colors.danger,
@@ -95,7 +95,7 @@ const SignIn = () => {
           Sign in
         </Typography>
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
-          {({ isSubmitting, resetForm }) => (
+          {({ isSubmitting }: { isSubmitting: boolean }) => (
             <Form
               style={{
                 display: "flex",

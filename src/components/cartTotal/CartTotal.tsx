@@ -17,6 +17,7 @@ import { Colors } from "../../styles";
 import ModalText from "../modals/modalText/ModalText";
 import { AppState } from "../../redux/store";
 import PayButton from "../payButton";
+import { Product } from "../../types/Product";
 
 const CartTotals = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -32,7 +33,8 @@ const CartTotals = () => {
   };
 
   const totalPrice = productsItems.reduce(
-    (acc, current) => acc + current.quantity * current.price,
+    (acc: number, { quantity, price }: { quantity: number; price: number }) =>
+      acc + quantity * price,
     0
   );
 
@@ -66,7 +68,7 @@ const CartTotals = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {productsItems.map(({ _id, name, quantity, price }) => (
+            {productsItems.map(({ _id, name, quantity, price }: Product) => (
               <TableRow key={_id}>
                 <TableCell sx={{ fontSize: { xs: "13px", md: "20px" } }}>
                   {name} × {quantity}{" "}

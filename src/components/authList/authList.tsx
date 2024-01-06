@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 type AuthListProps = {
   onCloseMenu?: () => void;
-  flexDirection?: Boolean;
+  flexDirection?: boolean;
 };
 
 export default function AuthList({
@@ -24,7 +24,7 @@ export default function AuthList({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        flexDirection: flexDirection && "column",
+        flexDirection: flexDirection ? "column" : "row",
         padding: 0,
       }}
     >

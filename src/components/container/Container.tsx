@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { SxProps } from "@mui/system";
+import { SxProps } from "@mui/system" 
 import { ReactNode } from "react";
 
 type ContainerProps = {

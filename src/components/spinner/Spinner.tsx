@@ -5,8 +5,8 @@ import { BeatLoader } from "react-spinners";
 import { Colors, override } from "../../styles";
 
 const Spinner = () => {
-  let [loading, setLoading] = useState(true);
-  let [color, setColor] = useState(Colors.bgFooter);
+  const [loading] = useState(true);
+  const [color] = useState(Colors.bgFooter);
   
   return (
     <Box

@@ -7,6 +7,7 @@ import { useAppSelector } from "../../hooks/useAppSelector";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import { AppState } from "../../redux/store";
 import { fetchCategoriesAsync } from "../../redux/category/categoryOperations";
+import { Category } from "../../types/Category";
 
 interface FilterButtonProps {
   onCategorySelect: (category: string) => void;
@@ -42,7 +43,7 @@ const FilterButton = ({
     >
       <ButtonGroup color="secondary" aria-label="medium secondary button group">
         {categories &&
-          categories.map(({ name, _id }) => (
+          categories.map(({ name, _id }: Category) => (
             <Button
               key={_id}
               onClick={() => handleCategoryClick(name)}

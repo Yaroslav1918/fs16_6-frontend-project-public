@@ -11,7 +11,9 @@ type ThemeContextType = {
 
 export const ThemeContext = createContext<ThemeContextType>({
   mode: "light",
-  toggleColorMode: () => {},
+  toggleColorMode: () => {
+    // Intentionally empty method, no logic needed at the moment
+  },
   theme: createTheme(),
 });
 

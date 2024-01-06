@@ -11,6 +11,7 @@ import { sortByPrice } from "../../redux/product/produtSlice";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { fetchCategoriesAsync } from "../../redux/category/categoryOperations";
 import { AppState } from "../../redux/store";
+import { Category } from "../../types/Category";
 
 interface SortListProps {
   searchQuery: string;
@@ -69,7 +70,7 @@ const SortList = ({
             label="Categories"
             onChange={(event) => onCategorySelect(event.target.value)}
           >
-            {categories.map(({ _id, name }) => (
+            {categories.map(({ _id, name }: Category) => (
               <MenuItem key={_id} value={name}>
                 {name}
               </MenuItem>

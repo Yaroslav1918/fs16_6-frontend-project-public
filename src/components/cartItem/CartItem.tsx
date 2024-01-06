@@ -20,12 +20,9 @@ import { Product } from "../../types/Product";
 import { decreaseQuantity, increaseQuantity } from "../../redux/cart/cartSlice";
 import { AppState } from "../../redux/store";
 
-interface Props {
-  hideContent?: Boolean;
-  style?: React.CSSProperties;
-}
 
-const CartItem = ({ style }: Props) => {
+
+const CartItem = () => {
   const dispatch = useAppDispatch();
   const theme = useTheme();
   const productsItems = useAppSelector(

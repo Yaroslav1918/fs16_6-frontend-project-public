@@ -68,38 +68,46 @@ const AdminForm = ({
         dispatch(fetchCreateCategoryAsync(category));
         break;
       case "update category":
-        const updatedCategory = {
-          _id: uptadeId,
-          update: category,
-        };
-        dispatch(fetchUptadeCategoryAsync(updatedCategory));
+        {
+          const updatedCategory = {
+            _id: uptadeId,
+            update: category,
+          };
+          dispatch(fetchUptadeCategoryAsync(updatedCategory));
+        }
         break;
       case "update product":
-        const updatedProduct = {
-          _id: uptadeId,
-          update: {
-            ...formData,
-            images: imagesArr,
-          },
-        };
-        dispatch(updateProductAsync(updatedProduct));
+        {
+          const updatedProduct = {
+            _id: uptadeId,
+            update: {
+              ...formData,
+              images: imagesArr,
+            },
+          };
+          dispatch(updateProductAsync(updatedProduct));
+        }
         break;
       case "add product":
-        const product = {
-          ...formData,
-          images: imagesArr,
-        };
-        dispatch(createProductAsync(product));
+        {
+          const product = {
+            ...formData,
+            images: imagesArr,
+          };
+          dispatch(createProductAsync(product));
+        }
         break;
       case "add user":
         dispatch(fetchCreateUserAsync(formData));
         break;
       case "update user":
-        const updatedUser = {
-          _id: uptadeId,
-          update: formData,
-        };
-        dispatch(fetchUptadeUserAsync(updatedUser));
+        {
+          const updatedUser = {
+            _id: uptadeId,
+            update: formData,
+          };
+          dispatch(fetchUptadeUserAsync(updatedUser));
+        }
         break;
       default:
         break;
@@ -174,11 +182,13 @@ const AdminForm = ({
                     }}
                   >
                     <MenuItem value="">Select a category</MenuItem>
-                    {categories.map((category) => (
-                      <MenuItem key={category._id} value={category._id}>
-                        {category.name}
-                      </MenuItem>
-                    ))}
+                    {categories.map(
+                      ({ _id, name }: { _id: string; name: string }) => (
+                        <MenuItem key={_id} value={_id}>
+                          {name}
+                        </MenuItem>
+                      )
+                    )}
                   </Select>
                 </FormControl>
               );

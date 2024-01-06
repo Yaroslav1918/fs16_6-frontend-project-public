@@ -99,7 +99,7 @@ const productsSlice = createSlice({
         };
       }
     });
-    builder.addCase(deleteProductAsync.pending, (state, action) => {
+    builder.addCase(deleteProductAsync.pending, (state) => {
       return {
         ...state,
         loading: true,
@@ -113,7 +113,7 @@ const productsSlice = createSlice({
       state.error = action.payload as string;
       state.loading = false;
     });
-    builder.addCase(createProductAsync.pending, (state, action) => {
+    builder.addCase(createProductAsync.pending, (state) => {
       return {
         ...state,
         loading: true,

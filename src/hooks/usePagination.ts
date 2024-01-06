@@ -29,20 +29,28 @@ const usePagination = (selectedCategory: string, searchText: string) => {
   useEffect(() => {
     switch (selectedCategory) {
       case "products":
-        const filteredProducts = handleSearch(products);
-        const slicedProducts = filteredProducts.slice(startIndex, endIndex);
-        setDisplayedItems(slicedProducts);
-
+        {
+          const filteredProducts = handleSearch(products);
+          const slicedProducts = filteredProducts.slice(startIndex, endIndex);
+          setDisplayedItems(slicedProducts);
+        }
         break;
       case "users":
-        const filteredUsers = handleSearch(users);
-        const slicedUsers = filteredUsers.slice(startIndex, endIndex);
-        setDisplayedItems(slicedUsers);
+         {
+           const filteredUsers = handleSearch(users);
+           const slicedUsers = filteredUsers.slice(startIndex, endIndex);
+           setDisplayedItems(slicedUsers);
+         }
         break;
       case "categories":
-        const filteredCategories = handleSearch(categories);
-        const slicedCategories = filteredCategories.slice(startIndex, endIndex);
-        setDisplayedItems(slicedCategories);
+        {
+          const filteredCategories = handleSearch(categories);
+          const slicedCategories = filteredCategories.slice(
+            startIndex,
+            endIndex
+          );
+          setDisplayedItems(slicedCategories);
+        }
         break;
 
       default:

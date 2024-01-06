@@ -3,7 +3,6 @@ import axios from "axios";
 import { GoogleInfo, GoogleResponse } from "../types/GoogleProfile";
 
 const constrequestToGoogle = async (response: GoogleResponse) => {
-  try {
     const res = await axios.get<GoogleInfo>(
       "https://www.googleapis.com/oauth2/v3/userinfo",
       {
@@ -13,9 +12,6 @@ const constrequestToGoogle = async (response: GoogleResponse) => {
       }
     );
     return res.data;
-  } catch (err) {
-    throw err;
-  }
 };
 
 export default constrequestToGoogle;

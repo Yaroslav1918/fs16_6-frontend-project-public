@@ -13,6 +13,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import { AppState } from "../../redux/store";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { Colors } from "../../styles";
+import { Category } from "../../types/Category";
 
 const CategoryPictureList = () => {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ const CategoryPictureList = () => {
         </Typography>
         <ImageList sx={{ width: "100%", height: "100%" }}>
           <ImageListItem key="Subheader" cols={2}></ImageListItem>
-          {categories.map(({ _id, images, name }) => (
+          {categories.map(({ _id, images, name }: Category) => (
             <ImageListItem
               key={_id}
               onClick={() => navigate(`/products/${name}`)}

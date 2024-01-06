@@ -23,9 +23,9 @@ const CartButton = () => {
   const productsItems = useAppSelector(
     (state: AppState) => state.cartSlice.cartProductItems
   );
-  
+
   const totalQuantity = productsItems.reduce(
-    (acc, current) => acc + current.quantity,
+    (acc: number, { quantity }: { quantity: number }) => acc + quantity,
     0
   );
 
@@ -78,7 +78,7 @@ const CartButton = () => {
           {productsItems.length === 0 ? (
             <Typography sx={{ p: 1 }}>Shop Cart</Typography>
           ) : (
-            <CartItem hideContent />
+            <CartItem />
           )}
         </Popover>
       )}
