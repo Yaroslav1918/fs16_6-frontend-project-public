@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
 
-const extractErrorMessages = (e: unknown) => {
+const extractErrorMessages = (e: any) => {
   const error = e as AxiosError;
   const errorResponse = JSON.parse(error.request.response);
   if (errorResponse.message) {

@@ -218,7 +218,6 @@ const DashboardPage = () => {
                               ({
                                 _id,
                                 name,
-                                category,
                                 price,
                                 description,
                                 images,
