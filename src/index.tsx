@@ -6,8 +6,8 @@ import { ThemeContextProvider } from "./utils/theme/ThemeContextProvider";
 import App from "./App";
 import "./styles/globalStyles.css";
 
-const container = document.getElementById("root")!;
-const root = createRoot(container);
+const container = document.getElementById("root");
+const root = createRoot(container as HTMLElement);
 
 root.render(
   <React.StrictMode>

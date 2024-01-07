@@ -132,7 +132,7 @@ const productsSlice = createSlice({
       state.error = action.payload as string;
       state.loading = false;
     });
-    builder.addCase(updateProductAsync.pending, (state, action) => {
+    builder.addCase(updateProductAsync.pending, (state) => {
       return {
         ...state,
         loading: true,
